@@ -32,24 +32,6 @@ export const Redirect = () => {
           Ratio de periodo promedio de cobro
         </button>
 
-        {/*
-        <button className='button-redirect'>
-          Ratio de rotación de cuentas por pagar
-        </button>
-
-        <button className='button-redirect'>
-          Ratio de periodo promedio de pago
-        </button>
-        
-        <button className='button-redirect'>
-          Ratio de rotación de cuentas por pagar
-        </button>
-        
-        <button className='button-redirect'>
-          Ratio de periodo promedio de inventario
-        </button>
-        */}
-
       </div>
     </div>
   )

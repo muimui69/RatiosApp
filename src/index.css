@@ -6,8 +6,15 @@
   font-size:20px;
 }
 
-body {
+body,html{
   background:#202124;
+  position:relative;
+  height: 100%;
+  width:100%;
+  overflow:hidden; 
+  /*background-image: url(../img/slogan.jpg);*/
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 
@@ -64,3 +71,41 @@ body {
 .button-redirect:hover{
   background:rgb(205, 3, 3);
 }
+
+/* ------------- user loggin ------------- */
+.user-form{
+  border-radius:5px;
+  position: absolute;
+  padding:30px;
+  background-color: rgb(0, 40, 76);
+  top:50%;
+  left:50%;
+  transform: translate(-50%,-50%);
+}
+
+.input-form {
+  margin:0.4rem;
+  padding:5px;
+}
+
+.button-form-signup{
+  margin:0.4rem;
+  color: black;
+}
+
+.button-form-login{
+  margin:0.4rem;
+  color: black;
+}
+
+.input-text{
+  color:black;
+}
+
+/* ------------- media queries ------------- */
+/*@media( max-width:400px){
+  .user-form{
+    width: 90%;
+  }
+}*/
+
