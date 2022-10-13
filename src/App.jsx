@@ -14,6 +14,7 @@ import {RatioPromedio} from './components/RatioPromedio';
 
 // global context auth
 import {AuthProvider} from './context/AuthContext';
+import { ProtectedRoute } from './components/ProtectedRoute';
 
 export const App = () => {
   return (
@@ -21,21 +22,23 @@ export const App = () => {
       <div className=''>
       <AuthProvider>
        <Routes>
-          <Route  path = '/' element={<Home/>}/>
-          <Route  path = '/login' element={<Login/>}/>
+          <Route  path = '/' element={<Login/>}/>
+          <Route  path = '/home' 
+            element={
+              <ProtectedRoute>
+                <Home/>
+              </ProtectedRoute>
+            }
+          />
           <Route  path = '/register' element={<Register/>}/>
+
+          <Route  path = '/userlist' element={<UserList/>}/>
+          <Route  path = '/redirect' element={<Redirect/>}/>
+          <Route  path = '/redirect/ratio_rotacion_cuentas_por_cobrar' element={<RatioCuentas/>}/>
+          <Route  path = '/redirect/ratio_de_periodo_promedio_de_cobro' element={<RatioPromedio/>}/>
+
         </Routes>
       </AuthProvider>
-
-
-          {/*<Heading/>
-            <Routes>
-              <Route  path = '/' element={<UserList/>}/>
-              <Route  path = '/redirect' element={<Redirect/>}/>
-              <Route  path = '/redirect/ratio_rotacion_cuentas_por_cobrar' element={<RatioCuentas/>}/>
-              <Route  path = '/redirect/ratio_de_periodo_promedio_de_cobro' element={<RatioPromedio/>}/>
-            </Routes>
-          */}
       </div>
     </div>
   );
