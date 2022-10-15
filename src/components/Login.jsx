@@ -2,9 +2,6 @@ import { useState } from 'react';
 import {useAuth} from '../context/AuthContext';
 import {useNavigate} from 'react-router-dom';
 
-import {db} from '../../firebase/FirebaseConfig';
-import { collection, addDoc } from 'firebase/firestore';
-
 export const Login = () => {
 
   const [user,setUser] = useState({
@@ -20,35 +17,26 @@ export const Login = () => {
     setUser({...user,[name]:value});
   };
 
-  const userAddDatabase = async(values) =>{
-    const p = await addDoc(collection( db, 'user-login'),
-      (values)
-    );
-    console.log('id de base de datos',p.id);
-    console.log('funca la bd',values);
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
-    try {
-      await login(user.email,user.password);
-      //navigate('/home');
-      navigate('/redirect');
-    } catch (err) {
-      console.log(err.code);
-      setError(err.message);
+    const buttonSelectId = e.nativeEvent.submitter.id;
+    if(buttonSelectId ==='register'){
+      navigate('/register');
+    }else{
+      try {
+        await login(user.email,user.password);
+        //navigate('/home');
+        navigate('/userlist');
+      } catch (err) {
+        console.log(err.code);
+        setError(err.message);
+      }
     }
-    //userAddDatabase(user);
   };
 
   return (
   <>
-      <div>
-        <h2>RatiosApp</h2> 
-        {error}           
-      </div>
-
       <div className='cotainer-loggin'>
           <form className='user-form' onSubmit={handleSubmit}>
               <div className='input-form'>
@@ -75,9 +63,15 @@ export const Login = () => {
                   </input>
               </div> 
 
-              <button className='button-form-login'>
+              <button className='button-form-login' id='login'>
                 Login
               </button>
+
+              <span>¿Aún no tienes cuenta? </span>
+              <button className='button-form-register-redirect' id='register'>
+                Registrate
+              </button>
+
           </form>
       </div>
   </>

@@ -2,7 +2,7 @@ import {useAuth} from '../context/AuthContext';
 
 export const Home = () => {
   const {user,logout,loading } = useAuth(); 
-  console.log(user);
+  //console.log(user);
 
   const handleLogout = async ()=>{
     await logout();

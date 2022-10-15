@@ -2,6 +2,10 @@ import { useState } from 'react';
 import {useAuth} from '../context/AuthContext';
 import {useNavigate} from 'react-router-dom';
 
+//database
+import {db} from '../../firebase/FirebaseConfig';
+import { collection, addDoc ,getDoc,getDocs} from 'firebase/firestore';
+
 export const Register = () => {
 
   const [user,setUser] = useState({
@@ -9,9 +13,32 @@ export const Register = () => {
     password:''
   });
 
-  const {signup} = useAuth();
+  const {signup,getNewIdUser} = useAuth();
   const navigate = useNavigate();
   const [error,setError]=useState();
+
+  const userAddDatabase = async(values) =>{
+    const {email,password} = values;
+
+    const newUser = ({
+      id:getNewIdUser(),
+      email,
+      password,
+    });
+
+    await addDoc(collection( db, 'user-login'),
+      (newUser)
+    );
+    console.log('funca la bd',newUser);
+    getUserDatabase();
+  };
+
+  const getUserDatabase = async() =>{
+    const userDatabase = await getDocs(collection(db, 'user-login'));
+    userDatabase.forEach( (doc) => {
+      console.log(doc.id,'  =>  ',doc.data());
+    });
+  }
 
   const handleChange = ({target:{name,value}}) => {
     setUser({...user,[name]:value});
@@ -22,7 +49,7 @@ export const Register = () => {
     setError('');
     try {
       await signup(user.email,user.password);
-      navigate('/');
+      navigate('/home');
     } catch (err) {
       /*console.log(err.code);
       if(err.code === 'auth/internal-error'){
@@ -31,15 +58,11 @@ export const Register = () => {
       }*/
       setError(err.message);
     }
+    userAddDatabase(user);
   };
 
   return (
   <>
-      <div>
-        <h2>RatiosApp</h2> 
-        {error}           
-      </div>
-
       <div className='cotainer-loggin'>
           <form className='user-form' onSubmit={handleSubmit}>
               <div className='input-form'>

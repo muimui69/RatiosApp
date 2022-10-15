@@ -95,6 +95,11 @@ body,html{
 
 .button-form-login{
   margin:0.4rem;
+  width: 70%;
+  color: black;
+}
+
+.button-form-register-redirect{
   color: black;
 }
 
@@ -102,10 +107,33 @@ body,html{
   color:black;
 }
 
+/* ------------- user list ------------- */
+.container-detail-user{
+}
+
+.detail-user-head{
+  border-radius:20px;
+  position: absolute;
+  padding:15px;
+  left:30%;
+  top:20%;
+  background-color:white;
+  transform: translate(-21%,-20%);
+}
+
+label{
+  color: black;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+/* ------------- RatioCuentas ------------- */
+.select-color *{
+  color:black;
+  padding: 1px;
+}
 /* ------------- media queries ------------- */
 /*@media( max-width:400px){
-  .user-form{
-    width: 90%;
-  }
+ 
 }*/
 

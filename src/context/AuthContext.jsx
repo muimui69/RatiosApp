@@ -25,9 +25,19 @@ export const AuthProvider = ({children}) => {
 
   const [user,setUser] = useState(null);
   const [loading,setLoading]=useState(true);
+  let idNewUser ='';
 
-  const signup =(email,password) => createUserWithEmailAndPassword(auth,email,password);
-  
+  //const signup =(email,password) => createUserWithEmailAndPassword(auth,email,password);
+  const signup = async(email,password) => {
+    const userCredential = await createUserWithEmailAndPassword(auth,email,password);
+    idNewUser = userCredential.user.uid;
+    //console.log(userCredential.user.uid); 
+  }
+
+  const getNewIdUser = () =>{
+    return idNewUser;
+  }
+
   const login =(email,password) => signInWithEmailAndPassword(auth,email,password);
   //const login = async(email,password) => {
     //const userCredential = await signInWithEmailAndPassword(auth,email,password);
@@ -38,14 +48,14 @@ export const AuthProvider = ({children}) => {
   
   useEffect( ()=> {
     onAuthStateChanged( auth , currentUser =>{
-      console.log(currentUser);  
+      //console.log(currentUser);  
       setUser(currentUser);
       setLoading(false);
     });
   },[]);
 
   return (
-    <authContext.Provider value={{signup,login,user,logout,loading}}> 
+    <authContext.Provider value={{signup,login,user,logout,loading,getNewIdUser}}> 
       {children} 
     </authContext.Provider>
   )
