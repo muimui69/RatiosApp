@@ -43,11 +43,25 @@ export const App = () => {
             }
           />
 
-          <Route  path = '/register' element={<Register/>}/>
+          <Route path = '/register' element={<Register/>} />
 
-          <Route  path = '/userlist' element={<UserList/>}/> 
+          <Route  
+            path = '/userlist' 
+            element={
+            <ProtectedRoute>
+              <UserList/>
+            </ProtectedRoute>
+          }/> 
           
-          <Route  path = '/redirect' element={<Redirect/>}/>
+          <Route  
+            path = '/redirect' 
+            element={
+              <ProtectedRoute>
+               <Redirect/>
+              </ProtectedRoute>
+            }
+          />
+
           <Route  path = '/redirect/ratio_rotacion_cuentas_por_cobrar' element={<RatioCuentas/>}/>
           <Route  path = '/redirect/ratio_de_periodo_promedio_de_cobro' element={<RatioPromedio/>}/>
 

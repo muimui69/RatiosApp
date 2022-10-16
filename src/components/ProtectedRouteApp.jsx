@@ -6,5 +6,7 @@ export const ProtectedRouteApp = ({children}) => {
 
     if(user) return <Navigate to='/userlist'/>
     
+    //if(!user) return <Navigate to='/'/>
+
     return <>{children}</>
 }
