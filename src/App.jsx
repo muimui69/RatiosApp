@@ -11,6 +11,8 @@ import {Heading} from './components/Heading';
 import {Redirect} from './components/Redirect';
 import {RatioCuentas} from './components/RatioCuentas';
 import {RatioPromedio} from './components/RatioPromedio';
+import { ConfigInitial } from './components/ConfigInitial';
+import { CreateGestion } from './components/CreateGestion';
 
 // global context auth
 import {AuthProvider} from './context/AuthContext';
@@ -22,51 +24,84 @@ export const App = () => {
   return (
     <div className=''>
       <div className=''>
-      <AuthProvider>
-      <Heading/>
-       <Routes>
-          <Route 
-            path = '/' 
-            element={
-              <ProtectedRouteApp>
-                <Login/>
-              </ProtectedRouteApp>
-            }
-          />
+        <AuthProvider>
+        <Heading/>
+          <Routes>
+            <Route 
+              path = '/' 
+              element={
+                <ProtectedRouteApp>
+                  <Login/>
+                </ProtectedRouteApp>
+              }
+            />
 
-          <Route  
-            path = '/home' 
-            element={
+            <Route  
+              path = '/home' 
+              element={
+                <ProtectedRoute>
+                  <Home/>
+                </ProtectedRoute>
+              }
+            />
+
+            <Route path = '/register' element={<Register/>} />
+            
+            <Route 
+              path = '/config' 
+              element={
+                <ProtectedRoute>
+                  <ConfigInitial/>
+                </ProtectedRoute>
+              } 
+            />
+
+            <Route 
+              path = '/create_gestion' 
+              element={
+                <ProtectedRoute>
+                  <CreateGestion/>
+                </ProtectedRoute>
+              } 
+            />
+
+            <Route  
+              path = '/userlist' 
+              element={
               <ProtectedRoute>
-                <Home/>
+                <UserList/>
               </ProtectedRoute>
-            }
-          />
+            }/> 
+            
+            <Route  
+              path = '/redirect' 
+              element={
+                <ProtectedRoute>
+                  <Redirect/>
+                </ProtectedRoute>
+              }
+            />
 
-          <Route path = '/register' element={<Register/>} />
+            <Route  
+              path = '/redirect/ratio_rotacion_cuentas_por_cobrar' 
+              element={
+                <ProtectedRoute>
+                  <RatioCuentas/>
+                </ProtectedRoute>
+              }
+            />
 
-          <Route  
-            path = '/userlist' 
-            element={
-            <ProtectedRoute>
-              <UserList/>
-            </ProtectedRoute>
-          }/> 
-          
-          <Route  
-            path = '/redirect' 
-            element={
-              <ProtectedRoute>
-               <Redirect/>
-              </ProtectedRoute>
-            }
-          />
+            <Route  
+              path = '/redirect/ratio_de_periodo_promedio_de_cobro' 
+              element={
+                <ProtectedRoute>
+                  <RatioPromedio/>
+                </ProtectedRoute>
+              }
+            />
 
-          <Route  path = '/redirect/ratio_rotacion_cuentas_por_cobrar' element={<RatioCuentas/>}/>
-          <Route  path = '/redirect/ratio_de_periodo_promedio_de_cobro' element={<RatioPromedio/>}/>
-
-        </Routes>
-      </AuthProvider>
+          </Routes>
+        </AuthProvider>
       </div>
     </div>
   );
