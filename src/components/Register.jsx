@@ -4,7 +4,7 @@ import {useNavigate} from 'react-router-dom';
 
 //database
 import {db} from '../../firebase/FirebaseConfig';
-import { collection, addDoc ,getDoc,getDocs} from 'firebase/firestore';
+import { collection, addDoc ,getDocs} from 'firebase/firestore';
 
 export const Register = () => {
 
@@ -13,23 +13,15 @@ export const Register = () => {
     password:''
   });
 
-  const {signup,getNewIdUser} = useAuth();
+  const {signup} = useAuth();
   const navigate = useNavigate();
   const [error,setError]=useState();
 
   const userAddDatabase = async(values) =>{
-    const {email,password} = values;
-
-    const newUser = ({
-      id:getNewIdUser(),
-      email,
-      password,
-    });
-
     await addDoc(collection( db, 'user-login'),
-      (newUser)
+      (values)
     );
-    console.log('funca la bd',newUser);
+    console.log('funca la bd',values);
     getUserDatabase();
   };
 
@@ -50,15 +42,10 @@ export const Register = () => {
     try {
       await signup(user.email,user.password);
       navigate('/home');
+      await userAddDatabase(user);
     } catch (err) {
-      /*console.log(err.code);
-      if(err.code === 'auth/internal-error'){
-        //setError('Invalid email');
-        setError(err.message);
-      }*/
       setError(err.message);
     }
-    userAddDatabase(user);
   };
 
   return (

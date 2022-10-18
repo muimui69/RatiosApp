@@ -4,7 +4,12 @@ import {IoMdAdd} from 'react-icons/io';
 import { useAuth } from '../context/AuthContext';
 
 export const Heading = () => {
-  const {user} = useAuth();
+  const {user,logout} = useAuth();
+
+  const handleLogout = async ()=>{
+    await logout();
+  }
+  
   return (
     <>
       <div className='container-head'>
@@ -17,6 +22,7 @@ export const Heading = () => {
         }
 
         { user &&
+
           <div className='container-button'>
               <Link to='/redirect'>
                 <button className='button-calculate'>
@@ -24,7 +30,17 @@ export const Heading = () => {
                 </button>
               </Link>
           </div>
+
+   
         }
+
+        {
+          user &&
+          <button className='button-form-signup' onClick={handleLogout}>
+           Logout
+          </button>
+        }
+
       </div>
     </>
   )

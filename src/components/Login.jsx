@@ -26,7 +26,6 @@ export const Login = () => {
     }else{
       try {
         await login(user.email,user.password);
-        //navigate('/home');
         navigate('/userlist');
       } catch (err) {
         console.log(err.code);

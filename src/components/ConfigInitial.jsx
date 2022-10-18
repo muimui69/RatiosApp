@@ -5,7 +5,7 @@ export const ConfigInitial = () => {
 
   const validInput = (input) => {
     if(input.trim().length>0){
-        return true;
+      return true;
     }
     return false;
   }
