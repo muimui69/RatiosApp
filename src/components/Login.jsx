@@ -9,7 +9,12 @@ export const Login = () => {
     password:''
   });
 
-  const {login} = useAuth();
+  const {
+    login,
+    userAddDatabaseEmpresa,
+    userExistInDatabaseEmpresa
+  } = useAuth();
+
   const navigate = useNavigate();
   const [error,setError]=useState();
 
@@ -21,9 +26,11 @@ export const Login = () => {
     e.preventDefault();
     setError('');
     const buttonSelectId = e.nativeEvent.submitter.id;
+
     if(buttonSelectId ==='register'){
       navigate('/register');
     }else{
+
       try {
         await login(user.email,user.password);
         navigate('/userlist');

@@ -2,10 +2,6 @@ import { useState } from 'react';
 import {useAuth} from '../context/AuthContext';
 import {useNavigate} from 'react-router-dom';
 
-//database
-import {db} from '../../firebase/FirebaseConfig';
-import { collection, addDoc ,getDocs} from 'firebase/firestore';
-
 export const Register = () => {
 
   const [user,setUser] = useState({
@@ -13,24 +9,17 @@ export const Register = () => {
     password:''
   });
 
-  const {signup} = useAuth();
+  const {
+    signup,
+    userAddDatabase,
+    getUserDatabase
+  } = useAuth();
   const navigate = useNavigate();
   const [error,setError]=useState();
 
-  const userAddDatabase = async(values) =>{
-    await addDoc(collection( db, 'user-login'),
-      (values)
-    );
-    console.log('funca la bd',values);
-    getUserDatabase();
-  };
+  //aqui iba el userAddDaTABASE
 
-  const getUserDatabase = async() =>{
-    const userDatabase = await getDocs(collection(db, 'user-login'));
-    userDatabase.forEach( (doc) => {
-      console.log(doc.id,'  =>  ',doc.data());
-    });
-  }
+  //aqui iba el getUserDatabasew
 
   const handleChange = ({target:{name,value}}) => {
     setUser({...user,[name]:value});
@@ -41,8 +30,9 @@ export const Register = () => {
     setError('');
     try {
       await signup(user.email,user.password);
-      navigate('/home');
+      navigate('/confirm');
       await userAddDatabase(user);
+      //await getUserDatabase();
     } catch (err) {
       setError(err.message);
     }

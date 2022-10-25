@@ -15,3 +15,13 @@ firebase deploy
 Después de la implementación, consulta tu app en ratios-app.web.app.
 
 ¿Necesitas ayuda? Consulta los documentos de Hosting.
+
+ /*await addDoc( //agregar con id generado por firebase
+      collection( db ,'user-login') , 
+      (values) 
+    );*/
+
+
+        const anio = e.target[0].parentElement.previousElementSibling.textContent;
+    const ventas = e.target[1].value;
+    const cuentas = e.target[2].value;

@@ -22,10 +22,6 @@ const FirebaseConfig = {
 export const app = initializeApp(FirebaseConfig);
 export const auth = getAuth(app);
 
-// Database
 export const db = getFirestore(app);
 
-export const existUserInDataBase = (user) =>{
-
-}
 

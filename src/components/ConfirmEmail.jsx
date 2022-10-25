@@ -1,8 +1,7 @@
 import {useAuth} from '../context/AuthContext';
 
-export const Home = () => {
+export const ConfirmEmail = () => {
   const {user,logout,loading } = useAuth(); 
-  //console.log(user);
 
   const handleLogout = async ()=>{
     await logout();
@@ -13,6 +12,7 @@ export const Home = () => {
   return (
     <>
       <h1>Welcome {user.email}</h1>
+      <p>Please confirm your email  <a href=''>click</a></p>
       <button className='button-form-signup' onClick={handleLogout}>
         Logout
       </button>

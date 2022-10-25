@@ -24,9 +24,9 @@ export const Heading = () => {
         { user &&
 
           <div className='container-button'>
-              <Link to='/redirect'>
+              <Link to='/config'>
                 <button className='button-calculate'>
-                  <IoMdAdd/> Calcular
+                  <IoMdAdd/> Agregar
                 </button>
               </Link>
           </div>

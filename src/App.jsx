@@ -2,17 +2,13 @@ import  {Route,Routes} from 'react-router-dom';
 
 // user
 import {Login} from './components/Login';
-import {Home} from './components/Home';
 import {Register} from './components/Register';
+import {ConfirmEmail} from './components/ConfirmEmail';
 
 // form cuerpo
 import {UserList} from './components/UserList';
 import {Heading} from './components/Heading';
-import {Redirect} from './components/Redirect';
-import {RatioCuentas} from './components/RatioCuentas';
-import {RatioPromedio} from './components/RatioPromedio';
-import { ConfigInitial } from './components/ConfigInitial';
-import { CreateGestion } from './components/CreateGestion';
+import {ConfigInitial } from './components/ConfigInitial';
 
 // global context auth
 import {AuthProvider} from './context/AuthContext';
@@ -25,82 +21,56 @@ export const App = () => {
     <div className=''>
       <div className=''>
         <AuthProvider>
-        <Heading/>
-          <Routes>
-            <Route 
-              path = '/' 
-              element={
-                <ProtectedRouteApp>
+         <Heading/>
+            <Routes>
+            
+              <Route 
+                path = '/' 
+                element={
+                  <ProtectedRouteApp>
                   <Login/>
-                </ProtectedRouteApp>
-              }
-            />
+                  </ProtectedRouteApp>
+                }
+              />
 
-            <Route  
-              path = '/home' 
-              element={
+              <Route  
+                path = '/confirm' 
+                element={
+                  <ProtectedRoute>
+                    <ConfirmEmail/>
+                  </ProtectedRoute>
+                }
+              />
+
+              <Route path = '/register' element={<Register/>} />
+              
+              <Route 
+                path = '/config' 
+                element={
+                  <ProtectedRoute>
+                    <ConfigInitial/>
+                  </ProtectedRoute>
+                } 
+              />
+
+              <Route 
+                path = '/config/:id' 
+                element={
+                  <ProtectedRoute>
+                    <ConfigInitial/>
+                  </ProtectedRoute>
+                } 
+              />
+
+              <Route  
+                path = '/userlist' 
+                element={
                 <ProtectedRoute>
-                  <Home/>
+                  <UserList/>
                 </ProtectedRoute>
-              }
-            />
+              }/> 
 
-            <Route path = '/register' element={<Register/>} />
-            
-            <Route 
-              path = '/config' 
-              element={
-                <ProtectedRoute>
-                  <ConfigInitial/>
-                </ProtectedRoute>
-              } 
-            />
-
-            <Route 
-              path = '/create_gestion' 
-              element={
-                <ProtectedRoute>
-                  <CreateGestion/>
-                </ProtectedRoute>
-              } 
-            />
-
-            <Route  
-              path = '/userlist' 
-              element={
-              <ProtectedRoute>
-                <UserList/>
-              </ProtectedRoute>
-            }/> 
-            
-            <Route  
-              path = '/redirect' 
-              element={
-                <ProtectedRoute>
-                  <Redirect/>
-                </ProtectedRoute>
-              }
-            />
-
-            <Route  
-              path = '/redirect/ratio_rotacion_cuentas_por_cobrar' 
-              element={
-                <ProtectedRoute>
-                  <RatioCuentas/>
-                </ProtectedRoute>
-              }
-            />
-
-            <Route  
-              path = '/redirect/ratio_de_periodo_promedio_de_cobro' 
-              element={
-                <ProtectedRoute>
-                  <RatioPromedio/>
-                </ProtectedRoute>
-              }
-            />
-
-          </Routes>
+            </Routes>
         </AuthProvider>
       </div>
     </div>

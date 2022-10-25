@@ -11,7 +11,7 @@ body,html{
   position:relative;
   height: 100%;
   width:100%;
-  overflow:hidden; 
+  overflow:auto; 
   /*background-image: url(../img/slogan.jpg);*/
   background-repeat: no-repeat;
   background-size: cover;
@@ -109,16 +109,17 @@ body,html{
 
 /* ------------- user list ------------- */
 .container-detail-user{
+  display: flex;
+  justify-content: center;
 }
 
 .detail-user-head{
-  border-radius:20px;
-  position: absolute;
-  padding:15px;
-  left:30%;
-  top:20%;
-  background-color:white;
-  transform: translate(-21%,-20%);
+  background-color: aliceblue;
+  width:80%;
+  display: flex;
+  justify-content: space-between;
+  padding:5px 5px 20px 20px;
+  margin-bottom: 4px;
 }
 
 label{
@@ -127,11 +128,24 @@ label{
   margin-right: 5px;
 }
 
+.edit-button{
+  margin:0.4rem;
+  color: black;
+  background-color: brown;
+  color: aliceblue;
+}
+
+.head-report{
+  padding: 10px;
+}
+
 /* ------------- RatioCuentas ------------- */
 .select-color *{
   color:black;
   padding: 1px;
 }
+
+
 /* ------------- media queries ------------- */
 /*@media( max-width:400px){
  
