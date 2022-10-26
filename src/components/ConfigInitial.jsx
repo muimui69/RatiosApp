@@ -31,7 +31,7 @@ export const ConfigInitial = () => {
   });
 
   const periodoOptions = [
-    { value: 'Mensual', label: 'Anual' },
+    { value: 'Mensual', label: 'Mensual' },
     { value: 'Trimestral', label: 'Trimestral' },
     { value: 'Semestral', label: 'Semestral' },
     { value: 'Anual', label: 'Anual' }
