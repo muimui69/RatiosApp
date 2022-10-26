@@ -9,13 +9,12 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   onAuthStateChanged,
-  sendEmailVerification,
   signOut
 } from 'firebase/auth';
 
 import {auth,db} from '../../firebase/FirebaseConfig';
 
-import { collection,getDocs ,doc,setDoc,addDoc, updateDoc} from 'firebase/firestore';
+import { collection,doc,setDoc,addDoc, updateDoc} from 'firebase/firestore';
 
 export const authContext = createContext();
 
@@ -35,21 +34,10 @@ export const AuthProvider = ({children}) => {
 
   const logout = ()=> signOut(auth);
 
-  const userUpdateDatabaseEmpresa = async(values,idDoc) =>{
-      await updateDoc(doc(db, 'empresa',`${idDoc}`), values);
-  }
-
   const userAddDatabase = async(values) =>{
     const uid = auth.currentUser.uid;
     await setDoc(doc(db, 'user',`${uid}`), values); 
   };
-
-  const getUserDatabase = async() =>{
-    const userDatabase = await getDocs( collection( db, 'user'));
-    userDatabase.forEach( (doc) => {
-      console.log(doc.id,'  =>  ',doc.data());
-    });
-  }
 
   const userAddDatabaseEmpresa = async(values) =>{
     await addDoc( 
@@ -58,23 +46,14 @@ export const AuthProvider = ({children}) => {
     );
   }
 
-  const verificationEmail = async() => {
-    const emailVerify = auth.currentUser;
-    if(!emailVerify.emailVerified){
-      email.sendEmailVerification();
-    }
-    //console.log(auth.currentUser);
-  }
-
-  const isEmailVerifyUser = async () =>{
-    console.log(auth.currentUser.emailVerified);
+  const userUpdateDatabaseEmpresa = async(values,idDoc) =>{
+    await updateDoc(doc(db, 'empresa',`${idDoc}`), values);
   }
 
   const getIdCurrentUser = () =>{
     const uid = auth.currentUser.uid;
     return uid;
   }
-
 
   useEffect( ()=> {
     onAuthStateChanged( auth , currentUser =>{
@@ -94,7 +73,6 @@ export const AuthProvider = ({children}) => {
         getIdCurrentUser,
         userAddDatabase,
         userAddDatabaseEmpresa,
-        getUserDatabase,
         userUpdateDatabaseEmpresa
       }}
     > 

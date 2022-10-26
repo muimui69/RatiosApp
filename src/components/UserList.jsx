@@ -17,8 +17,6 @@ export const UserList = () => {
     await deleteDoc(doc(db, 'empresa',`${id}`));
   }
   
-  console.log(getIdCurrentUser());
-
   const getUserList = async() => {
     onSnapshot(collection(db, 'empresa'), (test) => {
       const docs =[];

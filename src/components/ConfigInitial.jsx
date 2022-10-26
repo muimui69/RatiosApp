@@ -5,6 +5,7 @@ import { doc, getDoc} from 'firebase/firestore';
 import {useAuth} from '../context/AuthContext';
 import Select from 'react-select';
 
+
 export const ConfigInitial = () => {
 
   const validInput = (input) => {
@@ -85,7 +86,9 @@ export const ConfigInitial = () => {
         && (validInput(ventaCredito))  && (validInput(cuentasPorCobrar))
     ){
       if(params.id){
-        userUpdateDatabaseEmpresa(user,params.id);
+        let newUser = user;
+        newUser = ({...user,gestion,periodo});
+        userUpdateDatabaseEmpresa(newUser,params.id);
       }else{
         const uid = getIdCurrentUser();
         let newUser = user;
@@ -183,11 +186,38 @@ export const ConfigInitial = () => {
               </div> 
 
               <div className='input-form'>
-                <Select placeholder='Gestion' options={gestionOptions} className='select-color'/>
+                {
+                  (params.id)?
+                  <Select 
+                    placeholder={user.gestion} 
+                    options={gestionOptions} 
+                    className='select-color'
+                    />
+                  :
+                  <Select 
+                    placeholder='Gestion' 
+                    options={gestionOptions} 
+                    className='select-color'
+                    />
+                }
+             
               </div> 
 
               <div className='input-form'>
-                <Select placeholder='Periodo' options={periodoOptions} className='select-color'/>
+                {
+                  (params.id)?
+                    <Select 
+                      placeholder={user.periodo} 
+                      options={periodoOptions} 
+                      className='select-color'/>
+                  :
+                    <Select 
+                      placeholder='Periodo'
+                      options={periodoOptions} 
+                      className='select-color'
+                    />
+                }
+             
               </div> 
 
               <button className='button-form-login' >

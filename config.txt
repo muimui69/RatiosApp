@@ -25,3 +25,10 @@ Después de la implementación, consulta tu app en ratios-app.web.app.
         const anio = e.target[0].parentElement.previousElementSibling.textContent;
     const ventas = e.target[1].value;
     const cuentas = e.target[2].value;
+
+    const getUserDatabase = async() =>{
+    const userDatabase = await getDocs( collection( db, 'user'));
+    userDatabase.forEach( (doc) => {
+      console.log(doc.id,'  =>  ',doc.data());
+    });
+  }

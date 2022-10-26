@@ -1,6 +1,5 @@
-import React from 'react'
 import { Link } from 'react-router-dom';
-import {IoMdAdd} from 'react-icons/io';
+import { IoMdAdd } from 'react-icons/io';
 import { useAuth } from '../context/AuthContext';
 
 export const Heading = () => {
@@ -9,7 +8,7 @@ export const Heading = () => {
   const handleLogout = async ()=>{
     await logout();
   }
-  
+
   return (
     <>
       <div className='container-head'>
@@ -21,17 +20,16 @@ export const Heading = () => {
           <h5>RatiosApp</h5>
         }
 
+
         { user &&
 
           <div className='container-button'>
               <Link to='/config'>
-                <button className='button-calculate'>
-                  <IoMdAdd/> Agregar
-                </button>
+                    <button className='button-calculate' >
+                      <IoMdAdd/> Agregar
+                    </button>
               </Link>
           </div>
-
-   
         }
 
         {

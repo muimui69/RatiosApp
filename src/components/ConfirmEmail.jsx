@@ -1,21 +1,49 @@
 import {useAuth} from '../context/AuthContext';
+import {auth} from '../../firebase/FirebaseConfig';
+import { sendEmailVerification} from 'firebase/auth';
+import { useEffect } from 'react';
 
 export const ConfirmEmail = () => {
-  const {user,logout,loading } = useAuth(); 
+  const {user,loading,logout } = useAuth(); 
 
-  const handleLogout = async ()=>{
+  const verificationEmail = async() => {
+    const emailVerify = auth.currentUser;
+    if(!emailVerify.emailVerified){
+      sendEmailVerification(emailVerify);
+    }
+  }
+
+  const isEmailVerifyUser = () =>{
+    return auth.currentUser.emailVerified;
+  }
+  
+  const handleLogout = async ()=>{  
     await logout();
   }
+
+  useEffect(() => {
+    const verify = isEmailVerifyUser();
+    if(verify){
+      handleLogout();
+    }else{
+     verificationEmail();
+    }
+  }, [])
 
   if (loading) return <h1>cargando....</h1>
 
   return (
     <>
-      <h1>Welcome {user.email}</h1>
-      <p>Please confirm your email  <a href=''>click</a></p>
-      <button className='button-form-signup' onClick={handleLogout}>
-        Logout
-      </button>
+      { (isEmailVerifyUser())?
+          <h1>Refirigiendo...</h1>
+        :
+        <>
+          <h1>Bienvenido {user.email}</h1>
+            <p>Porfavor confirma tu correo,
+            una vez hecho eso,refresque la pagina.
+          </p>
+        </>
+      }
     </>
   )
 }
