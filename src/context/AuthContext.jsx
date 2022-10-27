@@ -46,6 +46,23 @@ export const AuthProvider = ({children}) => {
     );
   }
 
+  const userAddGestionAndPeriodo = async(values) =>{
+    const uid = auth.currentUser.uid;
+    await addDoc( 
+      collection( db ,'gestion-periodo') , 
+      ({...values,uid})
+    );
+  }
+  
+  const userAddCuentas = async(values) =>{
+    const uid = auth.currentUser.uid;
+    await addDoc( 
+      collection( db ,'cuentas') , 
+      ({...values,uid})
+    );
+  }
+
+
   const userUpdateDatabaseEmpresa = async(values,idDoc) =>{
     await updateDoc(doc(db, 'empresa',`${idDoc}`), values);
   }
@@ -73,7 +90,9 @@ export const AuthProvider = ({children}) => {
         getIdCurrentUser,
         userAddDatabase,
         userAddDatabaseEmpresa,
-        userUpdateDatabaseEmpresa
+        userUpdateDatabaseEmpresa,
+        userAddGestionAndPeriodo,
+        userAddCuentas
       }}
     > 
       {children} 

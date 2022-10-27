@@ -9,11 +9,7 @@ export const Login = () => {
     password:''
   });
 
-  const {
-    login,
-    userAddDatabaseEmpresa,
-    userExistInDatabaseEmpresa
-  } = useAuth();
+  const {login} = useAuth();
 
   const navigate = useNavigate();
   const [error,setError]=useState();
@@ -45,6 +41,7 @@ export const Login = () => {
   <>
       <div className='cotainer-loggin'>
           <form className='user-form' onSubmit={handleSubmit}>
+             
               <div className='input-form'>
                   <input 
                       type='email' 
@@ -68,6 +65,8 @@ export const Login = () => {
                   >
                   </input>
               </div> 
+
+             
 
               <button className='button-form-login' id='login'>
                 Login
