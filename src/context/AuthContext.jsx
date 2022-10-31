@@ -71,6 +71,10 @@ export const AuthProvider = ({children}) => {
     const uid = auth.currentUser.uid;
     return uid;
   }
+  
+  const isEmailVerifyUser = () =>{
+    return auth.currentUser.emailVerified;
+  }
 
   useEffect( ()=> {
     onAuthStateChanged( auth , currentUser =>{
@@ -92,7 +96,8 @@ export const AuthProvider = ({children}) => {
         userAddDatabaseEmpresa,
         userUpdateDatabaseEmpresa,
         userAddGestionAndPeriodo,
-        userAddCuentas
+        userAddCuentas,
+        isEmailVerifyUser
       }}
     > 
       {children} 

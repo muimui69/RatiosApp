@@ -26,7 +26,7 @@ export const ConfirmEmail = () => {
     if(verify){
       handleLogout();
     }else{
-     verificationEmail();
+     //verificationEmail();
     }
   }, [])
 
