@@ -40,7 +40,7 @@ export const Register = () => {
 
   return (
   <>
-       <br />
+    <br />
     <Container>
       <Row className="justify-content-md-center">
         <Col sm lg="4">
