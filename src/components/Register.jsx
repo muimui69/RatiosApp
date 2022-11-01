@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import {useAuth} from '../context/AuthContext';
 import {useNavigate} from 'react-router-dom';
+//bootstrap
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Card from 'react-bootstrap/Card';
@@ -50,13 +51,16 @@ export const Register = () => {
         <Card.Title>Ingrese sus datos</Card.Title>
 
         <Form className="mb-3">
+
+        <Form.Group className="mb-3" controlId="nombre">
+            <Form.Control type="text" placeholder="Nombre Completo" />
+          </Form.Group>  
+
         <Form.Group className="mb-3" controlId="empresa">
             <Form.Control type="text" placeholder="Empresa" />
           </Form.Group>
 
-          <Form.Group className="mb-3" controlId="nombre">
-            <Form.Control type="text" placeholder="Nombre Completo" />
-          </Form.Group>          
+        
 
           <Form.Group className="mb-3" controlId="email">
             <Form.Control type="email" placeholder="Correo electrónico" />

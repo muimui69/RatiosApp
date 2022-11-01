@@ -4,6 +4,13 @@ import { useNavigate } from 'react-router-dom';
 import {db} from '../../firebase/FirebaseConfig';
 import { collection,onSnapshot} from 'firebase/firestore';
 import Select from 'react-select';
+//bootstrap
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import Card from 'react-bootstrap/Card';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 
 export const SendCuentas = () => {
@@ -96,6 +103,7 @@ export const SendCuentas = () => {
       case 'Mensual':
         return(
           <>
+
               <div className='input-form'>
                    <input 
                        type='text' 
@@ -221,6 +229,76 @@ export const SendCuentas = () => {
                <button className='button-form-login'>
                   Crear
                </button>
+
+               <Container>
+              <Row className="justify-content-md-center">
+                <Col sm lg="4">
+                <Card className="text-center xs" >
+              <Card.Header>Periodo Mensual</Card.Header>
+              <Card.Body>
+                <Form className="mb-3">
+
+
+
+                <Form.Group className="mb-3" controlId="periodo" placeholder="Politica de cobranza">
+                    <select class="form-control" id="periodo" placeholder='Tipo de dato'>
+                    <option value="" selected disabled  >Cuenta a registrar</option>
+                      <option>Cuentas por cobrar</option>
+                      <option>Cuentas por pagar</option>
+                    </select>
+                 </Form.Group>   
+                 <Form.Group className="mb-3" controlId="enero">
+                    <Form.Control type="text" placeholder="Enero" />
+                </Form.Group>  
+                <Form.Group className="mb-3" controlId="febrero">
+                    <Form.Control type="text" placeholder="Febrero" />
+                </Form.Group>                                
+                <Form.Group className="mb-3" controlId="marzo">
+                    <Form.Control type="text" placeholder="Marzo" />
+                </Form.Group>   
+                <Form.Group className="mb-3" controlId="abril">
+                    <Form.Control type="text" placeholder="Abril" />
+                </Form.Group>                   
+                <Form.Group className="mb-3" controlId="mayo">
+                    <Form.Control type="text" placeholder="Mayo" />
+                </Form.Group>  
+                <Form.Group className="mb-3" controlId="junio">
+                    <Form.Control type="text" placeholder="Junio" />
+                </Form.Group>                                
+                <Form.Group className="mb-3" controlId="julio">
+                    <Form.Control type="text" placeholder="Julio" />
+                </Form.Group>   
+                <Form.Group className="mb-3" controlId="agosto">
+                    <Form.Control type="text" placeholder="Agosto" />
+                </Form.Group>       
+                <Form.Group className="mb-3" controlId="septiembre">
+                    <Form.Control type="text" placeholder="Septiembre" />
+                </Form.Group>  
+                <Form.Group className="mb-3" controlId="octubre">
+                    <Form.Control type="text" placeholder="Octubre" />
+                </Form.Group>                                
+                <Form.Group className="mb-3" controlId="noviembre">
+                    <Form.Control type="text" placeholder="Noviembre" />
+                </Form.Group>   
+                <Form.Group className="mb-3" controlId="diciembre">
+                    <Form.Control type="text" placeholder="Diciembre" />
+                </Form.Group>                       
+
+                  <Button variant="primary" type="submit">
+                    Enviar datos
+                  </Button>
+                </Form>
+
+              </Card.Body>
+              <Card.Footer className="text-muted">Los datos se guardarán en la base de datos</Card.Footer>
+              </Card>
+                </Col>
+              </Row>
+
+            </Container>
+
+
+
           </>
         )
       break;
@@ -276,6 +354,51 @@ export const SendCuentas = () => {
                <button className='button-form-login'>
                   Crear
                </button>
+
+               <Container>
+              <Row className="justify-content-md-center">
+                <Col sm lg="4">
+                <Card className="text-center xs" >
+              <Card.Header>Periodo Trimestral</Card.Header>
+              <Card.Body>
+                <Form className="mb-3">
+
+
+
+                <Form.Group className="mb-3" controlId="periodo" placeholder="Politica de cobranza">
+                    <select class="form-control" id="periodo" placeholder='Tipo de dato'>
+                    <option value="" selected disabled  >Cuenta a registrar</option>
+                      <option>Cuentas por cobrar</option>
+                      <option>Cuentas por pagar</option>
+                    </select>
+                 </Form.Group>   
+                 <Form.Group className="mb-3" controlId="primertrimestre">
+                    <Form.Control type="text" placeholder="Primer trimestre" />
+                </Form.Group>  
+                <Form.Group className="mb-3" controlId="segundotrimestre">
+                    <Form.Control type="text" placeholder="Segundo trimestre" />
+                </Form.Group>                                
+                <Form.Group className="mb-3" controlId="tercertrimestre">
+                    <Form.Control type="text" placeholder="Tercer trimestre" />
+                </Form.Group>   
+                <Form.Group className="mb-3" controlId="cuartotrimestre">
+                    <Form.Control type="text" placeholder="Cuarto trimestre" />
+                </Form.Group>                   
+
+
+                  <Button variant="primary" type="submit">
+                    Seleccionar
+                  </Button>
+                </Form>
+
+              </Card.Body>
+              <Card.Footer className="text-muted">Los datos se guardarán en la base de datos</Card.Footer>
+              </Card>
+                </Col>
+              </Row>
+
+            </Container>
+
          </>
         )
       break;
@@ -283,6 +406,8 @@ export const SendCuentas = () => {
       case 'Semestral':
         return(
           <>
+
+
               <div className='input-form'>
                    <input 
                        type='text' 
@@ -308,6 +433,44 @@ export const SendCuentas = () => {
                <button className='button-form-login'>
                   Crear
                </button>
+
+               <br />
+          <Container>
+              <Row className="justify-content-md-center">
+                <Col sm lg="4">
+                <Card className="text-center xs" >
+              <Card.Header>Periodo Semestral</Card.Header>
+              <Card.Body>
+                <Form className="mb-3">
+
+
+
+                <Form.Group className="mb-3" controlId="periodo" placeholder="Politica de cobranza">
+                    <select class="form-control" id="periodo" placeholder='Tipo de dato'>
+                    <option value="" selected disabled  >Cuenta a registrar</option>
+                      <option>Cuentas por cobrar</option>
+                      <option>Cuentas por pagar</option>
+                    </select>
+                 </Form.Group>   
+                 <Form.Group className="mb-3" controlId="primersemestre">
+                    <Form.Control type="text" placeholder="Primer semestre" />
+                </Form.Group>  
+                <Form.Group className="mb-3" controlId="segundosemestre">
+                    <Form.Control type="text" placeholder="Segundo semestre" />
+                </Form.Group>                                
+
+                  <Button variant="primary" type="submit">
+                    Seleccionar
+                  </Button>
+                </Form>
+
+              </Card.Body>
+              <Card.Footer className="text-muted">Los datos se guardarán en la base de datos</Card.Footer>
+              </Card>
+                </Col>
+              </Row>
+
+            </Container>
          </>
         )
       break;
@@ -320,7 +483,7 @@ export const SendCuentas = () => {
                       type='text' 
                       name='anual'
                       onChange={ handleChangeInput}
-                      placeholder='Anual' 
+                      placeholder='Monto' 
                       className='input-text'
                     >
                     </input>
@@ -329,6 +492,43 @@ export const SendCuentas = () => {
                 <button className='button-form-login'>
                   Crear
                 </button>
+
+                <br />
+            <Container>
+              <Row className="justify-content-md-center">
+                <Col sm lg="4">
+                <Card className="text-center xs" >
+              <Card.Header>Periodo Anual</Card.Header>
+              <Card.Body>
+                <Form className="mb-3">
+
+                 
+
+                <Form.Group className="mb-3" controlId="monto">
+                    <Form.Control type="text" placeholder="Monto" />
+                  </Form.Group>
+
+                <Form.Group className="mb-3" controlId="periodo" placeholder="Politica de cobranza">
+                    <select class="form-control" id="periodo" placeholder='Tipo de dato'>
+                      <option value="" selected disabled  >Cuenta a registrar</option>
+                      <option>Cuentas por cobrar</option>
+                      <option>Cuentas por pagar</option>
+                    </select>
+                 </Form.Group>                   
+
+                  <Button variant="primary" type="submit">
+                  Enviar datos
+                  </Button>
+                </Form>
+
+              </Card.Body>
+              <Card.Footer className="text-muted">Los datos se guardarán en la base de datos</Card.Footer>
+              </Card>
+                </Col>
+              </Row>
+
+            </Container>
+
           </>
         )
       break;
@@ -344,6 +544,38 @@ export const SendCuentas = () => {
     
   return(
     <>
+          <br />
+          <Container>
+              <Row className="justify-content-md-center">
+                <Col sm lg="4">
+                <Card className="text-center xs" >
+              <Card.Header>Seleccione la Gestion</Card.Header>
+              <Card.Body>
+                <Form className="mb-3">
+
+
+
+                <Form.Group className="mb-3" controlId="periodo" placeholder="Politica de cobranza">
+                    <select class="form-control" id="periodo" placeholder='Tipo de dato'>
+                      <option value="" selected disabled  >Gestión</option>
+                      <option>2020 demo</option>
+                      <option>2021 demo</option>
+                    </select>
+                 </Form.Group>                   
+
+                  <Button variant="primary" type="submit">
+                  Enviar datos
+                  </Button>
+                </Form>
+
+              </Card.Body>
+              <Card.Footer className="text-muted">Los datos se guardarán en la base de datos</Card.Footer>
+              </Card>
+                </Col>
+              </Row>
+
+            </Container>
+
     <div className='cotainer-loggin'>
        <form className='user-form' onSubmit={handleSubmit}>
             
@@ -363,7 +595,7 @@ export const SendCuentas = () => {
             <h1>Periodo: {label} </h1>
             <div className='input-form'>
                <Select 
-                 placeholder='Nombre de cuenta' 
+                 placeholder='Tipo de dato' 
                  onChange={handleChange}
                  options={tipoDato} 
                  className='select-color'
