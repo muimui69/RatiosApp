@@ -48,7 +48,6 @@ export const Register = () => {
       <Card.Header>Registro de Usuario</Card.Header>
       <Card.Body>
         <Card.Title>Ingrese sus datos</Card.Title>
-
         <Form className="mb-3" onSubmit={handleSubmit}>
           <Form.Group className="mb-3" controlId="empresa">
             <Form.Control type="text"  name='empresa' placeholder="Empresa" onChange={handleChange}/>
@@ -82,7 +81,8 @@ export const Register = () => {
     </Container>
 
       {/* 
-         <div className='cotainer-loggin'>
+
+      <div className='cotainer-loggin'>
           <form className='user-form' onSubmit={handleSubmit}>
           <div className='input-form'>
                   <input 
@@ -140,7 +140,7 @@ export const Register = () => {
       
       */}
      
-  </>
+   </>
   )
 }
 
