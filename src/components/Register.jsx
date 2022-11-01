@@ -39,7 +39,7 @@ export const Register = () => {
     }
   };
 
-  return (
+  return(
   <>
     <br />
     <Container>
@@ -49,25 +49,22 @@ export const Register = () => {
       <Card.Header>Registro de Usuario</Card.Header>
       <Card.Body>
         <Card.Title>Ingrese sus datos</Card.Title>
-
-        <Form className="mb-3">
-
-        <Form.Group className="mb-3" controlId="nombre">
-            <Form.Control type="text" placeholder="Nombre Completo" />
-          </Form.Group>  
-
-        <Form.Group className="mb-3" controlId="empresa">
-            <Form.Control type="text" placeholder="Empresa" />
+        <Form className="mb-3" onSubmit={handleSubmit}>
+          <Form.Group className="mb-3" controlId="empresa">
+            <Form.Control type="text"  name='empresa' placeholder="Empresa" onChange={handleChange}/>
           </Form.Group>
 
-        
+          <Form.Group className="mb-3" controlId="nombre">
+            <Form.Control type="text" name='nombre' placeholder="Nombre Completo" onChange={handleChange}/>
+          </Form.Group>          
 
           <Form.Group className="mb-3" controlId="email">
-            <Form.Control type="email" placeholder="Correo electrónico" />
+            <Form.Control type="email" name='email' placeholder="Correo electrónico" onChange={handleChange} />
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="password">
-            <Form.Control type="password" placeholder="Contraseña" />
+            <Form.Control type="password" name='password' placeholder="Contraseña" onChange={handleChange}/>
+
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicCheckbox">
             <Form.Check type="checkbox" label="Recordar contraseña" />
@@ -76,7 +73,6 @@ export const Register = () => {
             Registrarme
           </Button>
         </Form>
-
       </Card.Body>
       <Card.Footer className="text-muted">Se enviará una correo para que confirme su registro</Card.Footer>
     </Card>
@@ -85,62 +81,7 @@ export const Register = () => {
 
     </Container>
 
-
-      <div className='cotainer-loggin'>
-          <form className='user-form' onSubmit={handleSubmit}>
-          <div className='input-form'>
-                  <input 
-                      type='text' 
-                      name='nombre'
-                      id='nombre'
-                      onChange={handleChange}
-                      placeholder='Nombre' 
-                      className='input-text'
-                  >
-                  </input>
-              </div>
-
-              <div className='input-form'>
-                  <input 
-                      type='text' 
-                      name='empresa'
-                      id='empresa'
-                      onChange={handleChange}
-                      placeholder='Empresa' 
-                      className='input-text'
-                  >
-                  </input>
-              </div>
-          
-              <div className='input-form'>
-                  <input 
-                      type='email' 
-                      name='email'
-                      id='email'
-                      onChange={handleChange}
-                      placeholder='Email' 
-                      className='input-text'
-                  >
-                  </input>
-              </div> 
-
-              <div className='input-form'>
-                  <input 
-                      type='password' 
-                      name='password'
-                      id='password' 
-                      onChange={handleChange}
-                      placeholder='Password' 
-                      className='input-text'
-                  >
-                  </input>
-              </div> 
-
-              <button className='button-form-signup'>
-                Sign up
-              </button>
-          </form>
-      </div>
+     
   </>
   )
 }

@@ -1,14 +1,14 @@
 import {useAuth} from '../context/AuthContext';
 import {auth} from '../../firebase/FirebaseConfig';
 import { sendEmailVerification} from 'firebase/auth';
-import { useEffect } from 'react';
+import { useEffect} from 'react';
 
 export const ConfirmEmail = () => {
   const {user,loading,logout } = useAuth(); 
 
   const verificationEmail = async() => {
     const emailVerify = auth.currentUser;
-    if(!emailVerify.emailVerified){
+    if(!emailVerify.emailVerified && !verifyState){
       sendEmailVerification(emailVerify);
     }
   }
@@ -20,14 +20,13 @@ export const ConfirmEmail = () => {
   const handleLogout = async ()=>{  
     await logout();
   }
-
+  
   useEffect(() => {
     const verify = isEmailVerifyUser();
     if(verify){
       handleLogout();
-    }else{
-     verificationEmail();
     }
+    verificationEmail();
   }, [])
 
   if (loading) return <h1>cargando....</h1>

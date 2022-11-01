@@ -22,79 +22,77 @@ import {ProtectedRouteApp} from './components/ProtectedRouteApp';
 export const App = () => {
   
   return (
-    <div className=''>
-      <div className=''>
-        <AuthProvider>
-         <Heading/>
-            <Routes>
-            
-              <Route 
-                path = '/' 
-                element={
-                  <ProtectedRouteApp>
-                  <Login/>
-                  </ProtectedRouteApp>
-                }
-              />
+   <>
+      <AuthProvider>
+        <Heading/>
+          <Routes>
+          
+            <Route 
+              path = '/' 
+              element={
+                <ProtectedRouteApp>
+                <Login/>
+                </ProtectedRouteApp>
+              }
+            />
 
-              <Route
-                path = '/create-business' 
-                element ={
-                  <ProtectedRoute>
-                    <CreateBusiness/>
-                  </ProtectedRoute>
-               }
-              />
-
-              <Route
-                path = '/create-business/send-cuentas' 
-                element ={
-                  <ProtectedRoute>
-                    <SendCuentas/>
-                  </ProtectedRoute>
-               }
-              />
-
-              <Route  
-                path = '/confirm' 
-                element={
-                  <ProtectedRoute>
-                    <ConfirmEmail/>
-                  </ProtectedRoute>
-                }
-              />
-
-              <Route path = '/register' element={<Register/>} />
-              
-              <Route 
-                path = '/config' 
-                element={
-                  <ProtectedRoute>
-                    <ConfigInitial/>
-                  </ProtectedRoute>
-                } 
-              />
-
-              <Route 
-                path = '/config/:id' 
-                element={
-                  <ProtectedRoute>
-                    <ConfigInitial/>
-                  </ProtectedRoute>
-                } 
-              />
-
-              <Route  
-                path = '/userlist' 
-                element={
+            <Route
+              path = '/create-business' 
+              element ={
                 <ProtectedRoute>
-                  <UserList/>
+                  <CreateBusiness/>
                 </ProtectedRoute>
-              }/> 
+              }
+            />
 
-            </Routes>
-        </AuthProvider>
-      </div>
-    </div>
+            <Route
+              path = '/create-business/send-cuentas' 
+              element ={
+                <ProtectedRoute>
+                  <SendCuentas/>
+                </ProtectedRoute>
+              }
+            />
+
+            <Route  
+              path = '/confirm' 
+              element={
+                <ProtectedRoute>
+                  <ConfirmEmail/>
+                </ProtectedRoute>
+              }
+            />
+
+            <Route path = '/register' element={<Register/>} />
+            
+            <Route 
+              path = '/config' 
+              element={
+                <ProtectedRoute>
+                  <ConfigInitial/>
+                </ProtectedRoute>
+              } 
+            />
+
+            <Route 
+              path = '/config/:id' 
+              element={
+                <ProtectedRoute>
+                  <ConfigInitial/>
+                </ProtectedRoute>
+              } 
+            />
+
+            <Route  
+              path = '/userlist' 
+              element={
+              <ProtectedRoute>
+                <UserList/>
+              </ProtectedRoute>
+            }/> 
+
+          </Routes>
+      </AuthProvider>
+    </>
   );
 }
