@@ -5,6 +5,7 @@ import { doc, getDoc} from 'firebase/firestore';
 import {useAuth} from '../context/AuthContext';
 import Select from 'react-select';
 
+// la collecion empresa pertence a este componente
 
 export const ConfigInitial = () => {
 

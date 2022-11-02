@@ -55,21 +55,26 @@ export const Login = () => {
       <Card.Body>
         <Card.Title>Ingrese sus datos</Card.Title>
 
-        <Form className="mb-3">
+        <Form className="mb-3" onSubmit={handleSubmit}>
 
           <Form.Group className="mb-3" controlId="email">
-            <Form.Control type="email" placeholder="Correo electrónico" />
+            <Form.Control type="email" name='email'   onChange={handleChange} placeholder="Correo electrónico" />
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="password">
-            <Form.Control type="password" placeholder="Contraseña" />
+            <Form.Control type="password" name='password'   onChange={handleChange} placeholder="Contraseña" />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="formBasicCheckbox">
-            <Form.Check type="checkbox" label="Recordar contraseña" />
-          </Form.Group>
-          <Button variant="primary" type="submit">
+ 
+          <Button variant="primary" id='login' type="submit">
             Entrar
           </Button>
+          
+          <span>¿Aún no tienes cuenta? </span>
+
+          <Button variant="primary" id='register' type="submit">
+            Registrarte
+          </Button>
+
         </Form>
 
       </Card.Body>
@@ -79,46 +84,7 @@ export const Login = () => {
       </Row>
 
     </Container>
-      <div className='cotainer-loggin'>
-          <form className='user-form' onSubmit={handleSubmit}>
-             
-              <div className='input-form'>
-                  <input 
-                      type='email' 
-                      name='email'
-                      id='email'
-                      onChange={handleChange}
-                      placeholder='Email' 
-                      className='input-text'
-                  >
-                  </input>
-              </div> 
-
-              <div className='input-form'>
-                  <input 
-                      type='password' 
-                      name='password'
-                      id='password' 
-                      onChange={handleChange}
-                      placeholder='Password' 
-                      className='input-text'
-                  >
-                  </input>
-              </div> 
-
-             
-
-              <button className='button-form-login' id='login'>
-                Login
-              </button>
-
-              <span>¿Aún no tienes cuenta? </span>
-              <button className='button-form-register-redirect' id='register'>
-                Registrate
-              </button>
-
-          </form>
-      </div>
+    
   </>
   )
 }

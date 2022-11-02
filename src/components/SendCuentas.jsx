@@ -3,7 +3,7 @@ import {useAuth} from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import {db} from '../../firebase/FirebaseConfig';
 import { collection,onSnapshot} from 'firebase/firestore';
-import Select from 'react-select';
+
 //bootstrap
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
@@ -17,8 +17,10 @@ export const SendCuentas = () => {
 
   const [gestion,setGestion]=useState([{
     value:'',
-    label:''
-  }])
+}])
+
+  const [gestionSelect,setGestionSelect]=useState([{}])
+
 
   const [periodo,setPeriodo]=useState([{
     value:'',
@@ -40,7 +42,8 @@ export const SendCuentas = () => {
   const {getIdCurrentUser} = useAuth();
 
   const handleChange = (e) => {
-    const value = e.value;
+    const value = e.target.value;
+    setGestionSelect(value);
     userSelectGestionPeriodo.map( ({gestion,periodo}) =>{
         if(value===gestion){
           setLabel(periodo);
@@ -54,21 +57,13 @@ export const SendCuentas = () => {
     setSelectInput({...selectInput,[name]:value});
   };
 
-  const tipoDato = [ 
-    {value:'Cuentas por cobrar',label:'Cuentas por cobrar'},
-    {value:'Ventas al credito',label:'Ventas al credito'} 
-  ]
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       navigate('/userlist');
-      const gestion =  e.target[0].parentElement.previousElementSibling.textContent;
-      const tipoCalculo = e.target[1].parentElement.previousElementSibling.textContent;
-      let newCreate = selectInput;
-      let periodo = label;
-      newCreate = ({...selectInput,gestion,periodo,tipoCalculo});
-      await userAddCuentas(newCreate);
+      let newUser = selectInput;
+      newUser = ({...selectInput,gestion:`${gestionSelect}`,periodo:`${label}`});
+      await userAddCuentas(newUser);
     } catch (err) {
       console.log(err);
     }
@@ -83,10 +78,10 @@ export const SendCuentas = () => {
           const {uid,periodo,gestion} = doc.data();
           if(uid === getIdCurrentUser()){
             gestionOptions.push(
-              {value:`${gestion}`, label:`${gestion}`}
+              {value:`${gestion}`}
             )
             periodoOptions.push(
-              {value:`${periodo}`, label:`${periodo}`}
+              {value:`${periodo}`}
             )
             docs.push({...doc.data()});
           }
@@ -103,201 +98,102 @@ export const SendCuentas = () => {
       case 'Mensual':
         return(
           <>
+            <br/>
+            <Form.Control 
+              type='text' 
+              name='enero'
+              onChange={handleChangeInput}
+              placeholder='Enero' 
+              className='mb-3'
+            />
 
-              <div className='input-form'>
-                   <input 
-                       type='text' 
-                       name='enero'
-                       onChange={handleChangeInput}
-                       placeholder='Enero' 
-                       className='input-text'
-                   >
-                   </input>
-               </div> 
+            <Form.Control 
+              type='text' 
+              name='febrero'
+              onChange={handleChangeInput}
+              placeholder='Febrero' 
+              className='mb-3'
+            />
 
-                <div className='input-form'>
-                   <input 
-                       type='text' 
-                       name='febrero'
-                       onChange={handleChangeInput}
-                       placeholder='Febrero' 
-                       className='input-text'
-                   >
-                   </input>
-               </div> 
-    
-               <div className='input-form'>
-                   <input 
-                       type='text' 
-                       name='marzo'
-                       onChange={ handleChangeInput}
-                       placeholder='Marzo' 
-                       className='input-text'
-                   >
-                   </input>
-               </div> 
-               <div className='input-form'>
-                   <input 
-                       type='text' 
-                       name='abril'
-                       onChange={ handleChangeInput}
-                       placeholder='Abril' 
-                       className='input-text'
-                   >
-                   </input>
-               </div> 
-               <div className='input-form'>
-                   <input 
-                       type='text' 
-                       name='mayo'
-                       onChange={ handleChangeInput}
-                       placeholder='Mayo' 
-                       className='input-text'
-                   >
-                   </input>
-               </div> 
-               <div className='input-form'>
-                   <input 
-                       type='text' 
-                       name='junio'
-                       onChange={ handleChangeInput}
-                       placeholder='Junio' 
-                       className='input-text'
-                   >
-                   </input>
-               </div> 
-               <div className='input-form'>
-                   <input 
-                       type='text' 
-                       name='julio'
-                       onChange={ handleChangeInput}
-                       placeholder='Julio' 
-                       className='input-text'
-                   >
-                   </input>
-               </div> 
-               <div className='input-form'>
-                   <input 
-                       type='text' 
-                       name='agosto'
-                       onChange={ handleChangeInput}
-                       placeholder='Agosto' 
-                       className='input-text'
-                   >
-                   </input>
-               </div> 
-               <div className='input-form'>
-                   <input 
-                       type='text' 
-                       name='septiembre'
-                       onChange={ handleChangeInput}
-                       placeholder='Septiembre' 
-                       className='input-text'
-                   >
-                   </input>
-               </div> 
-               <div className='input-form'>
-                   <input 
-                       type='text' 
-                       name='octubre'
-                       onChange={ handleChangeInput}
-                       placeholder='Octubre' 
-                       className='input-text'
-                   >
-                   </input>
-               </div> 
-               <div className='input-form'>
-                   <input 
-                       type='text' 
-                       name='noviembre'
-                       onChange={ handleChangeInput}
-                       placeholder='Noviembre' 
-                       className='input-text'
-                   >
-                   </input>
-               </div> 
-               <div className='input-form'>
-                   <input 
-                       type='text' 
-                       name='diciembre'
-                       onChange={ handleChangeInput}
-                       placeholder='Diciembre' 
-                       className='input-text'
-                   >
-                   </input>
-               </div> 
-               <button className='button-form-login'>
-                  Crear
-               </button>
+            <Form.Control 
+              type='text' 
+              name='marzo'
+              onChange={ handleChangeInput}
+              placeholder='Marzo' 
+              className='mb-3'
+            />
 
-               <Container>
-              <Row className="justify-content-md-center">
-                <Col sm lg="4">
-                <Card className="text-center xs" >
-              <Card.Header>Periodo Mensual</Card.Header>
-              <Card.Body>
-                <Form className="mb-3">
+            <Form.Control 
+              type='text' 
+              name='abril'
+              onChange={ handleChangeInput}
+              placeholder='Abril' 
+              className='mb-3'
+            />
 
+            <Form.Control 
+              type='text' 
+              name='mayo'
+              onChange={ handleChangeInput}
+              placeholder='Mayo' 
+              className='mb-3'
+            />
 
+            <Form.Control 
+              type='text' 
+              name='junio'
+              onChange={ handleChangeInput}
+              placeholder='Junio' 
+              className='mb-3'
+            />
 
-                <Form.Group className="mb-3" controlId="periodo" placeholder="Politica de cobranza">
-                    <select class="form-control" id="periodo" placeholder='Tipo de dato'>
-                    <option value="" selected disabled  >Cuenta a registrar</option>
-                      <option>Cuentas por cobrar</option>
-                      <option>Cuentas por pagar</option>
-                    </select>
-                 </Form.Group>   
-                 <Form.Group className="mb-3" controlId="enero">
-                    <Form.Control type="text" placeholder="Enero" />
-                </Form.Group>  
-                <Form.Group className="mb-3" controlId="febrero">
-                    <Form.Control type="text" placeholder="Febrero" />
-                </Form.Group>                                
-                <Form.Group className="mb-3" controlId="marzo">
-                    <Form.Control type="text" placeholder="Marzo" />
-                </Form.Group>   
-                <Form.Group className="mb-3" controlId="abril">
-                    <Form.Control type="text" placeholder="Abril" />
-                </Form.Group>                   
-                <Form.Group className="mb-3" controlId="mayo">
-                    <Form.Control type="text" placeholder="Mayo" />
-                </Form.Group>  
-                <Form.Group className="mb-3" controlId="junio">
-                    <Form.Control type="text" placeholder="Junio" />
-                </Form.Group>                                
-                <Form.Group className="mb-3" controlId="julio">
-                    <Form.Control type="text" placeholder="Julio" />
-                </Form.Group>   
-                <Form.Group className="mb-3" controlId="agosto">
-                    <Form.Control type="text" placeholder="Agosto" />
-                </Form.Group>       
-                <Form.Group className="mb-3" controlId="septiembre">
-                    <Form.Control type="text" placeholder="Septiembre" />
-                </Form.Group>  
-                <Form.Group className="mb-3" controlId="octubre">
-                    <Form.Control type="text" placeholder="Octubre" />
-                </Form.Group>                                
-                <Form.Group className="mb-3" controlId="noviembre">
-                    <Form.Control type="text" placeholder="Noviembre" />
-                </Form.Group>   
-                <Form.Group className="mb-3" controlId="diciembre">
-                    <Form.Control type="text" placeholder="Diciembre" />
-                </Form.Group>                       
+            <Form.Control 
+              type='text' 
+              name='julio'
+              onChange={ handleChangeInput}
+              placeholder='Julio' 
+              className='mb-3'
+            />
 
-                  <Button variant="primary" type="submit">
-                    Enviar datos
-                  </Button>
-                </Form>
+            <Form.Control 
+              type='text' 
+              name='agosto'
+              onChange={ handleChangeInput}
+              placeholder='Agosto' 
+              className='mb-3'
+            />
 
-              </Card.Body>
-              <Card.Footer className="text-muted">Los datos se guardarán en la base de datos</Card.Footer>
-              </Card>
-                </Col>
-              </Row>
+            <Form.Control 
+              type='text' 
+              name='septiembre'
+              onChange={ handleChangeInput}
+              placeholder='Septiembre' 
+              className='mb-3'
+            />
 
-            </Container>
+            <Form.Control 
+              type='text' 
+              name='octubre'
+              onChange={ handleChangeInput}
+              placeholder='Octubre' 
+              className='mb-3'
+            />
 
+            <Form.Control 
+              type='text' 
+              name='noviembre'
+              onChange={ handleChangeInput}
+              placeholder='Noviembre' 
+              className='mb-3'
+            />
 
+            <Form.Control 
+              type='text' 
+              name='diciembre'
+              onChange={ handleChangeInput}
+              placeholder='Diciembre' 
+              className='mb-3'
+            />
 
           </>
         )
@@ -306,99 +202,38 @@ export const SendCuentas = () => {
       case 'Trimestral':
         return(
           <>
-              <div className='input-form'>
-                   <input 
-                       type='text' 
-                       name='1 trimestre'
-                       onChange={ handleChangeInput}
-                       placeholder='1 Trimestre' 
-                       className='input-text'
-                   >
-                   </input>
-               </div> 
+            <br/>
+            <Form.Control 
+              className='mb-3'
+              type='text' 
+              name='1 trimestre'
+              onChange={ handleChangeInput}
+              placeholder='Primer trimestre' 
+            />
 
-               <div className='input-form'>
-                   <input 
-                       type='text' 
-                       name='2 trimestre'
-                       onChange={ handleChangeInput}
-                       placeholder='2 Trimestre' 
-                       className='input-text'
-                   >
-                   </input>
-               </div> 
+            <Form.Control 
+              className='mb-3'
+              type='text' 
+              name='2 trimestre'
+              onChange={ handleChangeInput}
+              placeholder='Segundo Trimestre' 
+            />
 
-               <div className='input-form'>
-                   <input 
-                       type='text' 
-                       name='3 trimestre'
-                       onChange={ handleChangeInput}
-                       placeholder='3 Trimestre' 
-                       className='input-text'
-                   >
-                   </input>
-               </div> 
+            <Form.Control 
+              className='mb-3'
+              type='text' 
+              name='3 trimestre'
+              onChange={ handleChangeInput}
+              placeholder='Tercer Trimestre' 
+            />
 
-
-               <div className='input-form'>
-                   <input 
-                       type='text' 
-                       name='4 trimestre'
-                       onChange={ handleChangeInput}
-                       placeholder='4 Trimestre' 
-                       className='input-text'
-                   >
-                   </input>
-               </div> 
-
-               <button className='button-form-login'>
-                  Crear
-               </button>
-
-               <Container>
-              <Row className="justify-content-md-center">
-                <Col sm lg="4">
-                <Card className="text-center xs" >
-              <Card.Header>Periodo Trimestral</Card.Header>
-              <Card.Body>
-                <Form className="mb-3">
-
-
-
-                <Form.Group className="mb-3" controlId="periodo" placeholder="Politica de cobranza">
-                    <select class="form-control" id="periodo" placeholder='Tipo de dato'>
-                    <option value="" selected disabled  >Cuenta a registrar</option>
-                      <option>Cuentas por cobrar</option>
-                      <option>Cuentas por pagar</option>
-                    </select>
-                 </Form.Group>   
-                 <Form.Group className="mb-3" controlId="primertrimestre">
-                    <Form.Control type="text" placeholder="Primer trimestre" />
-                </Form.Group>  
-                <Form.Group className="mb-3" controlId="segundotrimestre">
-                    <Form.Control type="text" placeholder="Segundo trimestre" />
-                </Form.Group>                                
-                <Form.Group className="mb-3" controlId="tercertrimestre">
-                    <Form.Control type="text" placeholder="Tercer trimestre" />
-                </Form.Group>   
-                <Form.Group className="mb-3" controlId="cuartotrimestre">
-                    <Form.Control type="text" placeholder="Cuarto trimestre" />
-                </Form.Group>                   
-
-
-                  <Button variant="primary" type="submit">
-                    Seleccionar
-                  </Button>
-                </Form>
-
-              </Card.Body>
-              <Card.Footer className="text-muted">Los datos se guardarán en la base de datos</Card.Footer>
-              </Card>
-                </Col>
-              </Row>
-
-            </Container>
-
+            <Form.Control 
+              className='mb-3'
+              type='text' 
+              name='4 trimestre'
+              onChange={ handleChangeInput}
+              placeholder='Cuarto Trimestre' 
+            />
          </>
         )
       break;
@@ -406,71 +241,22 @@ export const SendCuentas = () => {
       case 'Semestral':
         return(
           <>
-
-
-              <div className='input-form'>
-                   <input 
-                       type='text' 
-                       name='1 semestre'
-                       onChange={ handleChangeInput}
-                       placeholder='1 Semestre' 
-                       className='input-text'
-                   >
-                   </input>
-               </div> 
-
-               <div className='input-form'>
-                   <input 
-                       type='text' 
-                       name='2 semestre'
-                       onChange={ handleChangeInput}
-                       placeholder='2 Semestre' 
-                       className='input-text'
-                   >
-                   </input>
-               </div> 
-               
-               <button className='button-form-login'>
-                  Crear
-               </button>
-
-               <br />
-          <Container>
-              <Row className="justify-content-md-center">
-                <Col sm lg="4">
-                <Card className="text-center xs" >
-              <Card.Header>Periodo Semestral</Card.Header>
-              <Card.Body>
-                <Form className="mb-3">
-
-
-
-                <Form.Group className="mb-3" controlId="periodo" placeholder="Politica de cobranza">
-                    <select class="form-control" id="periodo" placeholder='Tipo de dato'>
-                    <option value="" selected disabled  >Cuenta a registrar</option>
-                      <option>Cuentas por cobrar</option>
-                      <option>Cuentas por pagar</option>
-                    </select>
-                 </Form.Group>   
-                 <Form.Group className="mb-3" controlId="primersemestre">
-                    <Form.Control type="text" placeholder="Primer semestre" />
-                </Form.Group>  
-                <Form.Group className="mb-3" controlId="segundosemestre">
-                    <Form.Control type="text" placeholder="Segundo semestre" />
-                </Form.Group>                                
-
-                  <Button variant="primary" type="submit">
-                    Seleccionar
-                  </Button>
-                </Form>
-
-              </Card.Body>
-              <Card.Footer className="text-muted">Los datos se guardarán en la base de datos</Card.Footer>
-              </Card>
-                </Col>
-              </Row>
-
-            </Container>
+            <br/>
+            <Form.Control 
+              className="mb-3"
+              type="text"   
+              onChange={ handleChangeInput} 
+              name='1 semestre'
+              placeholder="Primer semestre" 
+            />
+            
+            <Form.Control 
+              className="mb-3"
+              type="text" 
+              onChange={ handleChangeInput} 
+              name='2 semestre'
+              placeholder="Segundo semestre" 
+            />
          </>
         )
       break;
@@ -478,57 +264,14 @@ export const SendCuentas = () => {
       case 'Anual':
         return(
           <>
-              <div className='input-form'>
-                    <input 
-                      type='text' 
-                      name='anual'
-                      onChange={ handleChangeInput}
-                      placeholder='Monto' 
-                      className='input-text'
-                    >
-                    </input>
-                </div> 
-
-                <button className='button-form-login'>
-                  Crear
-                </button>
-
-                <br />
-            <Container>
-              <Row className="justify-content-md-center">
-                <Col sm lg="4">
-                <Card className="text-center xs" >
-              <Card.Header>Periodo Anual</Card.Header>
-              <Card.Body>
-                <Form className="mb-3">
-
-                 
-
-                <Form.Group className="mb-3" controlId="monto">
-                    <Form.Control type="text" placeholder="Monto" />
-                  </Form.Group>
-
-                <Form.Group className="mb-3" controlId="periodo" placeholder="Politica de cobranza">
-                    <select class="form-control" id="periodo" placeholder='Tipo de dato'>
-                      <option value="" selected disabled  >Cuenta a registrar</option>
-                      <option>Cuentas por cobrar</option>
-                      <option>Cuentas por pagar</option>
-                    </select>
-                 </Form.Group>                   
-
-                  <Button variant="primary" type="submit">
-                  Enviar datos
-                  </Button>
-                </Form>
-
-              </Card.Body>
-              <Card.Footer className="text-muted">Los datos se guardarán en la base de datos</Card.Footer>
-              </Card>
-                </Col>
-              </Row>
-
-            </Container>
-
+            <br/>
+            <Form.Control 
+              className="mb-3"
+              type="text"   
+              onChange={ handleChangeInput} 
+              name='anual'
+              placeholder="Monto" 
+            />
           </>
         )
       break;
@@ -538,74 +281,65 @@ export const SendCuentas = () => {
 
   }
 
+
   useEffect(() => {
     getUserGestionPeriodo();
   }, [])
     
   return(
     <>
-          <br />
-          <Container>
-              <Row className="justify-content-md-center">
-                <Col sm lg="4">
-                <Card className="text-center xs" >
-              <Card.Header>Seleccione la Gestion</Card.Header>
-              <Card.Body>
-                <Form className="mb-3">
+      <br />
+      <Container>
+        <Row className="justify-content-md-center">
+          <Col sm lg="4">
+          <Card className="text-center xs" >
+          
+          <Card.Header>Seleccione la Gestion</Card.Header>
 
+          <Card.Body>
 
+            <Form className="mb-3" onSubmit={handleSubmit} >
+            
+             <Form.Group className="mb-3">
+                <select name='gestion' className="form-control" onChange={handleChange}>
+                  <option value="" selected disabled  >Gestión</option>
+                  {
+                    gestion.map( ({value}) => 
+                      <option value={value}> {value} </option>
+                    )
+                  }
+                </select>
+              </Form.Group>                   
 
-                <Form.Group className="mb-3" controlId="periodo" placeholder="Politica de cobranza">
-                    <select class="form-control" id="periodo" placeholder='Tipo de dato'>
-                      <option value="" selected disabled  >Gestión</option>
-                      <option>2020 demo</option>
-                      <option>2021 demo</option>
-                    </select>
-                 </Form.Group>                   
+              { 
+                isChange &&
+                <>
+                  <Card.Header>Periodo {label} </Card.Header>
+                  <select name='tipoDeCalculo' className="form-control" onChange={handleChangeInput}>
+                    <option value='' selected disabled  >Cuenta a registrar</option>
+                    <option value='Cuentas por cobrar'>Cuentas por cobrar</option>
+                    <option value='Cuentas por pagar'>Cuentas por pagar</option>
+                  </select>
+
+                   {renderInputs(label)}
 
                   <Button variant="primary" type="submit">
-                  Enviar datos
+                    Enviar datos
                   </Button>
-                </Form>
+                </>
+              }
 
-              </Card.Body>
-              <Card.Footer className="text-muted">Los datos se guardarán en la base de datos</Card.Footer>
-              </Card>
-                </Col>
-              </Row>
+            </Form>
 
-            </Container>
+          </Card.Body>
 
-    <div className='cotainer-loggin'>
-       <form className='user-form' onSubmit={handleSubmit}>
-            
-          <div className='input-form'>
-               <Select 
-                 placeholder='Gestion' 
-                 onChange={handleChange}
-                 options={gestion} 
-                 className='select-color'
-               />
-           </div>
+          <Card.Footer className="text-muted">Los datos se guardarán en la base de datos</Card.Footer>
+         
+          </Card>
+            </Col>
+          </Row>
 
-          { 
-            
-            isChange &&
-            <>
-            <h1>Periodo: {label} </h1>
-            <div className='input-form'>
-               <Select 
-                 placeholder='Tipo de dato' 
-                 onChange={handleChange}
-                 options={tipoDato} 
-                 className='select-color'
-               />
-           </div>
-            {renderInputs(label)}
-           </>
-          }
-       </form>
-   </div>
+        </Container>
  </>
   )
 }

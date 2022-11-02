@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import {useAuth} from '../context/AuthContext';
-import Select from 'react-select';
 import { useNavigate } from 'react-router-dom';
 
 import Button from 'react-bootstrap/Button';
@@ -18,13 +17,6 @@ export const CreateBusiness = () => {
     politicaCobranza:''    
   });
   
-  const periodoOptions = [
-    { value: 'Mensual', label: 'Mensual' },
-    { value: 'Trimestral', label: 'Trimestral' },
-    { value: 'Semestral', label: 'Semestral' },
-    { value: 'Anual', label: 'Anual' }
-  ]
-
   const validInput = (input) => {
     if(input.trim().length>0){
       return true;
@@ -43,11 +35,7 @@ export const CreateBusiness = () => {
     e.preventDefault();
     try {
       navigate('/userlist');
-      const periodo = e.target[1].parentElement.previousElementSibling.textContent;
-      console.log(periodo);
-      let newCreate = gestionAndPeriodo;
-      newCreate = ({...gestionAndPeriodo,periodo});
-      await userAddGestionAndPeriodo(newCreate);
+      await userAddGestionAndPeriodo(gestionAndPeriodo);
     } catch (err) {
       console.log(err);
     }
@@ -64,29 +52,64 @@ export const CreateBusiness = () => {
       <Card.Body>
         <Card.Title>Ingrese los datos</Card.Title>
 
-        <Form className="mb-3">
+        <Form className="mb-3" onSubmit={handleSubmit}>
 
         <Form.Group className="mb-3" controlId="gestion">
-            <Form.Control type="text" placeholder="Año de Gestion" />
+            <Form.Control 
+              type="text"  
+              name='gestion'
+              onChange={handleChange}
+              placeholder="Año de Gestion" />
           </Form.Group>  
 
         <Form.Group className="mb-3" controlId="periodo" placeholder="Politica de cobranza">
-         <select class="form-control" id="periodo">
-            <option value="" selected disabled>Selecione el periodo</option>
-            <option>Anual</option>
-            <option>Semestral</option>
-            <option>Trimmestral</option>
-            <option>Mensual</option>
+         <select  className="form-control" name='periodo'  onChange={handleChange} >
+            <option 
+              value='' selected disabled
+            >
+              Selecione el periodo
+            </option>
+            
+            <option 
+              value='Anual' 
+            >
+              Anual
+            </option>
+            
+            <option 
+              value='Semestral' 
+            >
+              Semestral
+            </option>
+
+            <option 
+              value ='Trimestral' 
+            >
+              Trimestral
+            </option>
+            
+            <option 
+              value='Mensual' 
+            >
+              Mensual
+            </option>
+          
           </select>
+
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="politicaCobranza">
-            <Form.Control  type="text" placeholder="Politica de cobranza" />
+            <Form.Control  
+              type="text"  
+              name='politicaCobranza'
+              onChange={handleChange} 
+              placeholder="Politica de cobranza" />
           </Form.Group>
 
           <Button variant="primary" type="submit">
             Guardar datos
           </Button>
+
         </Form>
 
       </Card.Body>
@@ -97,45 +120,6 @@ export const CreateBusiness = () => {
 
     </Container>
 
-       <div className='cotainer-loggin'>
-          <form className='user-form' onSubmit={handleSubmit}>
-              <div className='input-form'>
-                  <input 
-                      type='text' 
-                      name='gestion'
-                      onChange={handleChange}
-                      placeholder='Gestion' 
-                      className='input-text'
-                  >
-                  </input>
-              </div> 
-
-              <div className='input-form'>
-                  <Select 
-                    placeholder='Periodo' 
-                    options={periodoOptions} 
-                    className='select-color'
-                  />
-              </div> 
-
-              <div className='input-form'>
-                  <input 
-                      type='text' 
-                      name='politicaCobranza'
-                      onChange={handleChange}
-                      placeholder='Politica Cobranza' 
-                      className='input-text'
-                  >
-                  </input>
-              </div> 
-
-              <button className='button-form-login'>
-                  Crear
-              </button>
-
-          </form>
-      </div>
-    
     </>
   )
 }

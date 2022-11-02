@@ -8,7 +8,7 @@ export const ConfirmEmail = () => {
 
   const verificationEmail = async() => {
     const emailVerify = auth.currentUser;
-    if(!emailVerify.emailVerified && !verifyState){
+    if(!emailVerify.emailVerified){
       sendEmailVerification(emailVerify);
     }
   }
