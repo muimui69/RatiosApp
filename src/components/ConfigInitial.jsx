@@ -85,7 +85,7 @@ export const ConfigInitial = () => {
     if( (validInput(nombre)) && (validInput(empresa)) 
         && (validInput(politicaCobranza)) && (gestion!=='Gestion')  && (periodo!=='Periodo')
         && (validInput(ventaCredito))  && (validInput(cuentasPorCobrar))
-    ){
+    ){ 
       if(params.id){
         let newUser = user;
         newUser = ({...user,gestion,periodo});

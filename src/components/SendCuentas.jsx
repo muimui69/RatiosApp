@@ -1,6 +1,6 @@
 import { useState,useEffect } from 'react';
 import {useAuth} from '../context/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate ,useParams} from 'react-router-dom';
 import {db} from '../../firebase/FirebaseConfig';
 import { collection,onSnapshot} from 'firebase/firestore';
 
@@ -37,9 +37,9 @@ export const SendCuentas = () => {
   
   const [selectInput,setSelectInput] = useState({})
 
-  const {userAddCuentas} =useAuth();
+  const {userAddCuentas,getIdCurrentUser,userUpdateCuentas} =useAuth();
   const navigate = useNavigate();
-  const {getIdCurrentUser} = useAuth();
+  const params = useParams()
 
   const handleChange = (e) => {
     const value = e.target.value;
@@ -67,6 +67,19 @@ export const SendCuentas = () => {
     } catch (err) {
       console.log(err);
     }
+
+   /*if(params.id){
+      let newUser = user;
+      newUser = ({...user,gestion,periodo});
+      userUpdateDatabaseEmpresa(newUser,params.id);
+    }else{
+      const uid = getIdCurrentUser();
+      let newUser = user;
+      newUser = ({...user,uid,gestion,periodo});
+      userAddDatabaseEmpresa(newUser);
+    }
+    navigate('/userlist');
+*/
   };
 
   const getUserGestionPeriodo = async() => {
@@ -281,10 +294,20 @@ export const SendCuentas = () => {
 
   }
 
+  const getListByid = async(id) =>{
+    const res = await getDoc(doc(db, 'cuentas', `${id}`));
+    const userFound = params.id;
+    if(userFound){
+      //setSelectInput(res.data());
+    }else{
+      //setSelectInput(initialState);
+    }
+  }
 
   useEffect(() => {
     getUserGestionPeriodo();
-  }, [])
+    //getListByid(params.id);
+  }, [/*params.id*/])
     
   return(
     <>
@@ -324,6 +347,7 @@ export const SendCuentas = () => {
                    {renderInputs(label)}
 
                   <Button variant="primary" type="submit">
+                    {/* (params.id)? 'Editar':'Enviar datos'*/}
                     Enviar datos
                   </Button>
                 </>

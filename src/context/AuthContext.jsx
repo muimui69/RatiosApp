@@ -62,6 +62,9 @@ export const AuthProvider = ({children}) => {
     );
   }
 
+  const userUpdateCuentas = async(values,idDoc) =>{
+    await updateDoc(doc(db, 'cuentas',`${idDoc}`), values);
+  }
 
   const userUpdateDatabaseEmpresa = async(values,idDoc) =>{
     await updateDoc(doc(db, 'empresa',`${idDoc}`), values);
@@ -97,7 +100,8 @@ export const AuthProvider = ({children}) => {
         userUpdateDatabaseEmpresa,
         userAddGestionAndPeriodo,
         userAddCuentas,
-        isEmailVerifyUser
+        isEmailVerifyUser,
+        userUpdateCuentas
       }}
     > 
       {children} 
