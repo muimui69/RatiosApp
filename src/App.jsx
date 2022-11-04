@@ -6,11 +6,12 @@ import {Register} from './components/Register';
 import {ConfirmEmail} from './components/ConfirmEmail';
 import {CreateBusiness} from './components/CreateBusiness';
 import {SendCuentas} from './components/SendCuentas';
+import {RegistroCuentas} from './components/RegistroCuentas';
+import {Help} from './components/Help';
 
 // form cuerpo
 import {UserList} from './components/UserList';
 import {Heading} from './components/Heading';
-import {ConfigInitial } from './components/ConfigInitial';
 
 // global context auth
 import {AuthProvider} from './context/AuthContext';
@@ -54,6 +55,15 @@ export const App = () => {
               }
             />
 
+            <Route
+              path = '/create-business/send-cuentas/:id' 
+              element ={
+                <ProtectedRoute>
+                  <SendCuentas/>
+                </ProtectedRoute>
+              }
+            />
+
             <Route  
               path = '/confirm' 
               element={
@@ -65,29 +75,27 @@ export const App = () => {
 
             <Route path = '/register' element={<Register/>} />
             
-            <Route 
-              path = '/config' 
-              element={
-                <ProtectedRoute>
-                  <ConfigInitial/>
-                </ProtectedRoute>
-              } 
-            />
-
-            <Route 
-              path = '/config/:id' 
-              element={
-                <ProtectedRoute>
-                  <ConfigInitial/>
-                </ProtectedRoute>
-              } 
-            />
-
             <Route  
               path = '/userlist' 
               element={
               <ProtectedRoute>
                 <UserList/>
+              </ProtectedRoute>
+            }/> 
+
+            <Route  
+              path = '/see' 
+              element={
+              <ProtectedRoute>
+                <RegistroCuentas/>
+              </ProtectedRoute>
+            }/> 
+
+            <Route  
+              path = '/help' 
+              element={
+              <ProtectedRoute>
+                <Help/>
               </ProtectedRoute>
             }/> 
 

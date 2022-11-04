@@ -2,7 +2,7 @@ import { useState,useEffect } from 'react';
 import {useAuth} from '../context/AuthContext';
 import { useNavigate ,useParams} from 'react-router-dom';
 import {db} from '../../firebase/FirebaseConfig';
-import { collection,onSnapshot} from 'firebase/firestore';
+import { collection,onSnapshot,getDoc,doc} from 'firebase/firestore';
 
 //bootstrap
 import Button from 'react-bootstrap/Button';
@@ -17,7 +17,7 @@ export const SendCuentas = () => {
 
   const [gestion,setGestion]=useState([{
     value:'',
-}])
+  }])
 
   const [gestionSelect,setGestionSelect]=useState([{}])
 
@@ -36,6 +36,7 @@ export const SendCuentas = () => {
     setUserSelectGestionPeriodo] = useState({})
   
   const [selectInput,setSelectInput] = useState({})
+	const [politica,setPolitica] = useState([]);
 
   const {userAddCuentas,getIdCurrentUser,userUpdateCuentas} =useAuth();
   const navigate = useNavigate();
@@ -51,7 +52,6 @@ export const SendCuentas = () => {
         }
     });
   };
-    
 
   const handleChangeInput =  ({target:{name,value}}) => {
     setSelectInput({...selectInput,[name]:value});
@@ -60,26 +60,23 @@ export const SendCuentas = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      if(params.id){
+        await userUpdateCuentas(selectInput,params.id)
+      }else{
+        let newUser = selectInput;
+        let pol;
+        politica.map( ({gestion,politicaCobranza}) =>{
+          if(gestion===gestionSelect){
+            pol=politicaCobranza;
+          }
+        })
+        newUser = ({...selectInput,gestion:`${gestionSelect}`,periodo:`${label}`,politica:`${pol}`});
+        await userAddCuentas(newUser);
+      }
       navigate('/userlist');
-      let newUser = selectInput;
-      newUser = ({...selectInput,gestion:`${gestionSelect}`,periodo:`${label}`});
-      await userAddCuentas(newUser);
     } catch (err) {
       console.log(err);
     }
-
-   /*if(params.id){
-      let newUser = user;
-      newUser = ({...user,gestion,periodo});
-      userUpdateDatabaseEmpresa(newUser,params.id);
-    }else{
-      const uid = getIdCurrentUser();
-      let newUser = user;
-      newUser = ({...user,uid,gestion,periodo});
-      userAddDatabaseEmpresa(newUser);
-    }
-    navigate('/userlist');
-*/
   };
 
   const getUserGestionPeriodo = async() => {
@@ -92,7 +89,7 @@ export const SendCuentas = () => {
           if(uid === getIdCurrentUser()){
             gestionOptions.push(
               {value:`${gestion}`}
-            )
+            )   
             periodoOptions.push(
               {value:`${periodo}`}
             )
@@ -105,6 +102,21 @@ export const SendCuentas = () => {
       });
   };
 
+  
+  const getUserPoliticaCorbranza = async() => {
+    onSnapshot(collection(db, 'gestion-periodo'), (test) => {
+      const docs =[];
+      test.forEach( doc =>{
+        const {uid} = doc.data();
+        if(uid === getIdCurrentUser()){
+          docs.push({...doc.data()})
+        }
+      })
+      setPolitica(docs);
+    });
+  };
+
+
   const renderInputs = (periodo) =>{
 
     switch (periodo) {
@@ -115,6 +127,7 @@ export const SendCuentas = () => {
             <Form.Control 
               type='text' 
               name='enero'
+              value={ (selectInput.enero)?selectInput.enero:''}
               onChange={handleChangeInput}
               placeholder='Enero' 
               className='mb-3'
@@ -123,6 +136,7 @@ export const SendCuentas = () => {
             <Form.Control 
               type='text' 
               name='febrero'
+              value={ (selectInput.febrero)?selectInput.febrero:''}
               onChange={handleChangeInput}
               placeholder='Febrero' 
               className='mb-3'
@@ -131,6 +145,7 @@ export const SendCuentas = () => {
             <Form.Control 
               type='text' 
               name='marzo'
+              value={ (selectInput.marzo)?selectInput.marzo:''}
               onChange={ handleChangeInput}
               placeholder='Marzo' 
               className='mb-3'
@@ -139,6 +154,7 @@ export const SendCuentas = () => {
             <Form.Control 
               type='text' 
               name='abril'
+              value={ (selectInput.abril)?selectInput.abril:''}
               onChange={ handleChangeInput}
               placeholder='Abril' 
               className='mb-3'
@@ -147,6 +163,7 @@ export const SendCuentas = () => {
             <Form.Control 
               type='text' 
               name='mayo'
+              value={ (selectInput.mayo)?selectInput.mayo:''}
               onChange={ handleChangeInput}
               placeholder='Mayo' 
               className='mb-3'
@@ -155,6 +172,7 @@ export const SendCuentas = () => {
             <Form.Control 
               type='text' 
               name='junio'
+              value={ (selectInput.junio)?selectInput.junio:''}
               onChange={ handleChangeInput}
               placeholder='Junio' 
               className='mb-3'
@@ -163,6 +181,7 @@ export const SendCuentas = () => {
             <Form.Control 
               type='text' 
               name='julio'
+              value={ (selectInput.julio)?selectInput.julio:''}
               onChange={ handleChangeInput}
               placeholder='Julio' 
               className='mb-3'
@@ -171,6 +190,7 @@ export const SendCuentas = () => {
             <Form.Control 
               type='text' 
               name='agosto'
+              value={ (selectInput.agosto)?selectInput.agosto:''}
               onChange={ handleChangeInput}
               placeholder='Agosto' 
               className='mb-3'
@@ -179,6 +199,7 @@ export const SendCuentas = () => {
             <Form.Control 
               type='text' 
               name='septiembre'
+              value={ (selectInput.septiembre)?selectInput.septiembre:''}
               onChange={ handleChangeInput}
               placeholder='Septiembre' 
               className='mb-3'
@@ -187,6 +208,7 @@ export const SendCuentas = () => {
             <Form.Control 
               type='text' 
               name='octubre'
+              value={ (selectInput.octubre)?selectInput.octubre:''}
               onChange={ handleChangeInput}
               placeholder='Octubre' 
               className='mb-3'
@@ -195,6 +217,7 @@ export const SendCuentas = () => {
             <Form.Control 
               type='text' 
               name='noviembre'
+              value={ (selectInput.noviembre)?selectInput.noviembre:''}
               onChange={ handleChangeInput}
               placeholder='Noviembre' 
               className='mb-3'
@@ -203,6 +226,7 @@ export const SendCuentas = () => {
             <Form.Control 
               type='text' 
               name='diciembre'
+              value={ (selectInput.diciembre)?selectInput.diciembre:''}
               onChange={ handleChangeInput}
               placeholder='Diciembre' 
               className='mb-3'
@@ -219,7 +243,8 @@ export const SendCuentas = () => {
             <Form.Control 
               className='mb-3'
               type='text' 
-              name='1 trimestre'
+              name='primerTrimestre'
+              value={ (selectInput.primerTrimestre)?selectInput.primerTrimestre:''}
               onChange={ handleChangeInput}
               placeholder='Primer trimestre' 
             />
@@ -227,7 +252,8 @@ export const SendCuentas = () => {
             <Form.Control 
               className='mb-3'
               type='text' 
-              name='2 trimestre'
+              name='segundoTrimestre'
+              value={ (selectInput.segundoTrimestre)?selectInput.segundoTrimestre:''}
               onChange={ handleChangeInput}
               placeholder='Segundo Trimestre' 
             />
@@ -235,7 +261,8 @@ export const SendCuentas = () => {
             <Form.Control 
               className='mb-3'
               type='text' 
-              name='3 trimestre'
+              name='tercerTrimestre'
+              value={ (selectInput.tercerTrimestre)?selectInput.tercerTrimestre:''}
               onChange={ handleChangeInput}
               placeholder='Tercer Trimestre' 
             />
@@ -243,7 +270,8 @@ export const SendCuentas = () => {
             <Form.Control 
               className='mb-3'
               type='text' 
-              name='4 trimestre'
+              name='cuartoTrimestre'
+              value={ (selectInput.cuartoTrimestre)?selectInput.cuartoTrimestre:''}
               onChange={ handleChangeInput}
               placeholder='Cuarto Trimestre' 
             />
@@ -259,7 +287,8 @@ export const SendCuentas = () => {
               className="mb-3"
               type="text"   
               onChange={ handleChangeInput} 
-              name='1 semestre'
+              name='primerSemestre'
+              value={ (selectInput.primerSemestre)?selectInput.primerSemestre:''}
               placeholder="Primer semestre" 
             />
             
@@ -267,7 +296,8 @@ export const SendCuentas = () => {
               className="mb-3"
               type="text" 
               onChange={ handleChangeInput} 
-              name='2 semestre'
+              name='segundoSemestre'
+              value={ (selectInput.segundoSemestre)?selectInput.segundoSemestre:''}
               placeholder="Segundo semestre" 
             />
          </>
@@ -283,6 +313,7 @@ export const SendCuentas = () => {
               type="text"   
               onChange={ handleChangeInput} 
               name='anual'
+              value={ (selectInput.anual)?selectInput.anual:''}
               placeholder="Monto" 
             />
           </>
@@ -298,16 +329,18 @@ export const SendCuentas = () => {
     const res = await getDoc(doc(db, 'cuentas', `${id}`));
     const userFound = params.id;
     if(userFound){
-      //setSelectInput(res.data());
+      setSelectInput(res.data());
+      setIsChange(true);
     }else{
-      //setSelectInput(initialState);
+      setSelectInput(selectInput);
     }
   }
 
   useEffect(() => {
     getUserGestionPeriodo();
-    //getListByid(params.id);
-  }, [/*params.id*/])
+  	getUserPoliticaCorbranza();
+    getListByid(params.id);
+  }, [params.id])
     
   return(
     <>
@@ -324,31 +357,44 @@ export const SendCuentas = () => {
             <Form className="mb-3" onSubmit={handleSubmit} >
             
              <Form.Group className="mb-3">
-                <select name='gestion' className="form-control" onChange={handleChange}>
-                  <option value="" selected disabled  >Gestión</option>
-                  {
-                    gestion.map( ({value}) => 
-                      <option value={value}> {value} </option>
-                    )
-                  }
-                </select>
+                {
+                  (params.id)?
+                    <select name='gestion' className="form-control" onChange={handleChange}>
+                      <option value={`${selectInput.gestion}`} selected disabled>{selectInput.gestion}</option>
+                    </select>
+                  :
+                    <select name='gestion' className="form-control" onChange={handleChange}>
+                      <option value="" selected disabled  >Gestión</option>
+                      {
+                        gestion.map( ({value}) => 
+                          <option key={value} value={value}> {value} </option>
+                        )
+                      }
+                    </select>
+                }
               </Form.Group>                   
 
               { 
                 isChange &&
                 <>
-                  <Card.Header>Periodo {label} </Card.Header>
-                  <select name='tipoDeCalculo' className="form-control" onChange={handleChangeInput}>
-                    <option value='' selected disabled  >Cuenta a registrar</option>
-                    <option value='Cuentas por cobrar'>Cuentas por cobrar</option>
-                    <option value='Cuentas por pagar'>Cuentas por pagar</option>
-                  </select>
-
-                   {renderInputs(label)}
+                  <Card.Header>Periodo {selectInput.periodo} </Card.Header>
+                  
+                  {
+                    (params.id)?
+                      <select name='nombreCuenta' className="form-control" onChange={handleChangeInput}>
+                        <option value={`${selectInput.nombreCuenta}`} selected disabled  >{selectInput.nombreCuenta}</option>
+                      </select>
+                    : 
+                    <select name='nombreCuenta' className="form-control" onChange={handleChangeInput}>
+                      <option value='' selected disabled  >Cuenta a registrar</option>
+                      <option value='Cuentas por cobrar'>Cuentas por cobrar</option>
+                      <option value='Cuentas por pagar'>Cuentas por pagar</option>
+                    </select>
+                  }
+                   { (params.id)?renderInputs(selectInput.periodo):renderInputs(label)}
 
                   <Button variant="primary" type="submit">
-                    {/* (params.id)? 'Editar':'Enviar datos'*/}
-                    Enviar datos
+                    {(params.id)? 'Editar':'Enviar datos'}
                   </Button>
                 </>
               }

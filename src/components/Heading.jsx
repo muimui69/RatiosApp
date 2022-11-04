@@ -4,7 +4,6 @@ import { useAuth } from '../context/AuthContext';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
 import Button from 'react-bootstrap/Button';
 
 export const Heading = () => {
@@ -32,10 +31,12 @@ export const Heading = () => {
               <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                   <Nav className="me-auto">
-                    <Nav.Link href="/">Inicio</Nav.Link>
+                    <Nav.Link href="/userlist">Inicio</Nav.Link>
                     <Nav.Link href="/register">Registrarse</Nav.Link>
                     <Nav.Link href="/create-business">Crear Gestion</Nav.Link>
                     <Nav.Link href="/create-business/send-cuentas">Registrar Datos</Nav.Link>
+                    <Nav.Link href="/see">Ver Registros</Nav.Link>
+                    <Nav.Link href="/help">Ayuda</Nav.Link>
                     <Button variant="primary" type="submit" onClick={handleLogout}>
                       Cerrar Sesion
                     </Button>
@@ -45,36 +46,6 @@ export const Heading = () => {
           }
               </Container>
              </Navbar> 
-         
-      
-      {/*<div className='container-head'>
-      
-        { (user)?
-          <Link to='/userlist'>
-            <h5>RatiosApp</h5>
-          </Link>
-          :
-          <h5>RatiosApp</h5>
-        }
-
-        { user &&
-          <>
-          <div className='container-button'>
-              <Link to='/config'>
-                    <button className='button-calculate' >
-                      <IoMdAdd/> Agregar
-                    </button>
-              </Link>
-          </div>
-
-          <button className='button-form-signup' onClick={handleLogout}>
-           Logout
-          </button>
-          </>
-        }
-
-      </div>
-      */}
     </>
   )
 }
