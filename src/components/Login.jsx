@@ -1,13 +1,14 @@
 import { useState } from 'react';
 import {useAuth} from '../context/AuthContext';
 import {useNavigate} from 'react-router-dom';
+
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Card from 'react-bootstrap/Card';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-
+import Alert from 'react-bootstrap/Alert';
 
 export const Login = () => {
 
@@ -29,20 +30,40 @@ export const Login = () => {
     e.preventDefault();
     setError('');
     const buttonSelectId = e.nativeEvent.submitter.id;
-
     if(buttonSelectId ==='register'){
       navigate('/register');
     }else{
-
       try {
         await login(user.email,user.password);
         navigate('/userlist');
       } catch (err) {
-        console.log(err.code);
         setError(err.message);
       }
     }
   };
+
+  const errorControl = (err) =>{
+    switch (err) {
+      case 'Firebase: Error (auth/wrong-password).':
+        return(
+          <Alert className="mb-3" key='danger' variant='danger'>
+            Contraseña incorrecta
+          </Alert>
+        )
+        break;
+
+      case 'Firebase: Error (auth/user-not-found).':
+        return(
+          <Alert className="mb-3" key='danger' variant='danger'>
+             El usuario no existe
+          </Alert>
+        )
+        break;
+
+      default:
+        break;
+    }
+  }
 
   return (
   <>
@@ -65,6 +86,10 @@ export const Login = () => {
             <Form.Control type="password" name='password'   onChange={handleChange} placeholder="Contraseña" />
           </Form.Group>
  
+          {
+            errorControl(error)
+          }
+
           <Button variant="primary" id='login' type="submit">
             Entrar
           </Button>

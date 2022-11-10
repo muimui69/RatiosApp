@@ -11,7 +11,7 @@ import Card from 'react-bootstrap/Card';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-
+import Alert from 'react-bootstrap/Alert';
 
 export const SendCuentas = () => {
 
@@ -20,7 +20,6 @@ export const SendCuentas = () => {
   }])
 
   const [gestionSelect,setGestionSelect]=useState([{}])
-
 
   const [periodo,setPeriodo]=useState([{
     value:'',
@@ -35,10 +34,11 @@ export const SendCuentas = () => {
     userSelectGestionPeriodo,
     setUserSelectGestionPeriodo] = useState({})
   
-  const [selectInput,setSelectInput] = useState({})
+  const [selectInput,setSelectInput] = useState({})  
 	const [politica,setPolitica] = useState([]);
+  const [controlCuenta,setControlCuenta] = useState([{}]);
 
-  const {userAddCuentas,getIdCurrentUser,userUpdateCuentas} =useAuth();
+  const {userAddCuentas,getIdCurrentUser,userUpdateCuentas,userAddBool, boolCuenta} =useAuth();
   const navigate = useNavigate();
   const params = useParams()
 
@@ -52,13 +52,30 @@ export const SendCuentas = () => {
         }
     });
   };
-
+  
   const handleChangeInput =  ({target:{name,value}}) => {
-    setSelectInput({...selectInput,[name]:value});
+    setSelectInput(
+      {...selectInput, [name]:value }   
+    );
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const nombreCuenta = e.target[1].value;
+    if(nombreCuenta==='cuentasPorCobrar'){
+      const cuentas = ({
+        cuentasPorCobrar:true,
+      });
+      await userAddBool({...cuentas,gestion:`${gestionSelect}`,nombreCuenta});
+    }
+
+    if(nombreCuenta==='ventasAlCredito'){
+      const cuentas = ({
+        ventasAlCredito:true,
+      });
+      await userAddBool({...cuentas,gestion:`${gestionSelect}`,nombreCuenta});
+    }
+
     try {
       if(params.id){
         await userUpdateCuentas(selectInput,params.id)
@@ -67,7 +84,7 @@ export const SendCuentas = () => {
         let pol;
         politica.map( ({gestion,politicaCobranza}) =>{
           if(gestion===gestionSelect){
-            pol=politicaCobranza;
+            pol = politicaCobranza;
           }
         })
         newUser = ({...selectInput,gestion:`${gestionSelect}`,periodo:`${label}`,politica:`${pol}`});
@@ -101,7 +118,6 @@ export const SendCuentas = () => {
         setUserSelectGestionPeriodo(docs);
       });
   };
-
   
   const getUserPoliticaCorbranza = async() => {
     onSnapshot(collection(db, 'gestion-periodo'), (test) => {
@@ -115,7 +131,6 @@ export const SendCuentas = () => {
       setPolitica(docs);
     });
   };
-
 
   const renderInputs = (periodo) =>{
 
@@ -336,6 +351,103 @@ export const SendCuentas = () => {
     }
   }
 
+  const getObject = (vectorBool) =>{
+
+    let newChange = ({
+      cuentasPorCobrar:false,
+      ventasAlCredito:false
+    })
+
+    vectorBool.forEach( ({ventasAlCredito,cuentasPorCobrar,gestion}) => {
+      if(gestion===gestionSelect){
+        if(cuentasPorCobrar){
+          newChange = ({...newChange,cuentasPorCobrar})
+        }else{
+          newChange = ({...newChange,ventasAlCredito})
+        }
+      }
+    })
+
+    const {ventasAlCredito,cuentasPorCobrar} = newChange;
+ 
+      if(cuentasPorCobrar && ventasAlCredito){
+        return (
+          <>
+            <select name='nombreCuenta' className="form-control" onChange={handleChangeInput}>
+                <option value='' selected disabled  >Cuenta a registrar</option>
+                <option value='' selected disabled >Cuentas por cobrar</option>
+                <option value='' selected disabled >Ventas al credito</option>
+              </select>
+          </>
+        );
+      }
+
+      if(!cuentasPorCobrar && !ventasAlCredito){
+        return (
+          <>
+            <select name='nombreCuenta' className="form-control" onChange={handleChangeInput}>
+              <option value='' selected disabled  >Cuenta a registrar</option>
+              <option value='cuentasPorCobrar'>Cuentas por cobrar</option>
+              <option value='ventasAlCredito'>Ventas al credito</option>
+            </select>
+          </>
+        );
+      }
+
+
+      if(cuentasPorCobrar){
+        return(
+          <>
+            <select name='nombreCuenta' className="form-control" onChange={handleChangeInput}>
+              <option value='' selected disabled  >Cuenta a registrar</option>
+              <option value='' selected disabled >Cuentas por cobrar</option>
+              <option value='ventasAlCredito'>Ventas al credito</option>
+            </select>
+          </>
+        )
+      }
+
+      if(ventasAlCredito){
+        return(
+          <>
+            <select name='nombreCuenta' className="form-control" onChange={handleChangeInput}>
+              <option value='' selected disabled  >Cuenta a registrar</option>
+              <option value='cuentasPorCobrar' >Cuentas por cobrar</option>
+              <option value='' selected disabled >Ventas al credito</option>
+            </select>
+          </>
+        )
+      }
+
+  }
+
+  const getValid = (vectorBool) =>{
+
+    let newChange = ({
+      cuentasPorCobrar:false,
+      ventasAlCredito:false
+    })
+
+    vectorBool.forEach( ({ventasAlCredito,cuentasPorCobrar,gestion}) => {
+      if(gestion===gestionSelect){
+        if(cuentasPorCobrar){
+          newChange = ({...newChange,cuentasPorCobrar})
+        }else{
+          newChange = ({...newChange,ventasAlCredito})
+        }
+      }
+    })
+
+    const {ventasAlCredito,cuentasPorCobrar} = newChange;
+
+    if(cuentasPorCobrar  && ventasAlCredito){
+      return true;
+    }else{
+      return false;
+    }
+
+  }
+ 
   useEffect(() => {
     getUserGestionPeriodo();
   	getUserPoliticaCorbranza();
@@ -377,7 +489,13 @@ export const SendCuentas = () => {
               { 
                 isChange &&
                 <>
-                  <Card.Header>Periodo {selectInput.periodo} </Card.Header>
+
+                  {
+                    (params.id)?
+                     <Card.Header>Periodo {selectInput.periodo} </Card.Header>
+                    :
+                     <Card.Header>Periodo {label} </Card.Header>
+                  }
                   
                   {
                     (params.id)?
@@ -385,17 +503,30 @@ export const SendCuentas = () => {
                         <option value={`${selectInput.nombreCuenta}`} selected disabled  >{selectInput.nombreCuenta}</option>
                       </select>
                     : 
-                    <select name='nombreCuenta' className="form-control" onChange={handleChangeInput}>
-                      <option value='' selected disabled  >Cuenta a registrar</option>
-                      <option value='Cuentas por cobrar'>Cuentas por cobrar</option>
-                      <option value='Cuentas por pagar'>Cuentas por pagar</option>
-                    </select>
+                      getObject(boolCuenta)
                   }
-                   { (params.id)?renderInputs(selectInput.periodo):renderInputs(label)}
-
-                  <Button variant="primary" type="submit">
-                    {(params.id)? 'Editar':'Enviar datos'}
-                  </Button>
+                    
+                  {
+                    (getValid(boolCuenta))?
+                      <>
+                        <br/>
+                        <Alert key='success' variant='success'>
+                          Usted ya ha registrado las cuentas de esta gestion.
+                        </Alert>
+                      </>
+                    :
+                      <>
+                        { 
+                          (params.id)?
+                            renderInputs(selectInput.periodo)
+                          :
+                          renderInputs(label)
+                        }
+                        <Button variant="primary" type="submit">
+                          {(params.id)? 'Editar':'Enviar datos'}
+                        </Button>
+                      </>
+                  }
                 </>
               }
 

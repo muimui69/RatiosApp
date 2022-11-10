@@ -1,5 +1,3 @@
-import { Link } from 'react-router-dom';
-import { IoMdAdd } from 'react-icons/io';
 import { useAuth } from '../context/AuthContext';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
@@ -18,17 +16,11 @@ export const Heading = () => {
     <>
             <Navbar bg="light" expand="lg">
             <Container>
-               {
-                (user)?
-                <Navbar.Brand  href="/userlist">Ratios financieros</Navbar.Brand>
-                :
-                <Navbar.Brand href="">Ratios financieros</Navbar.Brand>
-               }
+            <Navbar.Brand href='/'>Ratios financieros</Navbar.Brand>
               {
                 user &&
                <>
-
-              <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                   <Nav className="me-auto">
                     <Nav.Link href="/userlist">Inicio</Nav.Link>
