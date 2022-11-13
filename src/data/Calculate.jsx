@@ -46,25 +46,53 @@ export const Calculate = () => {
         let cuentas = ({
           ratioRotacionCuentasPorCobrar:true,
         });
-        await userAddBool({...cuentas,gestion:`${gestionSelect}`,nombreCuenta});
+        await userAddBool({...cuentas,gestion:`${gestionSelect}`,nombreCuenta:`${cuenta}`});
         break;
     
       case 'ratioPeriodoPromedioDeCobro':
         let cuentas2 = ({
           ratioPeriodoPromedioDeCobro:true,
         });
-        await userAddBool({...cuentas2,gestion:`${gestionSelect}`,nombreCuenta});
+        await userAddBool({...cuentas2,gestion:`${gestionSelect}`,nombreCuenta:`${cuenta}`});
       break;
       default:
         break;
     }
   }
 
+  const transformDataCalculate = (data)=>{
+    const vecTest1 = data[0].nombreCuenta;
+    const vecTest2 = data[1].nombreCuenta;
+    let cuentasPorCobrar = ({})
+    let ventasAlCredito = ({})
+
+    if(vecTest1==='cuentasPorCobrar'){
+      cuentasPorCobrar=({...data[0]})
+    }else{
+      if(vecTest2==='cuentasPorCobrar'){
+        cuentasPorCobrar=({...data[1]})
+      }
+    }
+
+    if(vecTest1==='ventasAlCredito'){
+      ventasAlCredito=({...data[0]})
+    }else{
+      if(vecTest2==='ventasAlCredito'){
+        ventasAlCredito=({...data[1]})
+      }
+    }
+   
+    return ({
+      cuentasPorCobrar,
+      ventasAlCredito
+    })
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const nombreCuenta = e.target[1].value;
-    const resultado = calculateUser(nombreCuenta,dataCalculate[0].periodo,dataCalculate);
-    
+    const trans = transformDataCalculate(dataCalculate);
+    const resultado = calculateUser(nombreCuenta,dataCalculate[0].periodo,trans.cuentasPorCobrar,trans.ventasAlCredito);
     const gestion = dataCalculate[0].gestion;
     const uid = dataCalculate[0].uid;
     const values = ({
@@ -74,6 +102,7 @@ export const Calculate = () => {
     })
     await userAddCuentasOfGestion({...values});
     await sendBool(nombreCuenta);
+    navigate('/userlist')
   };
 
 
@@ -225,15 +254,15 @@ export const Calculate = () => {
       <Row className="justify-content-md-center">
         <Col sm lg="4">
         <Card className="text-center xs" >
-      <Card.Header>Iniciar sesión</Card.Header>
+      <Card.Header>Realizar un calculo</Card.Header>
       <Card.Body>
-        <Card.Title>Ingrese sus datos</Card.Title>
+        <Card.Title>Seleccione la gestion</Card.Title>
 
         <Form className="mb-3" onSubmit={handleSubmit}>
 
           <Form.Group className="mb-3">
             <select name='gestion' className="form-control" onChange={handleChangeGestion}>
-              <option value="" selected disabled>Seleccione la gestion</option>
+              <option value="" selected disabled>Gestion</option>
               {
                 gestionCurrent.map( ({gestion}) => 
                   <option key={gestion} value={gestion}> {gestion} </option>

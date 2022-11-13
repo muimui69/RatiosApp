@@ -16,7 +16,7 @@ export const SendCuentas = () => {
   //estados para el manejo de datos a la hora de guardar
   const [gestionSelect,setGestionSelect]=useState([{}])
   const [label,setLabel]=useState('');
-  const [selectInput,setSelectInput] = useState([{}])  
+  const [selectInput,setSelectInput] = useState([])  
 
 
   const [isChange,setIsChange]=useState(false);
@@ -78,14 +78,14 @@ export const SendCuentas = () => {
           let cuentas = ({
             cuentasPorCobrar:true,
           });
-          await userAddBool({...cuentas,gestion:`${gestionSelect}`,nombreCuenta});
+          await userAddBool({...cuentas,gestion:`${gestionSelect}`,nombreCuenta:`${cuenta}`});
           break;
       
         case 'ventasAlCredito':
           let cuentas2 = ({
             ventasAlCredito:true,
           });
-          await userAddBool({...cuentas2,gestion:`${gestionSelect}`,nombreCuenta});
+          await userAddBool({...cuentas2,gestion:`${gestionSelect}`,nombreCuenta:`${cuenta}`});
         break;
         default:
           break;
@@ -551,7 +551,7 @@ export const SendCuentas = () => {
     }
   }
 
-  const getObject = (vectorBool) =>{
+  const  getObject = (vectorBool) =>{
     let newChange = ({
       cuentasPorCobrar:false,
       ventasAlCredito:false

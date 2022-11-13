@@ -1,34 +1,36 @@
 import {useAuth} from '../context/AuthContext';
-import {auth} from '../../firebase/FirebaseConfig';
 import { sendEmailVerification} from 'firebase/auth';
 import { useEffect} from 'react';
 
 export const ConfirmEmail = () => {
-  const {user,logout} = useAuth();
-
-  const verificationEmail = async() => {
-    const emailVerify = auth.currentUser;
-    if(!emailVerify.emailVerified){
-      sendEmailVerification(emailVerify);
-    }
-  }
-
-  const isEmailVerifyUser = () =>{
-    return auth.currentUser.emailVerified;
-  }
+  const {user,logout,isEmailVerifyUser,boolVerificationEmail, userAddVerificationEmail} = useAuth();
   
   const handleLogout = async ()=>{  
     await logout();
   }
-  
+
+  const sendOn = async()=>{
+    const response = await boolVerificationEmail;
+    if(!response){
+      await sendEmailVerification(user);
+      const values = ({
+        uid:`${user.uid}`,
+        verification:true
+      })      
+      await userAddVerificationEmail(values)
+    }
+  }
+
+  console.log(boolVerificationEmail)
+
   useEffect(() => {
     const verify = isEmailVerifyUser();
     if(verify){
       handleLogout();
     }else{
-      //verificationEmail();
+      sendOn();
     }
-  }, [])
+  }, [user])
 
   return (
     <>

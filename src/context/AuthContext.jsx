@@ -33,7 +33,8 @@ export const AuthProvider = ({children}) => {
   const [gestionCurrent,setGestionCurrent] = useState([{}]);
   const [boolCalculate,setBoolCalculate] = useState([{}]);
   const [dataCalculate,setDataCalculate] = useState([{}]);
-
+  const [boolVerificationEmail,setBoolVerificationEmail] = useState(false);  
+      
   const signup = async(email,password) => createUserWithEmailAndPassword(auth,email,password);
 
   const login = async(email,password) => signInWithEmailAndPassword(auth,email,password);
@@ -74,6 +75,13 @@ export const AuthProvider = ({children}) => {
     await addDoc( 
       collection( db ,'bool-calculate') , 
       ({...values,uid})
+    );
+  }
+
+  const userAddVerificationEmail = async(values)=>{
+    await addDoc( 
+      collection( db ,'bool-verify') , 
+      ({...values})
     );
   }
 
@@ -146,7 +154,7 @@ export const AuthProvider = ({children}) => {
       setBoolCalculate(docsCalculate);
     });
   };
-  
+
   const getUserCounts = async() => {
     onSnapshot(collection(db, 'cuentas'), (test) => {
       const docs =[];
@@ -191,10 +199,23 @@ export const AuthProvider = ({children}) => {
   }
 
   const getIdCurrentUser = () =>{
-    const uid = auth.currentUser.uid;
-    return uid;
+    if(auth!==null){
+      const uid = auth.currentUser.uid;
+      return uid;
+    }
   }
   
+  const getBoolVerificationEmail = async()=>{
+    onSnapshot(collection(db, 'bool-verify'), (test) => {
+      test.forEach( doc =>{
+        const {uid,verification} = doc.data();
+        if(uid === getIdCurrentUser()){
+          setBoolVerificationEmail(verification);
+        }
+      })
+    });
+  }
+
   const isEmailVerifyUser = () =>{
     return auth.currentUser.emailVerified;
   }
@@ -203,6 +224,7 @@ export const AuthProvider = ({children}) => {
     onAuthStateChanged( auth , currentUser =>{
       setUser(currentUser);
       setLoading(false);
+      getBoolVerificationEmail();
     });
     getUserBoolCuentas();
     getUserCounts();
@@ -232,7 +254,9 @@ export const AuthProvider = ({children}) => {
         onDeleteList,
         getCuentasOfGestion ,
         dataCalculate,
-        userAddCuentasOfGestion
+        userAddCuentasOfGestion,
+        userAddVerificationEmail,
+        boolVerificationEmail
       }}
     > 
       {children} 
