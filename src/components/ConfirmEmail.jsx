@@ -3,9 +3,8 @@ import {auth} from '../../firebase/FirebaseConfig';
 import { sendEmailVerification} from 'firebase/auth';
 import { useEffect} from 'react';
 
-
 export const ConfirmEmail = () => {
-  const {user,loading,logout} = useAuth();
+  const {user,logout} = useAuth();
 
   const verificationEmail = async() => {
     const emailVerify = auth.currentUser;
@@ -31,12 +30,10 @@ export const ConfirmEmail = () => {
     }
   }, [])
 
-  if (loading) return <h1>cargando....</h1>
-
   return (
     <>
       { (isEmailVerifyUser())?
-          <h1>Refirigiendo...</h1>
+          <h1>Redirigiendo...</h1>
         :
         <>
           <h1>Bienvenido {user.email}</h1>

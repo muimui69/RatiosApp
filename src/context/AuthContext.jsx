@@ -14,7 +14,7 @@ import {
 
 import {auth,db} from '../../firebase/FirebaseConfig';
 
-import { collection,doc,setDoc,addDoc, updateDoc,onSnapshot} from 'firebase/firestore';
+import { collection,doc,setDoc,addDoc,getDoc, updateDoc,onSnapshot,deleteDoc} from 'firebase/firestore';
 
 export const authContext = createContext();
 
@@ -31,7 +31,9 @@ export const AuthProvider = ({children}) => {
   const [boolCuenta,setBoolCuenta] = useState([{}]);
   const [userCounts,setUserCounts] = useState([{}]);
   const [gestionCurrent,setGestionCurrent] = useState([{}]);
- 
+  const [boolCalculate,setBoolCalculate] = useState([{}]);
+  const [dataCalculate,setDataCalculate] = useState([{}]);
+
   const signup = async(email,password) => createUserWithEmailAndPassword(auth,email,password);
 
   const login = async(email,password) => signInWithEmailAndPassword(auth,email,password);
@@ -42,13 +44,6 @@ export const AuthProvider = ({children}) => {
     const uid = auth.currentUser.uid;
     await setDoc(doc(db, 'user',`${uid}`), values); 
   };
-
-  const userAddDatabaseEmpresa = async(values) =>{
-    await addDoc( 
-      collection( db ,'empresa') , 
-      (values)
-    );
-  }
 
   const userAddGestionAndPeriodo = async(values) =>{
     const uid = auth.currentUser.uid;
@@ -74,6 +69,58 @@ export const AuthProvider = ({children}) => {
     );
   }
 
+  const userAddCuentasOfGestion = async(values) =>{
+    const uid = auth.currentUser.uid;
+    await addDoc( 
+      collection( db ,'bool-calculate') , 
+      ({...values,uid})
+    );
+  }
+
+  const userCountsDelete = async(gestionDelete) => {
+    onSnapshot(collection(db, 'cuentas'), (test) => {
+      const uidCurrent = auth.currentUser.uid;
+      test.forEach( docElement =>{
+          const {uid,gestion} = docElement.data();
+          if(uid === uidCurrent ){
+            if(gestion===gestionDelete){
+              deleteDoc(doc(db, 'cuentas',`${docElement.id}`));
+            }
+          }
+      })
+    });
+  };
+
+  const userBoolDelete = async(gestionDelete) => {
+    onSnapshot(collection(db, 'bool-cuenta'), (test) => {
+      const uidCurrent = auth.currentUser.uid;
+      test.forEach( docElement =>{
+          const {uid,gestion} = docElement.data();
+          if(uid === uidCurrent ){
+            if(gestion===gestionDelete){
+              deleteDoc(doc(db, 'bool-cuenta',`${docElement.id}`));
+            }
+          }
+      })
+    });
+  };
+
+  const onDeleteList = async(id,gestionDelete) =>{
+    onSnapshot(collection(db, 'gestion-periodo'), (test) => {
+      const uidCurrent = auth.currentUser.uid;
+      test.forEach( docElement =>{
+        const {uid,gestion} = docElement.data();
+        if(uid === uidCurrent){
+          if(gestion===gestionDelete){
+            deleteDoc(doc(db, 'gestion-periodo',`${id}`));
+            userCountsDelete(gestionDelete);
+            userBoolDelete(gestionDelete);
+          }
+        }
+      })
+    });
+  }
+
   const getUserBoolCuentas = async() => {
     onSnapshot(collection(db, 'bool-cuenta'), (test) => {
       const docsCuenta =[];
@@ -84,6 +131,19 @@ export const AuthProvider = ({children}) => {
         }
       })
       setBoolCuenta(docsCuenta);
+    });
+  };
+
+  const getUserBoolCalculate = async() => {
+    onSnapshot(collection(db, 'bool-calculate'), (test) => {
+      const docsCalculate =[];
+      test.forEach( doc =>{
+        const {uid} = doc.data();
+        if(uid === getIdCurrentUser()){
+          docsCalculate.push({...doc.data()})
+        }
+      })
+      setBoolCalculate(docsCalculate);
     });
   };
   
@@ -115,12 +175,19 @@ export const AuthProvider = ({children}) => {
 		});
  	};
 
-  const userUpdateCuentas = async(values,idDoc) =>{
-    await updateDoc(doc(db, 'cuentas',`${idDoc}`), values);
+  const getCuentasOfGestion = async(gestionCalculate) =>{
+    const docs = [];
+    userCounts.map( docCalculate=>{
+      const {gestion} = docCalculate;
+      if(gestion===gestionCalculate){
+        docs.push({...docCalculate})
+      }
+    })
+    setDataCalculate(docs);
   }
 
-  const userUpdateDatabaseEmpresa = async(values,idDoc) =>{
-    await updateDoc(doc(db, 'empresa',`${idDoc}`), values);
+  const userUpdateCuentas = async(values,idDoc) =>{
+    await updateDoc(doc(db, 'cuentas',`${idDoc}`), values);
   }
 
   const getIdCurrentUser = () =>{
@@ -140,6 +207,7 @@ export const AuthProvider = ({children}) => {
     getUserBoolCuentas();
     getUserCounts();
     getGestionPeriodo();
+    getUserBoolCalculate();
   },[]);
 
   return (
@@ -152,16 +220,19 @@ export const AuthProvider = ({children}) => {
         loading,
         getIdCurrentUser,
         userAddDatabase,
-        userAddDatabaseEmpresa,
-        userUpdateDatabaseEmpresa,
         userAddGestionAndPeriodo,
         userAddCuentas,
         isEmailVerifyUser,
         userUpdateCuentas,
         userAddBool,
         boolCuenta,
+        boolCalculate,
         userCounts,
-        gestionCurrent
+        gestionCurrent,
+        onDeleteList,
+        getCuentasOfGestion ,
+        dataCalculate,
+        userAddCuentasOfGestion
       }}
     > 
       {children} 

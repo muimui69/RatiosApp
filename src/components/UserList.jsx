@@ -15,25 +15,21 @@ import Alert from 'react-bootstrap/Alert';
 
 export const UserList = () => {
 
-	const {gestionCurrent} = useAuth();
+	const {gestionCurrent,onDeleteList} = useAuth();
 	const navigate = useNavigate();
-
-	const onDeleteList = async(id) =>{
-   	   await deleteDoc(doc(db, 'cuentas',`${id}`));
-  	}
 
 	const onRedirect = (id) =>{
 		navigate(`/create-business/send-cuentas/${id}`);
 	}
-  
 	
 	return (
 		<>
 			{	
-				//(gestionCurrent.length===0)?
-				//	<h1>Aun no se han creado gestiones...</h1>
-				//:
-						<div>
+				(gestionCurrent.length===0)?
+					<h1>Aun no se han creado gestiones...</h1>
+				:
+					gestionCurrent.map( ({id,gestion,periodo,politicaCobranza,ratioDeRotaciónDeCuentasPorCobrar,ratioDePeriodoPromedioDeCobro}) => 
+						<div key={id}>
 							<br/>
 								<Container>
 									<Card className="xs" >
@@ -41,7 +37,7 @@ export const UserList = () => {
 										<Card.Header>
 												<Row>
 													<Col>
-														GESTION 2090
+														GESTION {gestion}
 													</Col>
 
 													<Col>
@@ -50,7 +46,7 @@ export const UserList = () => {
 															Editar
 														</Button>
 
-														<Button variant="danger" type="submit" onClick={()=>onDeleteList(id)}>
+														<Button variant="danger" type="submit" onClick={()=>onDeleteList(id,gestion)}>
 															Eliminar
 														</Button>
 													</Col>
@@ -60,67 +56,73 @@ export const UserList = () => {
 										
 										
 										<Card.Body>
-											<Card.Title>Periodo anual - Plazo de deuda 999 días</Card.Title>
+											<Card.Title>Periodo {periodo} - Plazo de deuda {politicaCobranza} días</Card.Title>
 											
-											<Alert variant='dark'>
-												Aun no se han realizado <b>ningun calculo</b>
-											</Alert>
+											{
+												(!ratioDeRotaciónDeCuentasPorCobrar && !ratioDePeriodoPromedioDeCobro)?
+													<Alert variant='dark'>
+														Aun no se han realizado <b>ningun calculo</b>
+													</Alert>
+												:
+												<>
+													<Row>
+														<Col>
+															<Badge pill bg="dark">
+																Ratio de rotación de cuentas por cobrar
+															</Badge>
 
-											<Row>
-												<Col>
-													<Badge pill bg="dark">
-														Ratio de rotación de cuentas por cobrar
-													</Badge>
+															<Col>
+																formula
+															</Col>
+															<br/>
+														</Col>
 
-													<Col>
-														asd
-													</Col>
-													<br/>
-												</Col>
+														<Col>
+															<Badge pill text='dark' bg="warning">
+																Interpretacion
+															</Badge>
 
-												<Col>
-													<Badge pill text='dark' bg="warning">
-														Interpretacion
-													</Badge>
+															<Col>
+																inter
+															</Col>
+															<br/>
+														</Col>
 
-													<Col>
-														asd
-													</Col>
-													<br/>
-												</Col>
+													</Row>
 
-											</Row>
+													<Row>
+														<Col>
+															<Badge pill bg="dark" >
+																Ratio de periodo promedio de cobro
+															</Badge>
+															
+															<Col>
+																form
+															</Col>
+															<br/>
+														</Col>
 
-											<Row>
-												<Col>
-													<Badge pill bg="dark" >
-														Ratio de periodo promedio de cobro
-													</Badge>
-													
-													<Col>
-														asd
-													</Col>
-													<br/>
-												</Col>
+														<Col>
+															<Badge pill text='dark' bg="warning">
+																Interpretacion
+															</Badge>
 
-												<Col>
-													<Badge pill text='dark' bg="warning">
-														Interpretacion
-													</Badge>
+															<Col>
+																inter
+															</Col>
+															<br/>
+														</Col>
 
-													<Col>
-														asd
-													</Col>
-													<br/>
-												</Col>
-
-											</Row> 
-										</Card.Body>
+													</Row>
+												</>
+											}
+											</Card.Body>
 										<Card.Footer className="text-muted"></Card.Footer>
 									</Card>
 								</Container>
 						</div>
-			}	
+					)
+				}	
 				
 		</>
 	)

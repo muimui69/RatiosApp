@@ -7,7 +7,8 @@ import {ConfirmEmail} from './components/ConfirmEmail';
 import {CreateBusiness} from './components/CreateBusiness';
 import {SendCuentas} from './components/SendCuentas';
 import {RegistroCuentas} from './components/RegistroCuentas';
-import {Help} from './components/Help';
+import {About} from './components/About';
+import { Calculate } from './data/Calculate';
 
 // form cuerpo
 import {UserList} from './components/UserList';
@@ -95,7 +96,15 @@ export const App = () => {
               path = '/help' 
               element={
               <ProtectedRoute>
-                <Help/>
+                <About/>
+              </ProtectedRoute>
+            }/> 
+
+            <Route  
+              path = '/userlist/calculate' 
+              element={
+              <ProtectedRoute>
+                <Calculate/>
               </ProtectedRoute>
             }/> 
 

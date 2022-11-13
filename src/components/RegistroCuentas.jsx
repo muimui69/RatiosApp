@@ -32,6 +32,7 @@ export const RegistroCuentas = () => {
 	} 
 
 	const getListFormat = (data) =>{
+		//console.log('recived...');
 		const format = [];
 		const context = [];
 

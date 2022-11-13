@@ -14,7 +14,9 @@ export const CreateBusiness = () => {
   const [gestionAndPeriodo,setGestionAndPeriodo] = useState({
     gestion:'',
     periodo:'',
-    politicaCobranza:''    
+    politicaCobranza:'', 
+    ratioDeRotaciónDeCuentasPorCobrar:false,
+    ratioDePeriodoPromedioDeCobro:false  
   });
   
   const validInput = (input) => {
@@ -24,7 +26,7 @@ export const CreateBusiness = () => {
     return false;
   }
 
-  const {userAddGestionAndPeriodo} =useAuth();
+  const {userAddGestionAndPeriodo,userAddCalculate} =useAuth();
   const navigate = useNavigate();
 
   const handleChange = ({target:{name,value}}) => {

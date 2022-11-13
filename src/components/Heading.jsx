@@ -14,7 +14,7 @@ export const Heading = () => {
   
   return (
     <>
-            <Navbar bg="light" expand="lg">
+            <Navbar  bg="light" expand="lg">
             <Container>
             <Navbar.Brand href='/'>Ratios financieros</Navbar.Brand>
               {
@@ -28,6 +28,7 @@ export const Heading = () => {
                     <Nav.Link href="/create-business">Crear Gestion</Nav.Link>
                     <Nav.Link href="/create-business/send-cuentas">Registrar Datos</Nav.Link>
                     <Nav.Link href="/see">Ver Registros</Nav.Link>
+                    <Nav.Link href="/userlist/calculate">Realizar un calculo</Nav.Link>
                     <Nav.Link href="/help">Ayuda</Nav.Link>
                     <Button variant="primary" type="submit" onClick={handleLogout}>
                       Cerrar Sesion

@@ -1,36 +1,74 @@
-const ratioRotacionCuentasPorCobrar = () =>{
+export const calculateUser = (tipoCalculo,periodo,data) =>{
+    switch (tipoCalculo) {
+        case 'ratioRotacionCuentasPorCobrar':
+            return ratioRotacionCuentasPorCobrar(data,periodo);
+            break;
     
-    const x = cuentasPorCobrar/CuentasPorPagar 
-}
-
-
-export const calculateCuentas = (cuentasPorCobrar,cuentasPorPagar,periodo,tipoCalculo) => {
-
-    if( cuentasPorCobrar>0 && cuentasPorPagar>0){
-        
-        switch (periodo) {
-            case 'Anual':
-                
+        case 'ratioPeriodoPromedioDeCobro':
+            return ratioPeriodoPromedioDeCobro(data,periodo);
             break;
         
-            case 'Semestral':
-            
-            break;
-        
-            case 'Trimestral':
-        
-            break;
-        
-            case 'Mensual':
-        
-            break;
-        
-            default:
-                break;
-        }
-
+        default:
+        break;
     }
 }
+
+const ratioRotacionCuentasPorCobrar = (data,periodo) =>{
+    switch (periodo) {
+        case 'Anual':
+            let {anual} = data;
+
+            break;
+
+        case 'Semestral':
+            let {primerSemestre,segundoSemestre} = data;
+
+            break;
+            
+        case 'Trimestral':
+            let {primerTrimestre,segundoTrimestre,tercerTrimestre,cuartoTrimestre} = data;
+            
+            break;
+
+        case 'Mensual':
+            let {enero,febrero,marzo,abril,mayo,junio,
+                julio,agosto,septiembre,octubre,noviembre,diciembre} = data;
+
+            break;
+
+        default:
+            break;
+    } 
+}
+
+const ratioPeriodoPromedioDeCobro = (data,periodo) =>{
+    switch (periodo) {
+        case 'Anual':
+            let {anual} = data;
+
+            break;
+
+        case 'Semestral':
+            let {primerSemestre,segundoSemestre} = data;
+
+            break;
+            
+        case 'Trimestral':
+            let {primerTrimestre,segundoTrimestre,tercerTrimestre,cuartoTrimestre} = data;
+            
+            break;
+
+        case 'Mensual':
+            let {enero,febrero,marzo,abril,mayo,junio,
+                julio,agosto,septiembre,octubre,noviembre,diciembre} = data;
+
+            break;
+
+        default:
+            break;
+    } 
+}
+
 
 
 
