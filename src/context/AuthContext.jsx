@@ -113,6 +113,20 @@ export const AuthProvider = ({children}) => {
     });
   };
 
+  const userBoolDeleteCalculate = async(gestionDelete) => {
+    onSnapshot(collection(db, 'bool-calculate'), (test) => {
+      const uidCurrent = auth.currentUser.uid;
+      test.forEach( docElement =>{
+          const {uid,gestion} = docElement.data();
+          if(uid === uidCurrent ){
+            if(gestion===gestionDelete){
+              deleteDoc(doc(db, 'bool-calculate',`${docElement.id}`));
+            }
+          }
+      })
+    });
+  };
+
   const onDeleteList = async(id,gestionDelete) =>{
     onSnapshot(collection(db, 'gestion-periodo'), (test) => {
       const uidCurrent = auth.currentUser.uid;
@@ -123,6 +137,7 @@ export const AuthProvider = ({children}) => {
             deleteDoc(doc(db, 'gestion-periodo',`${id}`));
             userCountsDelete(gestionDelete);
             userBoolDelete(gestionDelete);
+            userBoolDeleteCalculate(gestionDelete);
           }
         }
       })
@@ -198,6 +213,10 @@ export const AuthProvider = ({children}) => {
     await updateDoc(doc(db, 'cuentas',`${idDoc}`), values);
   }
 
+  const userUpdateGestionCalculate = async(values,idDoc) =>{
+    await updateDoc(doc(db, 'gestion-periodo',`${idDoc}`), values);
+  }
+
   const getIdCurrentUser = () =>{
     if(auth!==null){
       const uid = auth.currentUser.uid;
@@ -256,7 +275,8 @@ export const AuthProvider = ({children}) => {
         dataCalculate,
         userAddCuentasOfGestion,
         userAddVerificationEmail,
-        boolVerificationEmail
+        boolVerificationEmail,
+        userUpdateGestionCalculate
       }}
     > 
       {children} 

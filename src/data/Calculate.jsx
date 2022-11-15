@@ -18,9 +18,10 @@ export const Calculate = () => {
     selectCalculate:''
   });
  
-  const {gestionCurrent,boolCalculate,boolCuenta,getCuentasOfGestion,dataCalculate,userAddCuentasOfGestion} = useAuth();
+  const {gestionCurrent,boolCalculate,boolCuenta,getCuentasOfGestion,dataCalculate,userAddCuentasOfGestion,userUpdateGestionCalculate} = useAuth();
  
   const [isChange,setIsChange] = useState(false); 
+  const [updateDoc,setUpdateDoc] = useState(); 
   const [gestionSelect,setGestionSelect]=useState([{}])
 
   const navigate = useNavigate();
@@ -29,9 +30,11 @@ export const Calculate = () => {
     const value = e.target.value;
     setGestionSelect(value);
     await getCuentasOfGestion(value);
-    gestionCurrent.map( ({gestion}) =>{
+    gestionCurrent.map( doc =>{
+      const {gestion} = doc;
       if(value===gestion){
         setIsChange(true);
+        setUpdateDoc(doc);
       }
     });
   }
@@ -46,14 +49,14 @@ export const Calculate = () => {
         let cuentas = ({
           ratioRotacionCuentasPorCobrar:true,
         });
-        await userAddBool({...cuentas,gestion:`${gestionSelect}`,nombreCuenta:`${cuenta}`});
+        await userAddCuentasOfGestion({...cuentas,gestion:`${gestionSelect}`,nombreCuenta:`${cuenta}`});
         break;
     
       case 'ratioPeriodoPromedioDeCobro':
         let cuentas2 = ({
           ratioPeriodoPromedioDeCobro:true,
         });
-        await userAddBool({...cuentas2,gestion:`${gestionSelect}`,nombreCuenta:`${cuenta}`});
+        await userAddCuentasOfGestion({...cuentas2,gestion:`${gestionSelect}`,nombreCuenta:`${cuenta}`});
       break;
       default:
         break;
@@ -88,23 +91,25 @@ export const Calculate = () => {
     })
   }
 
+  const sendCalculate = async(nombreCuenta,resultado)=>{
+    if(nombreCuenta==='ratioRotacionCuentasPorCobrar'){
+      await userUpdateGestionCalculate( ({...updateDoc,ratioRotacionCuentasPorCobrar:true,calculateRatioRotaciónDeCuentasPorCobrar:`${resultado}`}),updateDoc.id)
+    }else{
+      if(nombreCuenta==='ratioPeriodoPromedioDeCobro'){
+        await userUpdateGestionCalculate( ({...updateDoc,ratioPeriodoPromedioDeCobro:true,calculateRatioRotaciónDePeriodoPromedioDeCobro:`${resultado}`}),updateDoc.id)
+      }
+    }
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const nombreCuenta = e.target[1].value;
     const trans = transformDataCalculate(dataCalculate);
     const resultado = calculateUser(nombreCuenta,dataCalculate[0].periodo,trans.cuentasPorCobrar,trans.ventasAlCredito);
-    const gestion = dataCalculate[0].gestion;
-    const uid = dataCalculate[0].uid;
-    const values = ({
-      nombreCuenta:`${resultado}`,
-      gestion,
-      uid,
-    })
-    await userAddCuentasOfGestion({...values});
     await sendBool(nombreCuenta);
+    await sendCalculate(nombreCuenta,resultado);
     navigate('/userlist')
   };
-
 
   const getObject = (vectorBool) =>{
     let newChange = ({

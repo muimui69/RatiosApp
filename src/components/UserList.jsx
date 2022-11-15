@@ -28,7 +28,15 @@ export const UserList = () => {
 				(gestionCurrent.length===0)?
 					<h1>Aun no se han creado gestiones...</h1>
 				:
-					gestionCurrent.map( ({id,gestion,periodo,politicaCobranza,ratioDeRotaciónDeCuentasPorCobrar,ratioDePeriodoPromedioDeCobro}) => 
+					gestionCurrent.map( (
+						{id,gestion,periodo,
+						politicaCobranza,
+						ratioRotacionCuentasPorCobrar,
+						ratioPeriodoPromedioDeCobro,
+						calculateRatioRotaciónDeCuentasPorCobrar,
+						calculateRatioRotaciónDePeriodoPromedioDeCobro
+					}) => 
+						
 						<div key={id}>
 							<br/>
 								<Container>
@@ -59,61 +67,84 @@ export const UserList = () => {
 											<Card.Title>Periodo {periodo} - Plazo de deuda {politicaCobranza} días</Card.Title>
 											
 											{
-												(!ratioDeRotaciónDeCuentasPorCobrar && !ratioDePeriodoPromedioDeCobro)?
+												(!ratioRotacionCuentasPorCobrar && !ratioPeriodoPromedioDeCobro)?
 													<Alert variant='dark'>
 														Aun no se han realizado <b>ningun calculo</b>
 													</Alert>
 												:
 												<>
-													<Row>
-														<Col>
-															<Badge pill bg="dark">
-																Ratio de rotación de cuentas por cobrar
-															</Badge>
+													{
+														(ratioRotacionCuentasPorCobrar)?
+														<>
+															<Row>
 
-															<Col>
-																formula
-															</Col>
-															<br/>
-														</Col>
+																<Col>
+																	<Badge pill bg="dark">
+																		Ratio de rotación de cuentas por cobrar
+																	</Badge>
 
-														<Col>
-															<Badge pill text='dark' bg="warning">
-																Interpretacion
-															</Badge>
+																	<Col>
+																		{calculateRatioRotaciónDeCuentasPorCobrar}
+																	</Col>
+																	<br/>
+																</Col>
 
-															<Col>
-																inter
-															</Col>
-															<br/>
-														</Col>
+																<Col>
+																	<Badge pill text='dark' bg="warning">
+																		Interpretacion
+																	</Badge>
 
-													</Row>
+																	<Col>
+																		zzzzzzzzz
+																	</Col>
+																	<br/>
+																</Col>
 
-													<Row>
-														<Col>
-															<Badge pill bg="dark" >
-																Ratio de periodo promedio de cobro
-															</Badge>
-															
-															<Col>
-																form
-															</Col>
-															<br/>
-														</Col>
+															</Row>
+														</>
+														:
+														<>
+															<Alert variant='dark'>
+																Aun no se han realizado el calculo de <b>Ratio de rotación de cuentas por cobrar</b>
+															</Alert>
+														</>
+													}	
 
-														<Col>
-															<Badge pill text='dark' bg="warning">
-																Interpretacion
-															</Badge>
+													{
+														(ratioPeriodoPromedioDeCobro)?
+														<>
+															<Row>
+																<Col>
+																	<Badge pill bg="dark" >
+																		Ratio de periodo promedio de cobro
+																	</Badge>
+																	
+																	<Col>
+																		{calculateRatioRotaciónDePeriodoPromedioDeCobro}
+																	</Col>
+																	<br/>
+																</Col>
 
-															<Col>
-																inter
-															</Col>
-															<br/>
-														</Col>
+																<Col>
+																	<Badge pill text='dark' bg="warning">
+																		Interpretacion
+																	</Badge>
 
-													</Row>
+																	<Col>
+																		zzzz
+																	</Col>
+																	<br/>
+																</Col>
+
+															</Row>
+														</>
+														:
+														<>
+															<Alert variant='dark'>
+																Aun no se han realizado el calculo de <b>Ratio de periodo promedio de cobro</b>
+															</Alert>
+														</>
+													}
 												</>
 											}
 											</Card.Body>

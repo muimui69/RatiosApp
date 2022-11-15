@@ -18,7 +18,6 @@ export const SendCuentas = () => {
   const [label,setLabel]=useState('');
   const [selectInput,setSelectInput] = useState([])  
 
-
   const [isChange,setIsChange]=useState(false);
 
  //estados para el manejo de datos a la hora de editar
@@ -54,6 +53,7 @@ export const SendCuentas = () => {
       changeEditSelect.forEach( doc=>{
         if(doc.nombreCuenta ==='cuentasPorCobrar'){
           setPruebaCopia({...doc})
+
         }
       })
     }
@@ -615,6 +615,61 @@ export const SendCuentas = () => {
       }
   }
 
+  const  getObjectEdit = (vectorBool) =>{
+    let newChange = ({
+      cuentasPorCobrar:false,
+      ventasAlCredito:false
+    })
+
+    vectorBool.forEach( ({ventasAlCredito,cuentasPorCobrar,gestion}) => {
+      if(gestion===changeEditSelect[0].gestion){
+        if(cuentasPorCobrar){
+          newChange = ({...newChange,cuentasPorCobrar})
+        }else{
+          newChange = ({...newChange,ventasAlCredito})
+        }
+      }
+    })
+
+    const {ventasAlCredito,cuentasPorCobrar} = newChange;
+ 
+      if(cuentasPorCobrar && ventasAlCredito){
+        return (
+          <>
+            <select name='nombreCuenta' className="form-control" onChange={handlePrueba}>
+              <option value='' selected disabled  >Cuenta a registrar</option>
+              <option value='cuentasPorCobrar'>Cuentas por cobrar</option>
+              <option value='ventasAlCredito'>Ventas al credito</option>
+            </select>
+          </>
+        );
+      }
+
+      if(cuentasPorCobrar){
+        return(
+          <>
+             <select name='nombreCuenta' className="form-control" onChange={handlePrueba}>
+              <option value='' selected disabled  >Cuenta a registrar</option>
+              <option value='cuentasPorCobrar' >Cuentas por cobrar</option>
+              <option value='' disabled >Ventas al credito</option>
+            </select>
+          </>
+        )
+      }
+
+      if(ventasAlCredito){
+        return(
+          <>
+            <select name='nombreCuenta' className="form-control" onChange={handlePrueba}>
+              <option value='' selected disabled  >Cuenta a registrar</option>
+              <option value='' disabled >Cuentas por cobrar</option>
+              <option value='ventasAlCredito'>Ventas al credito</option>
+            </select>
+          </>
+        )
+      }
+  }
+
   const getValid = (vectorBool) =>{
 
     let newChange = ({
@@ -685,13 +740,13 @@ export const SendCuentas = () => {
     return (
       isChange &&
       <>
-        <Card.Header>Periodo {changeEditSelect[0].periodo} </Card.Header>
-
-        <select name='nombreCuenta' className="form-control" onChange={handlePrueba}>
-          <option value='' selected disabled  >Cuenta a editar</option>
-          <option value='cuentasPorCobrar'>Cuentas por cobrar</option>
-          <option value='ventasAlCredito'>Ventas al credito</option>
-        </select>
+        {
+          changeEditSelect.length>0 &&
+          <>
+            <Card.Header>Periodo {changeEditSelect[0].periodo} </Card.Header>
+             {getObjectEdit(boolCuenta)}
+          </>
+        }
 
         {
           isChangeEdit  && 
@@ -741,53 +796,70 @@ export const SendCuentas = () => {
     
   return(
     <>
-      <br />
-      <Container>
-        <Row className="justify-content-md-center">
-          <Col sm lg="4">
-          <Card className="text-center xs" >
+      {
+        ( changeEditSelect.length===0)?
+          <Container>
+            <Alert variant="danger">
+              <Alert.Heading>Ha ocurrido un error!</Alert.Heading>
+              <p>
+                  Usted no puede editar en esta gestion. <b>No ha registrado ninguna cuenta</b>
+              </p>
+            </Alert>
+          </Container>
+        :
+        <>
+          <br />
+        <Container>
+          <Row className="justify-content-md-center">
+            <Col sm lg="4">
+            <Card className="text-center xs" >
+            {
+              (params.id)?
+              <Card.Header>Editando cuentas</Card.Header>
+              :
+              <Card.Header>Seleccione la Gestion</Card.Header>
+            }
+            <Card.Body>
+
+              <Form className="mb-3" onSubmit={handleSubmit} >
+              
+              <Form.Group className="mb-3">
+                  { 
+                    (params.id)?
+                      <select name='gestion' className="form-control">
+                        <option value={ changeEditSelect[0].gestion} selected disabled>{changeEditSelect[0].gestion}</option>
+                      </select>
+                    :
+                      <select name='gestion' className="form-control" onChange={handleChange}>
+                        <option value="" selected disabled  >Gestión</option>
+                        {
+                          gestionCurrent.map( ({gestion}) => 
+                            <option key={gestion} value={gestion}> {gestion} </option>
+                          )
+                        }
+                      </select>
+                  }
+                </Form.Group>                   
+        
+                  {
+                    (params.id)?
+                      renderOnEdit()
+                    :
+                      renderOnSend()
+                  }
+              </Form>
+
+            </Card.Body>
+
+            <Card.Footer className="text-muted">Los datos se guardarán en la base de datos</Card.Footer>
           
-          <Card.Header>Seleccione la Gestion</Card.Header>
+            </Card>
+              </Col>
+            </Row>
 
-          <Card.Body>
-
-            <Form className="mb-3" onSubmit={handleSubmit} >
-            
-             <Form.Group className="mb-3">
-                {
-                  (params.id)?
-                    <select name='gestion' className="form-control">
-                      <option value={ changeEditSelect[0].gestion} selected disabled>{changeEditSelect[0].gestion}</option>
-                    </select>
-                  :
-                    <select name='gestion' className="form-control" onChange={handleChange}>
-                      <option value="" selected disabled  >Gestión</option>
-                      {
-                        gestionCurrent.map( ({gestion}) => 
-                          <option key={gestion} value={gestion}> {gestion} </option>
-                        )
-                      }
-                    </select>
-                }
-              </Form.Group>                   
-       
-                {
-                  (params.id)?
-                    renderOnEdit()
-                  :
-                    renderOnSend()
-                }
-            </Form>
-
-          </Card.Body>
-
-          <Card.Footer className="text-muted">Los datos se guardarán en la base de datos</Card.Footer>
-         
-          </Card>
-            </Col>
-          </Row>
-
-        </Container>
- </>
+          </Container>
+        </>
+      }
+    </>
   )
 }

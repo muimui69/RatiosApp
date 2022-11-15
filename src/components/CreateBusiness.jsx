@@ -15,18 +15,13 @@ export const CreateBusiness = () => {
     gestion:'',
     periodo:'',
     politicaCobranza:'', 
-    ratioDeRotaciónDeCuentasPorCobrar:false,
-    ratioDePeriodoPromedioDeCobro:false  
+    ratioRotacionCuentasPorCobrar:false,
+    ratioPeriodoPromedioDeCobro:false,
+    calculateRatioRotaciónDeCuentasPorCobrar:0,
+    calculateRatioRotaciónDePeriodoPromedioDeCobro:0
   });
   
-  const validInput = (input) => {
-    if(input.trim().length>0){
-      return true;
-    }
-    return false;
-  }
-
-  const {userAddGestionAndPeriodo,userAddCalculate} =useAuth();
+  const {userAddGestionAndPeriodo} =useAuth();
   const navigate = useNavigate();
 
   const handleChange = ({target:{name,value}}) => {
