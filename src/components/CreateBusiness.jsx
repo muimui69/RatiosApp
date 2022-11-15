@@ -15,10 +15,10 @@ export const CreateBusiness = () => {
     gestion:'',
     periodo:'',
     politicaCobranza:'', 
-    ratioRotacionCuentasPorCobrar:false,
+    /*ratioRotacionCuentasPorCobrar:false,
     ratioPeriodoPromedioDeCobro:false,
     calculateRatioRotaciónDeCuentasPorCobrar:0,
-    calculateRatioRotaciónDePeriodoPromedioDeCobro:0
+    calculateRatioRotaciónDePeriodoPromedioDeCobro:0*/
   });
   
   const {userAddGestionAndPeriodo} =useAuth();
@@ -31,7 +31,8 @@ export const CreateBusiness = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      navigate('/userlist');
+      //navigate('/userlist');
+      navigate('/see');
       await userAddGestionAndPeriodo(gestionAndPeriodo);
     } catch (err) {
       console.log(err);

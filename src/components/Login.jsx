@@ -35,7 +35,8 @@ export const Login = () => {
     }else{
       try {
         await login(user.email,user.password);
-        navigate('/userlist');
+        //navigate('/userlist');
+        navigate('/see')
       } catch (err) {
         setError(err.message);
       }

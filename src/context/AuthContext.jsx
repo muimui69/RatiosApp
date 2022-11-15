@@ -127,7 +127,7 @@ export const AuthProvider = ({children}) => {
     });
   };
 
-  const onDeleteList = async(id,gestionDelete) =>{
+  /*const onDeleteList = async(id,gestionDelete) =>{
     onSnapshot(collection(db, 'gestion-periodo'), (test) => {
       const uidCurrent = auth.currentUser.uid;
       test.forEach( docElement =>{
@@ -138,6 +138,36 @@ export const AuthProvider = ({children}) => {
             userCountsDelete(gestionDelete);
             userBoolDelete(gestionDelete);
             userBoolDeleteCalculate(gestionDelete);
+          }
+        }
+      })
+    });
+  }*/
+
+  const userGestionDelete = async(gestionDelete) => {
+    onSnapshot(collection(db, 'gestion-periodo'), (test) => {
+      const uidCurrent = auth.currentUser.uid;
+      test.forEach( docElement =>{
+          const {uid,gestion} = docElement.data();
+          if(uid === uidCurrent ){
+            if(gestion===gestionDelete){
+              deleteDoc(doc(db, 'gestion-periodo',`${docElement.id}`));
+            }
+          }
+      })
+    });
+  };
+
+  const onDeleteListCounts = async(gestionDelete) =>{
+    onSnapshot(collection(db, 'cuentas'), (test) => {
+      const uidCurrent = auth.currentUser.uid;
+      test.forEach( docElement =>{
+        const {uid,gestion} = docElement.data();
+        if(uid === uidCurrent){
+          if(gestion===gestionDelete){
+            deleteDoc(doc(db, 'cuentas',`${docElement.id}`));
+            userBoolDelete(gestionDelete);
+            userGestionDelete(gestionDelete);
           }
         }
       })
@@ -244,11 +274,12 @@ export const AuthProvider = ({children}) => {
       setUser(currentUser);
       setLoading(false);
       getBoolVerificationEmail();
+      /* nuevo */
+      getUserCounts();
+      getUserBoolCuentas();
+      getGestionPeriodo();
+      getUserBoolCalculate();
     });
-    getUserBoolCuentas();
-    getUserCounts();
-    getGestionPeriodo();
-    getUserBoolCalculate();
   },[]);
 
   return (
@@ -270,13 +301,14 @@ export const AuthProvider = ({children}) => {
         boolCalculate,
         userCounts,
         gestionCurrent,
-        onDeleteList,
+        //onDeleteList,
         getCuentasOfGestion ,
         dataCalculate,
         userAddCuentasOfGestion,
         userAddVerificationEmail,
         boolVerificationEmail,
-        userUpdateGestionCalculate
+        userUpdateGestionCalculate,
+        onDeleteListCounts
       }}
     > 
       {children} 

@@ -1,4 +1,6 @@
 import {useAuth} from '../context/AuthContext';
+import {calculateUser} from '../data/formulas';
+import { useNavigate } from 'react-router-dom';
 
 import Card from 'react-bootstrap/Card';
 import Container from 'react-bootstrap/Container';
@@ -6,11 +8,17 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Badge from 'react-bootstrap/Badge';
 import Alert from 'react-bootstrap/Alert';
+import Button from 'react-bootstrap/Button';
 
 export const RegistroCuentas = () => {
 
-  	const {userCounts} = useAuth();
-  
+  	const {userCounts,onDeleteListCounts} = useAuth();
+	const navigate = useNavigate();
+	
+	const onRedirect = (id) =>{
+		navigate(`/create-business/send-cuentas/${id}`);
+	}
+
 	const existInVector = (gestionSelect,vec) =>{
 		let res = false;
 		vec.forEach(({gestion})=>{
@@ -32,7 +40,6 @@ export const RegistroCuentas = () => {
 	} 
 
 	const getListFormat = (data) =>{
-		//console.log('recived...');
 		const format = [];
 		const context = [];
 
@@ -300,8 +307,10 @@ export const RegistroCuentas = () => {
 								default:
 									break;
 							}
-						
-							context.push({...doc});
+							
+							const data1 = calculateUser('ratioRotacionCuentasPorCobrar',doc.periodo,doc.cuentasPorCobrar,doc.ventasAlCredito);
+							const data2 = calculateUser('ratioPeriodoPromedioDeCobro',doc.periodo,doc.cuentasPorCobrar,doc.ventasAlCredito);
+							context.push({...doc,ratioRotacionCuentasPorCobrar:`${data1}`,ratioPeriodoPromedioDeCobro:`${data2}`});
 						}
 					})
 				}else{
@@ -456,11 +465,12 @@ export const RegistroCuentas = () => {
 				}
 			}
 		}) 
+		console.log(context)
 		return context;
 	}
 
 	const renderRegistros = (periodoUser,dataFormat) =>{
-		const {id,gestion,periodo,politica,cuentasPorCobrar,ventasAlCredito} = dataFormat;
+		const {id,gestion,periodo,politica,cuentasPorCobrar,ventasAlCredito,ratioRotacionCuentasPorCobrar,ratioPeriodoPromedioDeCobro} = dataFormat;
 		switch (periodoUser) {
 			case 'Anual':
 				return(
@@ -471,6 +481,14 @@ export const RegistroCuentas = () => {
 								<Card className="xs" >
 									<Card.Header>
 										GESTION {gestion}
+										<Button variant="dark" type="submit" onClick={()=>onRedirect(id)} >
+											Editar
+										</Button>
+
+										<Button variant="danger" type="submit" onClick={()=>onDeleteListCounts(gestion)}>
+											Eliminar
+										</Button>
+										
 									</Card.Header>
 									
 									
@@ -541,9 +559,69 @@ export const RegistroCuentas = () => {
 														{ventasAlCredito.monto}
 													</Col>
 												</Row>
+												<br/>
 											</>
 										}
 										
+										{
+												(cuentasPorCobrar===undefined || ventasAlCredito===undefined)?
+													<Alert variant='danger'>
+														No se puede realizar el calculo de ningun ratio. Se debe tener las <b>cuentas por cobrar </b> y las <b>ventas al credito</b> registradas 
+													</Alert>
+												:
+												<>
+													<Row>
+
+														<Col>
+															<Badge pill bg="dark">
+																Ratio de rotación de cuentas por cobrar
+															</Badge>
+
+															<Col>
+																{ratioRotacionCuentasPorCobrar}
+															</Col>
+															<br/>
+														</Col>
+
+														<Col>
+															<Badge pill text='dark' bg="primary">
+																Interpretacion
+															</Badge>
+
+															<Col>
+																zzzzzzzzz
+															</Col>
+															<br/>
+														</Col>
+
+													</Row>
+
+													<Row>
+														<Col>
+															<Badge pill bg="dark" >
+																Ratio de periodo promedio de cobro
+															</Badge>
+															
+															<Col>
+																{ratioPeriodoPromedioDeCobro}
+															</Col>
+															<br/>
+														</Col>
+
+														<Col>
+															<Badge pill text='dark' bg="primary">
+																Interpretacion
+															</Badge>
+
+															<Col>
+																zzzz
+															</Col>
+															<br/>
+														</Col>
+
+													</Row>
+												</>
+											}
 									</Card.Body>
 
 									<Card.Footer className="text-muted"></Card.Footer>
@@ -562,6 +640,13 @@ export const RegistroCuentas = () => {
 								<Card className="xs" >
 									<Card.Header>
 										GESTION {gestion}
+										<Button variant="dark" type="submit" onClick={()=>onRedirect(id)} >
+											Editar
+										</Button>
+
+										<Button variant="danger" type="submit" onClick={()=>onDeleteListCounts(gestion)}>
+											Eliminar
+										</Button>
 									</Card.Header>
 									
 									
@@ -648,8 +733,69 @@ export const RegistroCuentas = () => {
 														{ventasAlCredito.segundoSemestre}
 													</Col>
 												</Row>
+												<br/>
 											</>
 										}
+
+										{
+												(cuentasPorCobrar===undefined || ventasAlCredito===undefined)?
+													<Alert variant='danger'>
+														No se puede realizar el calculo de ningun ratio. Se debe tener las <b>cuentas por cobrar </b> y las <b>ventas al credito</b> registradas 
+													</Alert>
+												:
+												<>
+													<Row>
+
+														<Col>
+															<Badge pill bg="dark">
+																Ratio de rotación de cuentas por cobrar
+															</Badge>
+
+															<Col>
+																{ratioRotacionCuentasPorCobrar}
+															</Col>
+															<br/>
+														</Col>
+
+														<Col>
+															<Badge pill text='dark' bg="primary">
+																Interpretacion
+															</Badge>
+
+															<Col>
+																zzzzzzzzz
+															</Col>
+															<br/>
+														</Col>
+
+													</Row>
+
+													<Row>
+														<Col>
+															<Badge pill bg="dark" >
+																Ratio de periodo promedio de cobro
+															</Badge>
+															
+															<Col>
+																{ratioPeriodoPromedioDeCobro}
+															</Col>
+															<br/>
+														</Col>
+
+														<Col>
+															<Badge pill text='dark' bg="primary">
+																Interpretacion
+															</Badge>
+
+															<Col>
+																zzzz
+															</Col>
+															<br/>
+														</Col>
+
+													</Row>
+												</>
+											}
 									</Card.Body>
 									<Card.Footer className="text-muted"></Card.Footer>
 								</Card>
@@ -667,6 +813,13 @@ export const RegistroCuentas = () => {
 								<Card className="xs" >
 									<Card.Header>
 										GESTION {gestion}
+										<Button variant="dark" type="submit" onClick={()=>onRedirect(id)} >
+											Editar
+										</Button>
+										
+										<Button variant="danger" type="submit" onClick={()=>onDeleteListCounts(gestion)}>
+											Eliminar
+										</Button>
 									</Card.Header>
 									
 									
@@ -779,8 +932,68 @@ export const RegistroCuentas = () => {
 														</Col>
 													</Col>
 												</Row>
+												<br/>
 											</>
 										}
+										{
+												(cuentasPorCobrar===undefined || ventasAlCredito===undefined)?
+													<Alert variant='danger'>
+														No se puede realizar el calculo de ningun ratio. Se debe tener las <b>cuentas por cobrar </b> y las <b>ventas al credito</b> registradas 
+													</Alert>
+												:
+												<>
+													<Row>
+
+														<Col>
+															<Badge pill bg="dark">
+																Ratio de rotación de cuentas por cobrar
+															</Badge>
+
+															<Col>
+																{ratioRotacionCuentasPorCobrar}
+															</Col>
+															<br/>
+														</Col>
+
+														<Col>
+															<Badge pill text='dark' bg="primary">
+																Interpretacion
+															</Badge>
+
+															<Col>
+																zzzzzzzzz
+															</Col>
+															<br/>
+														</Col>
+
+													</Row>
+
+													<Row>
+														<Col>
+															<Badge pill bg="dark" >
+																Ratio de periodo promedio de cobro
+															</Badge>
+															
+															<Col>
+																{ratioPeriodoPromedioDeCobro}
+															</Col>
+															<br/>
+														</Col>
+
+														<Col>
+															<Badge pill text='dark' bg="primary">
+																Interpretacion
+															</Badge>
+
+															<Col>
+																zzzz
+															</Col>
+															<br/>
+														</Col>
+
+													</Row>
+												</>
+											}
 									</Card.Body>
 
 									<Card.Footer className="text-muted"></Card.Footer>
@@ -799,6 +1012,15 @@ export const RegistroCuentas = () => {
 									<Card className="xs" >
 										<Card.Header>
 											GESTION	{gestion}
+
+											<Button variant="dark" type="submit" onClick={()=>onRedirect(id)} >
+												Editar
+											</Button>
+											
+											<Button variant="danger" type="submit" onClick={()=>onDeleteListCounts(gestion)}>
+												Eliminar
+											</Button>
+
 										</Card.Header>
 										
 										<Card.Body>
@@ -1085,6 +1307,66 @@ export const RegistroCuentas = () => {
 														</Col>
 
 													</Row>
+													<br/>
+												</>
+											}
+											{
+												(cuentasPorCobrar===undefined || ventasAlCredito===undefined)?
+													<Alert variant='danger'>
+														No se puede realizar el calculo de ningun ratio. Se debe tener las <b>cuentas por cobrar </b> y las <b>ventas al credito</b> registradas 
+													</Alert>
+												:
+												<>
+													<Row>
+
+														<Col>
+															<Badge pill bg="dark">
+																Ratio de rotación de cuentas por cobrar
+															</Badge>
+
+															<Col>
+																{ratioRotacionCuentasPorCobrar}
+															</Col>
+															<br/>
+														</Col>
+
+														<Col>
+															<Badge pill text='dark' bg="primary">
+																Interpretacion
+															</Badge>
+
+															<Col>
+																zzzzzzzzz
+															</Col>
+															<br/>
+														</Col>
+
+													</Row>
+
+													<Row>
+														<Col>
+															<Badge pill bg="dark" >
+																Ratio de periodo promedio de cobro
+															</Badge>
+															
+															<Col>
+																{ratioPeriodoPromedioDeCobro}
+															</Col>
+															<br/>
+														</Col>
+
+														<Col>
+															<Badge pill text='dark' bg="primary">
+																Interpretacion
+															</Badge>
+
+															<Col>
+																zzzz
+															</Col>
+															<br/>
+														</Col>
+
+													</Row>
 												</>
 											}
 										</Card.Body>
@@ -1105,14 +1387,23 @@ export const RegistroCuentas = () => {
 		<>
 			{	
 				(userCounts.length===0)? 
-					<h1>Aun no ha se registraron cuentas...</h1>
+					<>
+						<br/>
+						<Container className="text-center">
+							<h5>Aun no ha se registraron cuentas . . .</h5>
+						</Container>
+					</>
 				:
-				getListFormat(userCounts).map( doc => {
-					const {periodo} = doc;
-					return (
-						renderRegistros(periodo,doc)
-					)
-				})
+				<>
+					{
+						getListFormat(userCounts).map( doc => {
+							const {periodo} = doc;
+							return (
+								renderRegistros(periodo,doc)
+							)
+						})
+					}
+				</>
 			}	
 		</>
 	)

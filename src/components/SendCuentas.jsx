@@ -53,7 +53,6 @@ export const SendCuentas = () => {
       changeEditSelect.forEach( doc=>{
         if(doc.nombreCuenta ==='cuentasPorCobrar'){
           setPruebaCopia({...doc})
-
         }
       })
     }
@@ -128,7 +127,8 @@ export const SendCuentas = () => {
           await userAddCuentas(newUser);
           await sendBool(nombreCuenta);
         }
-        navigate('/userlist');
+       // navigate('/userlist');
+       navigate('/see')
       } catch (err) {
         console.log(err);
       }
@@ -775,20 +775,21 @@ export const SendCuentas = () => {
   useEffect(() => {
     const userFound = params.id;
     if(userFound){
-      gestionCurrent.map(({id,gestion})=>{
-        const gestionId = gestion;
+      const docs = [];
+      let ges = '';
+      userCounts.map( docE =>{
+        const {id,gestion} = docE;
         if(id===userFound){
-          const docs = [];
-          userCounts.map( docE =>{
-            const {gestion} = docE;
-            if(gestion===gestionId){
-              docs.push({...docE})
-            }
-          })
-          setChangeEditSelect(docs);
-          setIsChange(true);
+          docs.push({...docE})
+          ges = docE.gestion;
+        }else{
+          if(ges.length>0 && ges===gestion){
+            docs.push({...docE})
+          }
         }
       })
+      setChangeEditSelect(docs);
+      setIsChange(true);
     }else{
       setSelectInput(selectInput);
     }
@@ -798,6 +799,8 @@ export const SendCuentas = () => {
     <>
       {
         ( changeEditSelect.length===0)?
+          <>
+          <br/>
           <Container>
             <Alert variant="danger">
               <Alert.Heading>Ha ocurrido un error!</Alert.Heading>
@@ -806,6 +809,7 @@ export const SendCuentas = () => {
               </p>
             </Alert>
           </Container>
+          </>
         :
         <>
           <br />

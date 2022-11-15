@@ -76,13 +76,13 @@ export const App = () => {
 
             <Route path = '/register' element={<Register/>} />
             
-            <Route  
+            {/*<Route  
               path = '/userlist' 
               element={
               <ProtectedRoute>
                 <UserList/>
               </ProtectedRoute>
-            }/> 
+            }/>*/} 
 
             <Route  
               path = '/see' 

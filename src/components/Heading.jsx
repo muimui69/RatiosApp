@@ -16,19 +16,21 @@ export const Heading = () => {
     <>
             <Navbar  bg="light" expand="lg">
             <Container>
-            <Navbar.Brand href='/'>Ratios financieros</Navbar.Brand>
+            {
+              !user &&  <Navbar.Brand href='/'>Ratios financieros</Navbar.Brand>
+            }
               {
                 user &&
                <>
+               <Navbar.Brand>Ratios financieros</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                   <Nav className="me-auto">
-                    <Nav.Link href="/userlist">Inicio</Nav.Link>
-                    <Nav.Link href="/register">Registrarse</Nav.Link>
+                    <Nav.Link href="/see">Inicio</Nav.Link>
                     <Nav.Link href="/create-business">Crear Gestion</Nav.Link>
                     <Nav.Link href="/create-business/send-cuentas">Registrar Datos</Nav.Link>
-                    <Nav.Link href="/see">Ver Registros</Nav.Link>
-                    <Nav.Link href="/userlist/calculate">Realizar un calculo</Nav.Link>
+                    {/*<Nav.Link href="/see">Ver Registros</Nav.Link>*/}
+                    {/*<Nav.Link href="/userlist/calculate">Realizar un calculo</Nav.Link>*/}
                     <Nav.Link href="/help">Ayuda</Nav.Link>
                     <Button variant="primary" type="submit" onClick={handleLogout}>
                       Cerrar Sesion

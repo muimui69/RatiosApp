@@ -1,7 +1,6 @@
 //https://firebase.google.com/docs/firestore/manage-data/add-data
 //https://firebase.google.com/docs/firestore/security/rules-query?hl=es-419
 //https://firebase.google.com/docs/firestore/query-data/listen
-import {deleteDoc,doc} from 'firebase/firestore';
 import {useAuth} from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 

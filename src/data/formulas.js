@@ -16,7 +16,7 @@ const ratioRotacionCuentasPorCobrar = (CuentasPorCobrar,VentasAlCredito,periodo)
     let sum = 0;
     switch (periodo) {
         case 'Anual':
-            sum = parseFloat(VentasAlCredito.anual / CuentasPorCobrar.anual)
+            sum = parseFloat(VentasAlCredito.monto / CuentasPorCobrar.monto)
             return sum.toFixed(2);
             break;
 
@@ -55,7 +55,7 @@ const ratioPeriodoPromedioDeCobro = (CuentasPorCobrar,VentasAlCredito,periodo) =
     let sum = 0;
     switch (periodo) {
         case 'Anual':
-            sum = parseFloat( CuentasPorCobrar.anual / VentasAlCredito.anual )
+            sum = parseFloat( CuentasPorCobrar.monto / VentasAlCredito.monto )
             return sum.toFixed(2) * 360;
             break;
 
