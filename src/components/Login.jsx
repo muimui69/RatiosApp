@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import {useAuth} from '../context/AuthContext';
-import {useNavigate} from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
@@ -12,41 +12,40 @@ import Alert from 'react-bootstrap/Alert';
 
 export const Login = () => {
 
-  const [user,setUser] = useState({
-    email:'',
-    password:''
+  const [user, setUser] = useState({
+    email: '',
+    password: ''
   });
 
-  const {login} = useAuth();
+  const { login } = useAuth();
 
   const navigate = useNavigate();
-  const [error,setError]=useState();
+  const [error, setError] = useState();
 
-  const handleChange = ({target:{name,value}}) => {
-    setUser({...user,[name]:value});
+  const handleChange = ({ target: { name, value } }) => {
+    setUser({ ...user, [name]: value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     const buttonSelectId = e.nativeEvent.submitter.id;
-    if(buttonSelectId ==='register'){
+    if (buttonSelectId === 'register') {
       navigate('/register');
-    }else{
+    } else {
       try {
-        await login(user.email,user.password);
-        //navigate('/userlist');
-        navigate('/see')
+        await login(user.email, user.password);
+        navigate('/home')
       } catch (err) {
         setError(err.message);
       }
     }
   };
 
-  const errorControl = (err) =>{
+  const errorControl = (err) => {
     switch (err) {
       case 'Firebase: Error (auth/wrong-password).':
-        return(
+        return (
           <Alert className="mb-3" key='danger' variant='danger'>
             Contraseña incorrecta
           </Alert>
@@ -54,9 +53,9 @@ export const Login = () => {
         break;
 
       case 'Firebase: Error (auth/user-not-found).':
-        return(
+        return (
           <Alert className="mb-3" key='danger' variant='danger'>
-             El usuario no existe
+            El usuario no existe
           </Alert>
         )
         break;
@@ -67,51 +66,51 @@ export const Login = () => {
   }
 
   return (
-  <>
-    <br />
-    <Container>
-      <Row className="justify-content-md-center">
-        <Col sm lg="4">
-        <Card className="text-center xs" >
-      <Card.Header>Iniciar sesión</Card.Header>
-      <Card.Body>
-        <Card.Title>Ingrese sus datos</Card.Title>
+    <>
+      <br />
+      <Container>
+        <Row className="justify-content-md-center">
+          <Col sm lg="4">
+            <Card className="text-center xs" >
+              <Card.Header>Iniciar sesión</Card.Header>
+              <Card.Body>
+                <Card.Title>Ingrese sus datos</Card.Title>
 
-        <Form className="mb-3" onSubmit={handleSubmit}>
+                <Form className="mb-3" onSubmit={handleSubmit}>
 
-          <Form.Group className="mb-3" controlId="email">
-            <Form.Control type="email" name='email'   onChange={handleChange} placeholder="Correo electrónico" />
-          </Form.Group>
+                  <Form.Group className="mb-3" controlId="email">
+                    <Form.Control type="email" name='email' onChange={handleChange} placeholder="Correo electrónico" />
+                  </Form.Group>
 
-          <Form.Group className="mb-3" controlId="password">
-            <Form.Control type="password" name='password'   onChange={handleChange} placeholder="Contraseña" />
-          </Form.Group>
- 
-          {
-            errorControl(error)
-          }
+                  <Form.Group className="mb-3" controlId="password">
+                    <Form.Control type="password" name='password' onChange={handleChange} placeholder="Contraseña" />
+                  </Form.Group>
 
-          <Button variant="primary" id='login' type="submit">
-            Entrar
-          </Button>
-          
-          <span>¿Aún no tienes cuenta? </span>
+                  {
+                    errorControl(error)
+                  }
 
-          <Button variant="primary" id='register' type="submit">
-            Registrarte
-          </Button>
+                  <Button variant="primary" id='login' type="submit">
+                    Entrar
+                  </Button>
 
-        </Form>
+                  <span>¿Aún no tienes cuenta? </span>
 
-      </Card.Body>
-      <Card.Footer className="text-muted"></Card.Footer>
-    </Card>
-        </Col>
-      </Row>
+                  <Button variant="primary" id='register' type="submit">
+                    Registrarte
+                  </Button>
 
-    </Container>
-    
-  </>
+                </Form>
+
+              </Card.Body>
+              <Card.Footer className="text-muted"></Card.Footer>
+            </Card>
+          </Col>
+        </Row>
+
+      </Container>
+
+    </>
   )
 }
 

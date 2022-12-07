@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import {useAuth} from '../context/AuthContext';
+import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
 import Button from 'react-bootstrap/Button';
@@ -11,27 +11,22 @@ import Col from 'react-bootstrap/Col';
 
 export const CreateBusiness = () => {
 
-  const [gestionAndPeriodo,setGestionAndPeriodo] = useState({
-    gestion:'',
-    periodo:'',
-    politicaCobranza:'', 
-    /*ratioRotacionCuentasPorCobrar:false,
-    ratioPeriodoPromedioDeCobro:false,
-    calculateRatioRotaciónDeCuentasPorCobrar:0,
-    calculateRatioRotaciónDePeriodoPromedioDeCobro:0*/
+  const [gestionAndPeriodo, setGestionAndPeriodo] = useState({
+    gestion: '',
+    periodo: '',
+    politicaCobranza: ''
   });
-  
-  const {userAddGestionAndPeriodo} =useAuth();
+
+  const { userAddGestionAndPeriodo } = useAuth();
   const navigate = useNavigate();
 
-  const handleChange = ({target:{name,value}}) => {
-    setGestionAndPeriodo({...gestionAndPeriodo,[name]:value});
+  const handleChange = ({ target: { name, value } }) => {
+    setGestionAndPeriodo({ ...gestionAndPeriodo, [name]: value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      //navigate('/userlist');
       navigate('/see');
       await userAddGestionAndPeriodo(gestionAndPeriodo);
     } catch (err) {
@@ -41,82 +36,82 @@ export const CreateBusiness = () => {
 
   return (
     <>
-    <br />
+      <br />
       <Container>
-      <Row className="justify-content-md-center">
-        <Col sm lg="4">
-        <Card className="text-center xs" >
-      <Card.Header>Creando nueva Gestión</Card.Header>
-      <Card.Body>
-        <Card.Title>Ingrese los datos</Card.Title>
+        <Row className="justify-content-md-center">
+          <Col sm lg="4">
+            <Card className="text-center xs" >
+              <Card.Header>Creando nueva Gestión</Card.Header>
+              <Card.Body>
+                <Card.Title>Ingrese los datos</Card.Title>
 
-        <Form className="mb-3" onSubmit={handleSubmit}>
+                <Form className="mb-3" onSubmit={handleSubmit}>
 
-        <Form.Group className="mb-3" controlId="gestion">
-            <Form.Control 
-              type="text"  
-              name='gestion'
-              onChange={handleChange}
-              placeholder="Año de Gestion" />
-          </Form.Group>  
+                  <Form.Group className="mb-3" controlId="gestion">
+                    <Form.Control
+                      type="text"
+                      name='gestion'
+                      onChange={handleChange}
+                      placeholder="Año de Gestion" />
+                  </Form.Group>
 
-        <Form.Group className="mb-3" controlId="periodo" placeholder="Politica de cobranza">
-         <select  className="form-control" name='periodo'  onChange={handleChange} >
-            <option 
-              value='' selected disabled
-            >
-              Selecione el periodo
-            </option>
-            
-            <option 
-              value='Anual' 
-            >
-              Anual
-            </option>
-            
-            <option 
-              value='Semestral' 
-            >
-              Semestral
-            </option>
+                  <Form.Group className="mb-3" controlId="periodo" placeholder="Politica de cobranza">
+                    <select className="form-control" name='periodo' onChange={handleChange} >
+                      <option
+                        value='' selected disabled
+                      >
+                        Selecione el periodo
+                      </option>
 
-            <option 
-              value ='Trimestral' 
-            >
-              Trimestral
-            </option>
-            
-            <option 
-              value='Mensual' 
-            >
-              Mensual
-            </option>
-          
-          </select>
+                      <option
+                        value='Anual'
+                      >
+                        Anual
+                      </option>
 
-          </Form.Group>
+                      <option
+                        value='Semestral'
+                      >
+                        Semestral
+                      </option>
 
-          <Form.Group className="mb-3" controlId="politicaCobranza">
-            <Form.Control  
-              type="text"  
-              name='politicaCobranza'
-              onChange={handleChange} 
-              placeholder="Politica de cobranza" />
-          </Form.Group>
+                      <option
+                        value='Trimestral'
+                      >
+                        Trimestral
+                      </option>
 
-          <Button variant="primary" type="submit">
-            Guardar datos
-          </Button>
+                      <option
+                        value='Mensual'
+                      >
+                        Mensual
+                      </option>
 
-        </Form>
+                    </select>
 
-      </Card.Body>
-      <Card.Footer className="text-muted">Revise si todo los datos son correctos</Card.Footer>
-    </Card>
-        </Col>
-      </Row>
+                  </Form.Group>
 
-    </Container>
+                  <Form.Group className="mb-3" controlId="politicaCobranza">
+                    <Form.Control
+                      type="text"
+                      name='politicaCobranza'
+                      onChange={handleChange}
+                      placeholder="Politica de cobranza" />
+                  </Form.Group>
+
+                  <Button variant="primary" type="submit">
+                    Guardar datos
+                  </Button>
+
+                </Form>
+
+              </Card.Body>
+              <Card.Footer className="text-muted">Revise si todo los datos son correctos</Card.Footer>
+            </Card>
+          </Col>
+        </Row>
+
+      </Container>
 
     </>
   )

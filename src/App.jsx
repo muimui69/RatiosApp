@@ -10,14 +10,13 @@ import {RegistroCuentas} from './components/RegistroCuentas';
 import {About} from './components/About';
 import { Calculate } from './data/Calculate';
 
-// form cuerpo
-import {UserList} from './components/UserList';
 import {Heading} from './components/Heading';
 
 // global context auth
 import {AuthProvider} from './context/AuthContext';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import {ProtectedRouteApp} from './components/ProtectedRouteApp';
+import { HomePage } from './components/HomePage';
 
 
 
@@ -76,14 +75,6 @@ export const App = () => {
 
             <Route path = '/register' element={<Register/>} />
             
-            {/*<Route  
-              path = '/userlist' 
-              element={
-              <ProtectedRoute>
-                <UserList/>
-              </ProtectedRoute>
-            }/>*/} 
-
             <Route  
               path = '/see' 
               element={
@@ -97,6 +88,14 @@ export const App = () => {
               element={
               <ProtectedRoute>
                 <About/>
+              </ProtectedRoute>
+            }/> 
+
+            <Route  
+              path = '/home' 
+              element={
+              <ProtectedRoute>
+                <HomePage/>
               </ProtectedRoute>
             }/> 
 
