@@ -8,7 +8,7 @@ import {CreateBusiness} from './components/CreateBusiness';
 import {SendCuentas} from './components/SendCuentas';
 import {RegistroCuentas} from './components/RegistroCuentas';
 import {About} from './components/About';
-import { Calculate } from './data/Calculate';
+
 
 import {Heading} from './components/Heading';
 
@@ -32,13 +32,13 @@ export const App = () => {
               path = '/' 
               element={
                 <ProtectedRouteApp>
-                <Login/>
+                  <Login/>
                 </ProtectedRouteApp>
               }
             />
 
             <Route
-              path = '/create-business' 
+              path = '/gestion' 
               element ={
                 <ProtectedRoute>
                   <CreateBusiness/>
@@ -47,7 +47,7 @@ export const App = () => {
             />
 
             <Route
-              path = '/create-business/send-cuentas' 
+              path = '/datos-gestion' 
               element ={
                 <ProtectedRoute>
                   <SendCuentas/>
@@ -56,7 +56,7 @@ export const App = () => {
             />
 
             <Route
-              path = '/create-business/send-cuentas/:id' 
+              path = '/datos-gestion/:id' 
               element ={
                 <ProtectedRoute>
                   <SendCuentas/>
@@ -76,7 +76,7 @@ export const App = () => {
             <Route path = '/register' element={<Register/>} />
             
             <Route  
-              path = '/see' 
+              path = '/aplicacion' 
               element={
               <ProtectedRoute>
                 <RegistroCuentas/>
@@ -84,7 +84,7 @@ export const App = () => {
             }/> 
 
             <Route  
-              path = '/help' 
+              path = '/acerca-de' 
               element={
               <ProtectedRoute>
                 <About/>
@@ -92,18 +92,10 @@ export const App = () => {
             }/> 
 
             <Route  
-              path = '/home' 
+              path = '/inicio' 
               element={
               <ProtectedRoute>
                 <HomePage/>
-              </ProtectedRoute>
-            }/> 
-
-            <Route  
-              path = '/userlist/calculate' 
-              element={
-              <ProtectedRoute>
-                <Calculate/>
               </ProtectedRoute>
             }/> 
 

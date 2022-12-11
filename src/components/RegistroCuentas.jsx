@@ -16,7 +16,7 @@ export const RegistroCuentas = () => {
 	const navigate = useNavigate();
 	
 	const onRedirect = (id) =>{
-		navigate(`/create-business/send-cuentas/${id}`);
+		navigate(`/datos-gestion/${id}`);
 	}
 
 	const existInVector = (gestionSelect,vec) =>{

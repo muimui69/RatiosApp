@@ -26,11 +26,11 @@ export const Heading = () => {
               <Navbar.Toggle aria-controls="basic-navbar-nav" />
               <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="me-auto">
-                  <Nav.Link href="/home">Inicio</Nav.Link>
-                  <Nav.Link href="/see">Aplicacion</Nav.Link>
-                  <Nav.Link href="/create-business">Crear Gestion</Nav.Link>
-                  <Nav.Link href="/create-business/send-cuentas">Registrar Datos</Nav.Link>
-                  <Nav.Link href="/help">Acerca de</Nav.Link>
+                  <Nav.Link href="/inicio">Inicio</Nav.Link>
+                  <Nav.Link href="/aplicacion">Aplicacion</Nav.Link>
+                  <Nav.Link href="/gestion">Crear Gestion</Nav.Link>
+                  <Nav.Link href="/datos-gestion">Registrar Datos</Nav.Link>
+                  <Nav.Link href="/acerca-de">Acerca de</Nav.Link>
                   <Button variant="primary" type="submit" onClick={handleLogout}>
                     Cerrar Sesion
                   </Button>
