@@ -56,19 +56,19 @@ const ratioPeriodoPromedioDeCobro = (CuentasPorCobrar,VentasAlCredito,periodo) =
     switch (periodo) {
         case 'Anual':
             sum = parseFloat( CuentasPorCobrar.monto / VentasAlCredito.monto )
-            return sum.toFixed(2) * 360;
+            return sum.toFixed(2) * 365;
             break;
 
         case 'Semestral':
             sum = parseFloat( (CuentasPorCobrar.primerSemestre + CuentasPorCobrar.segundoSemestre)
                             / (VentasAlCredito.primerSemestre + VentasAlCredito.segundoSemestre) )
-            return sum.toFixed(2) * 360;
+            return sum.toFixed(2) * 365;
             break;
             
         case 'Trimestral':
             sum = parseFloat( (CuentasPorCobrar.primerTrimestre + CuentasPorCobrar.segundoTrimestre + CuentasPorCobrar.tercerTrimestre +  CuentasPorCobrar.cuartoTrimestre)
                             / (VentasAlCredito.primerTrimestre + VentasAlCredito.segundoTrimestre + VentasAlCredito.tercerTrimestre + VentasAlCredito.cuartoTrimestre))
-            return sum.toFixed(2) * 360;
+            return sum.toFixed(2) * 365;
             break;
 
         case 'Mensual':
@@ -82,7 +82,7 @@ const ratioPeriodoPromedioDeCobro = (CuentasPorCobrar,VentasAlCredito,periodo) =
                     + VentasAlCredito.julio + VentasAlCredito.agosto + VentasAlCredito.septiembre 
                     + VentasAlCredito.octubre + VentasAlCredito.noviembre + VentasAlCredito.diciembre) 
             )
-            return sum.toFixed(2) * 360;
+            return sum.toFixed(2) * 365;
             break;
 
         default:

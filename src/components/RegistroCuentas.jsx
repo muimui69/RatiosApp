@@ -1,5 +1,5 @@
 import {useAuth} from '../context/AuthContext';
-import {calculateUser} from '../data/formulas';
+import {calculateUser} from '../math/formulas';
 import { useNavigate } from 'react-router-dom';
 
 import Card from 'react-bootstrap/Card';
@@ -465,7 +465,6 @@ export const RegistroCuentas = () => {
 				}
 			}
 		}) 
-		console.log(context)
 		return context;
 	}
 

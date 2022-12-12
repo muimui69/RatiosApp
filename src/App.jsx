@@ -7,7 +7,6 @@ import {ConfirmEmail} from './components/ConfirmEmail';
 import {CreateBusiness} from './components/CreateBusiness';
 import {SendCuentas} from './components/SendCuentas';
 import {RegistroCuentas} from './components/RegistroCuentas';
-import {About} from './components/About';
 
 
 import {Heading} from './components/Heading';
@@ -16,7 +15,6 @@ import {Heading} from './components/Heading';
 import {AuthProvider} from './context/AuthContext';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import {ProtectedRouteApp} from './components/ProtectedRouteApp';
-import { HomePage } from './components/HomePage';
 
 
 
@@ -80,22 +78,6 @@ export const App = () => {
               element={
               <ProtectedRoute>
                 <RegistroCuentas/>
-              </ProtectedRoute>
-            }/> 
-
-            <Route  
-              path = '/acerca-de' 
-              element={
-              <ProtectedRoute>
-                <About/>
-              </ProtectedRoute>
-            }/> 
-
-            <Route  
-              path = '/inicio' 
-              element={
-              <ProtectedRoute>
-                <HomePage/>
               </ProtectedRoute>
             }/> 
 
