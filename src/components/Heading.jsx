@@ -22,12 +22,12 @@ export const Heading = () => {
           {
             user &&
             <>
-              <Navbar.Brand>Ratios financieros</Navbar.Brand>
+              
               <Navbar.Toggle aria-controls="basic-navbar-nav" />
               <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="me-auto">
-                  <Nav.Link href="/aplicacion">Inicio</Nav.Link>
-                  <Nav.Link href="/gestion">Crear Gestion</Nav.Link>
+                  <Nav.Link href="/aplicacion">Mis Ratios Financieros</Nav.Link>
+                  <Nav.Link href="/gestion">Gestion</Nav.Link>
                   <Nav.Link href="/datos-gestion">Registrar Datos</Nav.Link>
                   <Button variant="primary" type="submit" onClick={handleLogout}>
                     Cerrar Sesion
