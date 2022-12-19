@@ -8,6 +8,7 @@
     "build": "vite build",
     "preview": "vite preview"
   },
+  "homepage": "http://app.tonker.net/",
   "dependencies": {
     "bootstrap": "^5.2.2",
     "firebase": "^9.12.0",
