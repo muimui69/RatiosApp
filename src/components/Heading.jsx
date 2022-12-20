@@ -3,6 +3,7 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Button from 'react-bootstrap/Button';
+import { Link} from 'react-router-dom';
 
 export const Heading = () => {
   const { user, logout } = useAuth();
@@ -26,9 +27,14 @@ export const Heading = () => {
               <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="me-auto">
                   
-                  <Nav.Link href="/aplicacion">Mis Ratios Financieros</Nav.Link>
+                  <Link to="/aplicacion"> Mis Ratios Financieros </Link>
+                  <Link to="/gestion"> Gestion </Link>
+                  <Link to="/datos-gestion"> Registrar Datos </Link>
+              
+                  {/*<Nav.Link href="/aplicacion">Mis Ratios Financieros</Nav.Link>
                   <Nav.Link href="/gestion">Gestion</Nav.Link>
                   <Nav.Link href="/datos-gestion">Registrar Datos</Nav.Link>
+                  */}
 
                   <Button variant="primary" type="submit" onClick={handleLogout}>
                     Cerrar Sesion
