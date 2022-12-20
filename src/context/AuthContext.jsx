@@ -256,13 +256,15 @@ export const AuthProvider = ({children}) => {
     onAuthStateChanged( auth , currentUser =>{
       setUser(currentUser);
       setLoading(false);
-      getBoolVerificationEmail();
-      getUserCounts();
-      getUserBoolCuentas();
-      getGestionPeriodo();
-      getUserBoolCalculate();
+      if(auth.currentUser!==null){
+        getBoolVerificationEmail();
+        getUserCounts();
+        getUserBoolCuentas();
+        getGestionPeriodo();
+        getUserBoolCalculate();
+      }
     });
-  },[]);
+  },[auth]);
 
   return (
     <authContext.Provider 

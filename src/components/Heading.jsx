@@ -11,7 +11,6 @@ export const Heading = () => {
     await logout();
   }
 
-
   return (
     <>
       <Navbar bg="light" expand="lg">
@@ -20,15 +19,17 @@ export const Heading = () => {
             !user && <Navbar.Brand href='/'>Ratios financieros</Navbar.Brand>
           }
           {
-            user &&
+            user  &&
             <>
               
               <Navbar.Toggle aria-controls="basic-navbar-nav" />
               <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="me-auto">
+                  
                   <Nav.Link href="/aplicacion">Mis Ratios Financieros</Nav.Link>
                   <Nav.Link href="/gestion">Gestion</Nav.Link>
                   <Nav.Link href="/datos-gestion">Registrar Datos</Nav.Link>
+
                   <Button variant="primary" type="submit" onClick={handleLogout}>
                     Cerrar Sesion
                   </Button>

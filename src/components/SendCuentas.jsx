@@ -126,7 +126,7 @@ export const SendCuentas = () => {
           await userAddCuentas(newUser);
           await sendBool(nombreCuenta);
         }
-        navigate('/see')
+        navigate('/aplicacion')
       } catch (err) {
         console.log(err);
       }

@@ -27,7 +27,7 @@ export const CreateBusiness = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      navigate('/see');
+      navigate('/aplicacion');
       await userAddGestionAndPeriodo(gestionAndPeriodo);
     } catch (err) {
       console.log(err);
