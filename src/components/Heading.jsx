@@ -14,37 +14,21 @@ export const Heading = () => {
 
   return (
     <>
-      <Navbar bg="light" expand="lg">
-        <Container>
-          {
-            !user && <Navbar.Brand href='/'>Ratios financieros</Navbar.Brand>
-          }
-          {
-            user  &&
-            <>
-              
-              <Navbar.Toggle aria-controls="basic-navbar-nav" />
-              <Navbar.Collapse id="basic-navbar-nav">
-                <Nav className="me-auto">
-                  
-                  <Link to="/aplicacion"> Mis Ratios Financieros </Link>
-                  <Link to="/gestion"> Gestion </Link>
-                  <Link to="/datos-gestion"> Registrar Datos </Link>
-              
-                  {/*<Nav.Link href="/aplicacion">Mis Ratios Financieros</Nav.Link>
-                  <Nav.Link href="/gestion">Gestion</Nav.Link>
-                  <Nav.Link href="/datos-gestion">Registrar Datos</Nav.Link>
-                  */}
+            <Navbar bg="light" expand="lg">
+            <Container>
+              <Nav className="justify-content-center" activeKey="/home" variant="pills" defaultActiveKey="/home">
+                  <Link to="/aplicacion" className="p-2"> Mis Ratios Financieros </Link>
 
-                  <Button variant="primary" type="submit" onClick={handleLogout}>
+                  <Link to="/gestion" className="p-2"> Gestion </Link>
+
+                  <Link to="/datos-gestion" className="p-2"> Registrar Datos </Link>
+
+                  <Button className="p-2" variant="primary" type="submit" onClick={handleLogout}>
                     Cerrar Sesion
                   </Button>
-                </Nav>
-              </Navbar.Collapse>
-            </>
-          }
-        </Container>
-      </Navbar>
+                  </Nav>
+                  </Container>    
+            </Navbar>
     </>
   )
 }

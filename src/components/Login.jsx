@@ -72,7 +72,11 @@ export const Login = () => {
         <Row className="justify-content-md-center">
           <Col sm lg="4">
             <Card className="text-center xs" >
-              <Card.Header>Iniciar sesión</Card.Header>
+              <Card.Header>
+                <h1>
+                Iniciar sesión
+                </h1>
+                </Card.Header>
               <Card.Body>
                 <Card.Title>Ingrese sus datos</Card.Title>
 
@@ -89,16 +93,18 @@ export const Login = () => {
                   {
                     errorControl(error)
                   }
-
+                  <h1>
                   <Button variant="primary" id='login' type="submit">
-                    Entrar
+                    ENTRAR
                   </Button>
+                  </h1>
 
                   <span>¿Aún no tienes cuenta? </span>
-
+                  <h1>
                   <Button variant="primary" id='register' type="submit">
                     Registrarte
                   </Button>
+                  </h1>
 
                 </Form>
 

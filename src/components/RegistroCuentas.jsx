@@ -480,11 +480,13 @@ export const RegistroCuentas = () => {
 								<Card className="xs" >
 									<Card.Header>
 										GESTION {gestion}
-										<Button variant="dark" type="submit" onClick={()=>onRedirect(id)} >
+										
+										<Button variant="dark" className="float-end m-2" type="submit" onClick={()=>onRedirect(id)} >
 											Editar
 										</Button>
+										&nbsp;
 
-										<Button variant="danger" type="submit" onClick={()=>onDeleteListCounts(gestion)}>
+										<Button variant="danger" className="float-end m-2" type="submit" onClick={()=>onDeleteListCounts(gestion)}>
 											Eliminar
 										</Button>
 										
@@ -638,12 +640,13 @@ export const RegistroCuentas = () => {
 							<Container>
 								<Card className="xs" >
 									<Card.Header>
-										GESTION {gestion}
-										<Button variant="dark" type="submit" onClick={()=>onRedirect(id)} >
+										GESTION {gestion} 
+										<Button className="float-end m-2" variant="dark" type="submit" onClick={()=>onRedirect(id)} >
 											Editar
 										</Button>
+										&nbsp;
 
-										<Button variant="danger" type="submit" onClick={()=>onDeleteListCounts(gestion)}>
+										<Button className="float-end m-2" variant="danger" type="submit" onClick={()=>onDeleteListCounts(gestion)}>
 											Eliminar
 										</Button>
 									</Card.Header>
@@ -812,11 +815,11 @@ export const RegistroCuentas = () => {
 								<Card className="xs" >
 									<Card.Header>
 										GESTION {gestion}
-										<Button variant="dark" type="submit" onClick={()=>onRedirect(id)} >
+										<Button className="float-end m-2" variant="dark" type="submit" onClick={()=>onRedirect(id)} >
 											Editar
 										</Button>
-										
-										<Button variant="danger" type="submit" onClick={()=>onDeleteListCounts(gestion)}>
+										&nbsp;
+										<Button className="float-end m-2" variant="danger" type="submit" onClick={()=>onDeleteListCounts(gestion)}>
 											Eliminar
 										</Button>
 									</Card.Header>
@@ -1012,11 +1015,11 @@ export const RegistroCuentas = () => {
 										<Card.Header>
 											GESTION	{gestion}
 
-											<Button variant="dark" type="submit" onClick={()=>onRedirect(id)} >
+											<Button className="float-end m-2" variant="dark" type="submit" onClick={()=>onRedirect(id)} >
 												Editar
 											</Button>
-											
-											<Button variant="danger" type="submit" onClick={()=>onDeleteListCounts(gestion)}>
+											&nbsp;
+											<Button className="float-end m-2" variant="danger" type="submit" onClick={()=>onDeleteListCounts(gestion)}>
 												Eliminar
 											</Button>
 
