@@ -248,6 +248,20 @@ export const AuthProvider = ({children}) => {
     });
   }
 
+  const getPoliticaCobranza = async()=>{
+    onSnapshot(collection(db, 'gestion-periodo'), (test) => {
+      const uidCurrent = auth.currentUser.uid;
+      const docsPolitica =[];
+      test.forEach( doc =>{
+        const {uid,politicaCobranza,gestion} = doc.data();
+        if(uid ===  uidCurrent ){
+          docsPolitica.push({politicaCobranza,gestion})
+        }
+      })
+      setPolitica(docsPolitica);
+    });
+  }
+
   const isEmailVerifyUser = () =>{
     return auth.currentUser.emailVerified;
   }
@@ -291,7 +305,7 @@ export const AuthProvider = ({children}) => {
         userAddVerificationEmail,
         boolVerificationEmail,
         userUpdateGestionCalculate,
-        onDeleteListCounts
+        onDeleteListCounts,
       }}
     > 
       {children} 

@@ -39,6 +39,29 @@ export const RegistroCuentas = () => {
 		return c;
 	} 
 
+	const resultInterpretacionVeces = (politicaUser,resultFormula) =>{
+		const transform = 365/resultFormula;
+		
+		if(transform>politicaUser){
+			return 'Bajo indice de rotacion';
+		}
+
+		if(transform<=politicaUser){
+			return 'Alto indice de rotacion';
+		}
+	} 
+
+	const resultInterpretacionDias = (politicaUser,resultFormula) =>{
+		if(resultFormula>politicaUser){
+			return 'Bajo indice de rotacion';
+		}
+
+		if(resultFormula<=politicaUser){
+			return 'Alto indice de rotacion';
+		}
+	} 
+
+
 	const getListFormat = (data) =>{
 		const format = [];
 		const context = [];
@@ -310,7 +333,13 @@ export const RegistroCuentas = () => {
 							
 							const data1 = calculateUser('ratioRotacionCuentasPorCobrar',doc.periodo,doc.cuentasPorCobrar,doc.ventasAlCredito);
 							const data2 = calculateUser('ratioPeriodoPromedioDeCobro',doc.periodo,doc.cuentasPorCobrar,doc.ventasAlCredito);
-							context.push({...doc,ratioRotacionCuentasPorCobrar:`${data1}`,ratioPeriodoPromedioDeCobro:`${data2}`});
+							
+							const userPolitica = doc.politica;
+							 
+							const dataVeces = resultInterpretacionVeces(userPolitica,data1);
+							const dataDias = resultInterpretacionDias(userPolitica,data2);
+
+							context.push({...doc,ratioRotacionCuentasPorCobrar:`${data1}`,ratioPeriodoPromedioDeCobro:`${data2}`,cc1:`${dataVeces}`,cc2:`${dataDias}`});
 						}
 					})
 				}else{
@@ -469,7 +498,7 @@ export const RegistroCuentas = () => {
 	}
 
 	const renderRegistros = (periodoUser,dataFormat) =>{
-		const {id,gestion,periodo,politica,cuentasPorCobrar,ventasAlCredito,ratioRotacionCuentasPorCobrar,ratioPeriodoPromedioDeCobro} = dataFormat;
+		const {id,gestion,periodo,politica,cuentasPorCobrar,ventasAlCredito,ratioRotacionCuentasPorCobrar,ratioPeriodoPromedioDeCobro,cc1,cc2} = dataFormat;
 		switch (periodoUser) {
 			case 'Anual':
 				return(
@@ -590,7 +619,7 @@ export const RegistroCuentas = () => {
 															</Badge>
 
 															<Col>
-																zzzzzzzzz
+																{cc1}
 															</Col>
 															<br/>
 														</Col>
@@ -615,7 +644,7 @@ export const RegistroCuentas = () => {
 															</Badge>
 
 															<Col>
-																zzzz
+																{cc2}
 															</Col>
 															<br/>
 														</Col>
@@ -765,7 +794,7 @@ export const RegistroCuentas = () => {
 															</Badge>
 
 															<Col>
-																zzzzzzzzz
+																{cc1}
 															</Col>
 															<br/>
 														</Col>
@@ -790,7 +819,7 @@ export const RegistroCuentas = () => {
 															</Badge>
 
 															<Col>
-																zzzz
+																{cc2}
 															</Col>
 															<br/>
 														</Col>
@@ -963,7 +992,7 @@ export const RegistroCuentas = () => {
 															</Badge>
 
 															<Col>
-																zzzzzzzzz
+																{cc1}
 															</Col>
 															<br/>
 														</Col>
@@ -988,7 +1017,7 @@ export const RegistroCuentas = () => {
 															</Badge>
 
 															<Col>
-																zzzz
+																{cc2}
 															</Col>
 															<br/>
 														</Col>
@@ -1338,7 +1367,7 @@ export const RegistroCuentas = () => {
 															</Badge>
 
 															<Col>
-																zzzzzzzzz
+																{cc1}
 															</Col>
 															<br/>
 														</Col>
@@ -1363,7 +1392,7 @@ export const RegistroCuentas = () => {
 															</Badge>
 
 															<Col>
-																zzzz
+																{cc2}
 															</Col>
 															<br/>
 														</Col>

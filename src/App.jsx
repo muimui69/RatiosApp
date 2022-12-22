@@ -17,7 +17,7 @@ import { ProtectedRoute } from './components/ProtectedRoute';
 import {ProtectedRouteApp} from './components/ProtectedRouteApp';
 import {FirebaseAppProvider} from 'reactfire';
 import {FirebaseConfig} from '../firebase/FirebaseConfig';
-
+import {Page404} from '../src/components/404';
 
 export const App = () => {
   
@@ -83,6 +83,7 @@ export const App = () => {
                 </ProtectedRoute>
               }/> 
 
+              <Route path='*' element={<Page404/>} />
 
             </Routes>
         </AuthProvider>
